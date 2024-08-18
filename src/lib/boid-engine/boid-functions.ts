@@ -116,8 +116,18 @@ export function detract(
   strength: number,
   minDistance: number
 ): Vec2D {
-  if (distance(boid.vec.pos, point) > minDistance) return [0, 0];
+  const dist = distance(boid.vec.pos, point);
+
+  // If the boid is further than minDistance, no force is applied
+  if (dist > minDistance) return [0, 0];
 
   const diff = subtract(boid.vec.pos, point);
-  return mul(diff, strength / (magnitude(diff) ** 2 + 1));
+
+  // Calculate the force magnitude
+  // This will approach infinity as dist approaches minDistance
+  const forceMagnitude =
+    strength * Math.exp(minDistance / (dist - minDistance));
+
+  // Normalize the difference vector and scale it by the force magnitude
+  return mul(norm(diff), forceMagnitude);
 }

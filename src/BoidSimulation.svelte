@@ -32,7 +32,7 @@
           w: width,
         },
       },
-      [$cursorPos]
+      [{ ...$cursorPos, strength: 1000000, distance: 50 }]
     );
 
     for (const boid of boids) {

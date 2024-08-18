@@ -10,17 +10,17 @@ const boidVec: BoidVec = {
 };
 
 export const defaultAttrs: BoidAttrs = {
-  mass: 0.3,
-  targetV: 140,
-  maxV: 600,
+  mass: 0.28,
+  targetV: 110,
+  maxV: 500,
   targetVCorrectionFactor: 1,
   sightRadius: 200,
   sightPeripheralDeg: 200,
   separationDistance: 50,
-  separationFactor: 1,
-  gravitationFactor: 0.9,
-  alignmentFactor: 0.08,
-  forceSmoothing: 20,
+  separationFactor: 0.81,
+  gravitationFactor: 1.1,
+  alignmentFactor: 0.1,
+  forceSmoothing: 7,
   randomImpulses: [],
   color: "hsl(0, 100%, 50%)",
 };
@@ -79,6 +79,16 @@ function updateFrame(
       force = combinedBoidRules(boid, others, ctx, board.w);
     }
 
+    if (boid.randomImpulses.length > 0) {
+      boid.randomImpulses.forEach((impulse) => (force = add(force, impulse())));
+    }
+
+    force = add(force, brakingForce(boid));
+
+    if (boid.forceSmoothing > 0 && boid.forceMovingAverage) {
+      force = boid.forceMovingAverage(force);
+    }
+
     detractors.forEach((detractor) => {
       force = add(
         force,
@@ -90,16 +100,6 @@ function updateFrame(
         )
       );
     });
-
-    if (boid.randomImpulses.length > 0) {
-      boid.randomImpulses.forEach((impulse) => (force = add(force, impulse())));
-    }
-
-    force = add(force, brakingForce(boid));
-
-    if (boid.forceSmoothing > 0 && boid.forceMovingAverage) {
-      force = boid.forceMovingAverage(force);
-    }
 
     // Update velocity
     vec.vel[0] += (force[0] * dt) / (boid.mass + 0.000001);

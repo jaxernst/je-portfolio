@@ -19,7 +19,12 @@
   } from "./boidSimControls.js";
   import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
   import Detractors from "./Detractors.svelte";
-  import { AtomBoid, Default, Juggernauts } from "./lib/presetBoids.js";
+  import {
+    AtomBoid,
+    ChillBirds,
+    Default,
+    Juggernauts,
+  } from "./lib/presetBoids.js";
   import Github from "./lib/svelte-components/Github.svelte";
   import { writable } from "svelte/store";
   import { onDestroy, onMount } from "svelte";
@@ -101,7 +106,7 @@
     $tab = _tab;
 
     const boidType =
-      _tab === "me" ? Default : _tab === "projects" ? Juggernauts : AtomBoid;
+      _tab === "me" ? Default : _tab === "projects" ? ChillBirds : AtomBoid;
 
     const rect = event.target.getBoundingClientRect();
     const buttonScreenPos = {
@@ -170,7 +175,12 @@
               >Links</button
             >
             <div class="grow flex justify-end">
-              <button class="text-xs italic rounded underline">Clear</button>
+              <button
+                class="text-xs italic rounded underline hover:shadow-md hover:scale-110 transition-transform duration-150"
+                on:click={() => $boidSim.reset()}
+              >
+                Clear
+              </button>
             </div>
           </div>
         {/if}

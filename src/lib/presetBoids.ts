@@ -18,6 +18,20 @@ export const Default = {
   randomImpulses: [],
 };
 
+export const ChillBirds = {
+  mass: 0.2855021981244752,
+  targetV: 5,
+  targetVCorrectionFactor: 0.8120975496834457,
+  sightRadius: 175.7740951666791,
+  sightPeripheralDeg: 259.8799952199002,
+  separationDistance: 96.48586673299636,
+  separationFactor: 0.5768474312069211,
+  gravitationFactor: 0.5870003324390869,
+  alignmentFactor: 0.5,
+  forceSmoothing: 0,
+  color: "hsl(305.6712327159008, 100%, 50%)",
+};
+
 /**
  * Slow moving, high gravitation boids that carry much intertia
  */

@@ -3,19 +3,18 @@ import type { BoidAttrs } from "./boid-engine/types";
 export type Species = Partial<BoidAttrs> & { name: string };
 
 export const Default = {
-  mass: 0.2,
-  targetV: 135,
-  targetVCorrectionFactor: 0.3,
-  sightRadius: 224.47,
-  sightPeripheralDeg: 110,
-  separationDistance: 125,
-  separationFactor: 1.225,
-  gravitationFactor: 0.11,
-  alignmentFactor: 0.5,
-  forceSmoothing: 11,
-  color: "hsl(77, 100%, 50%)",
-  maxV: 600,
-  randomImpulses: [],
+  mass: 0.28,
+  targetV: 110,
+  maxV: 500,
+  targetVCorrectionFactor: 1,
+  sightRadius: 200,
+  sightPeripheralDeg: 200,
+  separationDistance: 50,
+  separationFactor: 0.81,
+  gravitationFactor: 1.1,
+  alignmentFactor: 0.1,
+  forceSmoothing: 7,
+  color: "hsl(0, 100%, 50%)",
 };
 
 export const ChillBirds = {

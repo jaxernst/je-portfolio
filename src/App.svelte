@@ -8,7 +8,13 @@
   import FPS from "./FPS.svelte";
   import BoidSimulation from "./BoidSimulation.svelte";
   import { tweened } from "svelte/motion";
-  import { cubicInOut, cubicOut, sineIn, sineInOut } from "svelte/easing";
+  import {
+    cubicIn,
+    cubicInOut,
+    cubicOut,
+    sineIn,
+    sineInOut,
+  } from "svelte/easing";
   import { fade, fly, scale, slide } from "svelte/transition";
 
   import {
@@ -146,41 +152,43 @@
         <div class="text-xs">{$fps.toPrecision(4)} fps</div>
 
         {#if started}
-          <div
-            class="p-3 bg-transparent border border-gray-400 rounded backdrop-blur-sm mt-3 leading-none"
-          >
-            <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
+          <div in:slide={{ easing: cubicInOut, duration: 250 }}>
+            <div
+              class="p-3 bg-transparent border border-gray-400 rounded backdrop-blur-sm mt-3 leading-none"
+            >
+              <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
 
-            <div class="flex gap-2 font-medium text-sm mt-2 e">
-              <div>Full Stack Engineer</div>
-              <div class="text-gray-200">|</div>
-              <div>Blockchain Application Developer</div>
+              <div class="flex gap-2 font-medium text-sm mt-2 e">
+                <div>Full Stack Engineer</div>
+                <div class="text-gray-200">|</div>
+                <div>Blockchain Application Developer</div>
+              </div>
             </div>
-          </div>
 
-          <div class="flex gap-1 mt-3 font-bold">
-            <button
-              on:click={(e) => handleSpawnButtonClick(e, "me")}
-              class={`${$tab === "me" ? "bg-red" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-red`}
-              >Me</button
-            >
-            <button
-              on:click={(e) => handleSpawnButtonClick(e, "projects")}
-              class={`${$tab === "projects" ? "bg-yellow" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-yellow`}
-              >Projects</button
-            >
-            <button
-              on:click={(e) => handleSpawnButtonClick(e, "links")}
-              class={`${$tab === "links" ? "bg-green" : ""} rounded-lg  transition-colors duration-200 hover:bg-solid-green`}
-              >Links</button
-            >
-            <div class="grow flex justify-end">
+            <div class="flex gap-1 mt-3 font-bold">
               <button
-                class="text-xs italic rounded underline hover:shadow-md hover:scale-110 transition-transform duration-150"
-                on:click={() => $boidSim.reset()}
+                on:click={(e) => handleSpawnButtonClick(e, "me")}
+                class={`${$tab === "me" ? "bg-red" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-red`}
+                >Me</button
               >
-                Clear
-              </button>
+              <button
+                on:click={(e) => handleSpawnButtonClick(e, "projects")}
+                class={`${$tab === "projects" ? "bg-yellow" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-yellow`}
+                >Projects</button
+              >
+              <button
+                on:click={(e) => handleSpawnButtonClick(e, "links")}
+                class={`${$tab === "links" ? "bg-green" : ""} rounded-lg  transition-colors duration-200 hover:bg-solid-green`}
+                >Links</button
+              >
+              <div class="grow flex justify-end">
+                <button
+                  class="text-xs italic rounded underline hover:shadow-md hover:scale-110 transition-transform duration-150"
+                  on:click={() => $boidSim.reset()}
+                >
+                  Clear
+                </button>
+              </div>
             </div>
           </div>
         {/if}
@@ -252,7 +260,10 @@
   </div>
 
   {#if !started}
-    <div class="centered-button flex flex-col gap-12 items-center pb-[180px]">
+    <div
+      out:slide={{ easing: cubicInOut, duration: 250 }}
+      class="centered-button flex flex-col gap-12 items-center pb-[180px]"
+    >
       {#if visible}
         <div>
           <div
@@ -280,7 +291,6 @@
         </div>
         <button
           in:fade={{ duration: 500, delay: 2400 }}
-          out:scale
           on:click={() => (started = true)}
           class="border rounded-lg hover:border-solid-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
         >

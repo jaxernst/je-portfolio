@@ -20,10 +20,14 @@ export const addBoids = derived(
   ([$boidSim, $width, $height]) => {
     if (!$boidSim) return () => {};
 
-    return (boidType: Partial<BoidAttrs>, numToAdd: number = 1) => {
+    return (
+      boidType: Partial<BoidAttrs>,
+      numToAdd: number = 1,
+      pos?: { x: number; y: number }
+    ) => {
       [...Array(numToAdd)].forEach(() =>
         $boidSim.addBoid(
-          { x: $width / 2, y: $height / 2 },
+          { x: pos.x ?? $width / 2, y: pos.y ?? $height / 2 },
           { x: getRand(10), y: getRand(10) },
           boidType
         )

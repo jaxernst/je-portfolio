@@ -19,14 +19,7 @@
   } from "./boidSimControls.js";
   import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
   import Detractors from "./Detractors.svelte";
-  import { randomizeBoidType } from "./lib/boid-engine/boid-creation.js";
-  import {
-    BlueAngels,
-    BoidSpecies,
-    GrouperSpecies1,
-    LilBuggers,
-    SlowArrows,
-  } from "./lib/presetBoids.js";
+  import { AtomBoid, Default, Juggernauts } from "./lib/presetBoids.js";
   import Github from "./lib/svelte-components/Github.svelte";
   import { writable } from "svelte/store";
   import { onDestroy, onMount } from "svelte";
@@ -103,6 +96,21 @@
     animateWave();
     const interval = setInterval(animateWave, 2000);
   }
+
+  function handleSpawnButtonClick(event, _tab: "me" | "projects" | "links") {
+    $tab = _tab;
+
+    const boidType =
+      _tab === "me" ? Default : _tab === "projects" ? Juggernauts : AtomBoid;
+
+    const rect = event.target.getBoundingClientRect();
+    const buttonScreenPos = {
+      x: 13 + rect.left + rect.width / 2, // Center X of the button
+      y: 22 + rect.top + rect.height / 2, // Center Y of the button
+    };
+
+    $addBoids(boidType, 15, buttonScreenPos);
+  }
 </script>
 
 <svelte:window on:click={maybeAddDetractor} />
@@ -147,17 +155,17 @@
 
           <div class="flex gap-1 mt-3 font-bold">
             <button
-              on:click={() => ($tab = "me")}
+              on:click={(e) => handleSpawnButtonClick(e, "me")}
               class={`${$tab === "me" ? "bg-red" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-red`}
               >Me</button
             >
             <button
-              on:click={() => ($tab = "projects")}
+              on:click={(e) => handleSpawnButtonClick(e, "projects")}
               class={`${$tab === "projects" ? "bg-yellow" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-yellow`}
               >Projects</button
             >
             <button
-              on:click={() => ($tab = "links")}
+              on:click={(e) => handleSpawnButtonClick(e, "links")}
               class={`${$tab === "links" ? "bg-green" : ""} rounded-lg  transition-colors duration-200 hover:bg-solid-green`}
               >Links</button
             >
@@ -241,7 +249,7 @@
             class="text-3xl font-extralight"
             in:fade={{ duration: 1200, delay: 100, easing: cubicOut }}
           >
-            Hi, welcome to my website
+            Hello 👋, welcome to my website.
           </div>
           <div
             class="warning-container"
@@ -264,7 +272,7 @@
           in:fade={{ duration: 500, delay: 2400 }}
           out:scale
           on:click={() => (started = true)}
-          class="border rounded-lg"
+          class="border rounded-lg hover:border-solid-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
         >
           Enter
         </button>

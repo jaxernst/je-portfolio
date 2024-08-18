@@ -71,14 +71,17 @@ export function canvasArrow(ctx, fromx, fromy, tox, toy, arrowWidth, color) {
   ctx.restore();
 }
 
-export const MakeBoidDrawer = (size: number) => {
+export const MakeBoidDrawer = (
+  size: number,
+  speedScalingFactor: number = 1
+) => {
   return (
     pos: [number, number],
     vel: [number, number],
     ctx: CanvasRenderingContext2D,
     color?: string
   ) => {
-    const magnitude = Math.hypot(vel[0], vel[1]);
+    const magnitude = speedScalingFactor * Math.hypot(vel[0], vel[1]);
     const angle = Math.atan2(vel[1], vel[0]);
 
     const length = magnitude / 15;

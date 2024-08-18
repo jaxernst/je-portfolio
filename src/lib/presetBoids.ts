@@ -2,6 +2,22 @@ import type { BoidAttrs } from "./boid-engine/types";
 
 export type Species = Partial<BoidAttrs> & { name: string };
 
+export const Default = {
+  mass: 0.2,
+  targetV: 135,
+  targetVCorrectionFactor: 0.3,
+  sightRadius: 224.47,
+  sightPeripheralDeg: 110,
+  separationDistance: 125,
+  separationFactor: 1.225,
+  gravitationFactor: 0.11,
+  alignmentFactor: 0.5,
+  forceSmoothing: 11,
+  color: "hsl(77, 100%, 50%)",
+  maxV: 600,
+  randomImpulses: [],
+};
+
 /**
  * Slow moving, high gravitation boids that carry much intertia
  */
@@ -80,7 +96,7 @@ export const Juggernauts = {
   color: "hsl(30.151485712160751, 100%, 50%)",
 };
 
-const AtomBoid = {
+export const AtomBoid = {
   name: "AtomBoid",
   mass: 0.08,
   targetV: 5,

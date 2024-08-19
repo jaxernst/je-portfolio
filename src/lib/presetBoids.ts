@@ -31,6 +31,20 @@ export const SpeedRacers = {
   color: "hsl(63.08840739284669, 100%, 50%)",
 };
 
+export const ElegantFlocks = {
+  mass: 0.3,
+  targetV: 122.16674971944327,
+  targetVCorrectionFactor: 1.3231893146657861,
+  sightRadius: 221.96796109967187,
+  sightPeripheralDeg: 170.56625220751917,
+  separationDistance: 116.74091794888534,
+  separationFactor: 0.4018820701665717,
+  gravitationFactor: 0.42611294960275087,
+  alignmentFactor: 0.05,
+  forceSmoothing: 4.275290388791417,
+  color: "hsl(64, 100%, 50%)",
+};
+
 /**
  * Slow moving, high gravitation boids that carry much intertia
  */

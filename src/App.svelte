@@ -26,6 +26,7 @@
   import {
     AtomBoid,
     Default,
+    ElegantFlocks,
     Juggernauts,
     SpeedRacers,
   } from "./lib/presetBoids.js";
@@ -111,7 +112,7 @@
     $tab = _tab;
 
     const boidType =
-      _tab === "me" ? Default : _tab === "projects" ? SpeedRacers : AtomBoid;
+      _tab === "me" ? Default : _tab === "projects" ? ElegantFlocks : AtomBoid;
 
     const rect = event.target.getBoundingClientRect();
     const buttonScreenPos = {
@@ -119,7 +120,7 @@
       y: 22 + rect.top + rect.height / 2, // Center Y of the button
     };
 
-    $addBoids(boidType, 15, buttonScreenPos);
+    $addBoids(boidType, 11, buttonScreenPos);
   }
 
   let leftBarTextRevealCount = 1;
@@ -134,6 +135,7 @@
     </Background>
 
     <BoidSimulation {started} initNumBoids={25} />
+
     <Character
       storeToUpdate={cursorPos}
       size={$width > 700 ? 10 : 7}
@@ -211,12 +213,21 @@
         {/if}
       {/if}
     </div>
+
+    {#if started}
+      <div class="absolute top-5 right-5">
+        <button
+          class="border border-purple-600/80 py-2 rounded font-extrabold text-[10px]"
+          >Mint a Boid</button
+        >
+      </div>
+    {/if}
   </div>
 
   {#if !started}
     <div
       out:slide={{ easing: cubicInOut, duration: 250 }}
-      class="centered-button flex flex-col gap-12 items-center pb-[180px]"
+      class="centered-button flex flex-col gap-20 items-center pb-[180px]"
     >
       {#if visible}
         <div>
@@ -246,7 +257,7 @@
         <button
           in:fade={{ duration: 500, delay: 2400 }}
           on:click={() => (started = true)}
-          class="border rounded-lg hover:border-solid-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
+          class="border backdrop-blur-sm font-bold rounded-lg hover:border-solid-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
         >
           Enter
         </button>

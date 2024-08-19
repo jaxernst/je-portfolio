@@ -169,6 +169,7 @@ export function createBoidSimulation({
 
   // Add new boids to the sim
   let addBoidQueue: (() => Boid)[] = [];
+
   // Update existing boids in the sim
   let updateBoidQueue: ((
     attrs: Partial<BoidAttrs>,
@@ -248,6 +249,13 @@ export function createBoidSimulation({
         return boid;
       });
     },
-    getDetractors: () => detractors,
+
+    get boids() {
+      return boids;
+    },
+
+    get detractors() {
+      return detractors;
+    },
   };
 }

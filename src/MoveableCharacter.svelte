@@ -11,8 +11,8 @@
   export let startX = $width / 2;
   export let startY = $height / 2;
   export let characterPaused: boolean = false;
-  export let stiffness = 0.02;
-  export let damping = 0.13;
+  export let stiffness = 0.1;
+  export let damping = 0.45;
 
   let text;
 

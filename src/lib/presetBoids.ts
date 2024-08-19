@@ -17,18 +17,18 @@ export const Default = {
   color: "hsl(0, 100%, 50%)",
 };
 
-export const ChillBirds = {
-  mass: 0.2855021981244752,
-  targetV: 5,
-  targetVCorrectionFactor: 0.8120975496834457,
-  sightRadius: 175.7740951666791,
-  sightPeripheralDeg: 259.8799952199002,
-  separationDistance: 96.48586673299636,
-  separationFactor: 0.5768474312069211,
-  gravitationFactor: 0.5870003324390869,
-  alignmentFactor: 0.5,
+export const SpeedRacers = {
+  mass: 0.08,
+  targetV: 48.076052452532856,
+  targetVCorrectionFactor: 0.354245412726251,
+  sightRadius: 185.97509766047145,
+  sightPeripheralDeg: 237.6577635825345,
+  separationDistance: 92.81054202065323,
+  separationFactor: 0.5006375284045432,
+  gravitationFactor: 1.6364316852729375,
+  alignmentFactor: 0.060421289860968945,
   forceSmoothing: 0,
-  color: "hsl(305.6712327159008, 100%, 50%)",
+  color: "hsl(63.08840739284669, 100%, 50%)",
 };
 
 /**

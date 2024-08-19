@@ -4,7 +4,6 @@
   import Background from "./Background.svelte";
   import DotGrid from "./DotGrid.svelte";
   import Character from "./MoveableCharacter.svelte";
-  import Text from "./Text.svelte";
   import FPS from "./FPS.svelte";
   import BoidSimulation from "./BoidSimulation.svelte";
   import { tweened } from "svelte/motion";
@@ -24,16 +23,16 @@
     cursorPos,
   } from "./boidSimControls.js";
   import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
-  import Detractors from "./Detractors.svelte";
   import {
     AtomBoid,
-    ChillBirds,
     Default,
     Juggernauts,
+    SpeedRacers,
   } from "./lib/presetBoids.js";
   import Github from "./lib/svelte-components/Github.svelte";
   import { writable } from "svelte/store";
   import { onDestroy, onMount } from "svelte";
+  import PageReveal from "./PageReveal.svelte";
 
   let started = false;
   let visible = false;
@@ -112,7 +111,7 @@
     $tab = _tab;
 
     const boidType =
-      _tab === "me" ? Default : _tab === "projects" ? ChillBirds : AtomBoid;
+      _tab === "me" ? Default : _tab === "projects" ? SpeedRacers : AtomBoid;
 
     const rect = event.target.getBoundingClientRect();
     const buttonScreenPos = {
@@ -122,6 +121,8 @@
 
     $addBoids(boidType, 15, buttonScreenPos);
   }
+
+  let leftBarTextRevealCount = 1;
 </script>
 
 <svelte:window on:click={maybeAddDetractor} />
@@ -141,13 +142,12 @@
       {characterPaused}
     />
 
-    <Detractors />
-
     <FPS onFrame={(_fps) => ($fps = _fps)} />
   </Canvas>
 
   <div class="overlay">
-    <div class="flex justify-between">
+    <div class="flex flex-col gap-6 max-w-[400px]">
+      <!-- Page Header and Navigation -->
       <div class="ml-5 pt-5 left">
         <div class="text-xs">{$fps.toPrecision(4)} fps</div>
 
@@ -158,14 +158,16 @@
             >
               <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
 
-              <div class="flex gap-2 font-medium text-sm mt-2 e">
+              <div
+                class="flex gap-2 font-extralight text-sm mt-2 text-neutral-300"
+              >
                 <div>Full Stack Engineer</div>
                 <div class="text-gray-200">|</div>
                 <div>Blockchain Application Developer</div>
               </div>
             </div>
 
-            <div class="flex gap-1 mt-3 font-bold">
+            <div class="flex gap-1 mt-3">
               <button
                 on:click={(e) => handleSpawnButtonClick(e, "me")}
                 class={`${$tab === "me" ? "bg-red" : ""}  rounded-lg transition-colors duration-200 hover:bg-solid-red`}
@@ -186,7 +188,7 @@
                   class="text-xs italic rounded underline hover:shadow-md hover:scale-110 transition-transform duration-150"
                   on:click={() => $boidSim.reset()}
                 >
-                  Clear
+                  Clear Boids
                 </button>
               </div>
             </div>
@@ -194,68 +196,18 @@
         {/if}
       </div>
 
-      <!-- Sidebar -->
-      <!-- <div class="flex flex-col m-5 gap-2 items-end text-xs md:text-base">
-        {#if started}
-          <button use:characterPause on:click={() => $boidSim.reset()}>
-            Reset
-          </button>
-          {#if $width > 700}
-            <button
-              use:characterPause
-              on:click={toggleDetractorPen}
-              class:purple-bg={addingDetractor}
-              >{addingDetractor
-                ? "Adding Detractors"
-                : "Add Detractors"}</button
-            >
-          {/if}
-          <button
-            class="flex gap-2 items-center"
-            use:characterPause
-            on:click={() => ($currentBoidType = randomizeBoidType())}
-            >Randomize Species {" "}
-            <div
-              style={`background-color: ${$currentBoidType.color}; height:15px; width:15px; border-radius:100%; display:inline-block;`}
-            /></button
-          >
-
-          {#if true}
-            <div class="p-2 border border-[#b12727c9] rounded-lg">
-              <div class="pb-2 text-gray-300 font-semibold">
-                Featured Species
-              </div>
-              <div>
-                <select
-                  class="bg-transparent"
-                  on:change={(e) => {
-                    const choice = BoidSpecies.find((s) => {
-                      return s.name === e.target.value;
-                    });
-
-                    if (choice) {
-                      $currentBoidType = choice;
-                    }
-                  }}
-                >
-                  <option value={"default"}>Default</option>
-                  {#each BoidSpecies as species}
-                    <option value={species.name}>{species.name}</option>
-                  {/each}
-                </select>
-              </div>
-            </div>
-          {/if}
-
-          <div class="spacer h-2" />
-          <button
-            style="padding: 12px; background-color: green"
-            use:characterPause
-            on:click={() => $addBoids && $addBoids($currentBoidType, 10)}
-            >Spawn</button
-          >
+      <!-- Sidebar Tab Content -->
+      {#if started}
+        {#if $tab === "me"}
+          <PageReveal
+            pages={[
+              "My name is Jackson. I'm a self-taught software developer and I like building highly interactive blockchain applications",
+              "I tinker a lot. I love exploring novel concepts and building them to life.",
+              "",
+            ]}
+          />
         {/if}
-      </div> -->
+      {/if}
     </div>
   </div>
 
@@ -279,7 +231,7 @@
             <i class="text-gray-200 text-sm font-thin">
               {#each waveLetters as { char, y }, i (i)}
                 <span
-                  class={i < 8 ? "text-gray-400 font-semibold" : ""}
+                  class={i < 8 ? "text-neutral-400 font-semibold" : ""}
                   style="display: inline-block; transform: translateY({y *
                     10}px);"
                 >
@@ -331,6 +283,7 @@
     top: 0%;
     left: 0%;
     width: 100%;
+    height: 100%;
   }
 
   .content-container {

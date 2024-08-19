@@ -203,7 +203,9 @@
             pages={[
               "My name is Jackson. I'm a self-taught software developer and I like building highly interactive blockchain applications",
               "I tinker a lot. I love exploring novel concepts and building them to life.",
-              "",
+              "Originally an aerospace engineer, I developed a passion creating and understanding software systems. I was particularly fascinated in smart contract applications and the properties of blockchain networks.",
+              "After getting the opportunity to work with a founding team prototyping a novel MEV capture protocol, I never looked back.",
+              "I got an opportunity to work with a founding team prototyping a novel MEV capture protocol, and from there I never looked back.",
             ]}
           />
         {/if}

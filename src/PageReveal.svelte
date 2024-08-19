@@ -13,7 +13,7 @@
   {#each pages.slice(0, revealCount) as page, i}
     <div transition:slide>
       <div
-        class={`ml-5 px-4 border-red border-l-2 leading-tight font-light text-sm ${i === 0 ? "mt-0" : "mt-4"}`}
+        class={`ml-5 px-4 py-1 border-red border-l-2 leading-tight backdrop-blur-sm font-light text-sm ${i === 0 ? "mt-0" : "mt-3"}`}
       >
         {page}
       </div>

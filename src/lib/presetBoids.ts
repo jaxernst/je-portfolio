@@ -14,7 +14,7 @@ export const Default = {
   gravitationFactor: 1.1,
   alignmentFactor: 0.1,
   forceSmoothing: 7,
-  color: "hsl(0, 75%, 50%)",
+  color: "hsl(0, 100%, 50%)",
 };
 
 export const SpeedRacers = {
@@ -28,7 +28,7 @@ export const SpeedRacers = {
   gravitationFactor: 1.6364316852729375,
   alignmentFactor: 0.060421289860968945,
   forceSmoothing: 0,
-  color: "hsl(63.08840739284669, 100%, 50%)",
+  color: "hsl(186, 100%, 50%)",
 };
 
 export const ElegantFlocks = {

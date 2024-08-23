@@ -39,8 +39,8 @@
   // prettier-ignore
   const tabs = [
         { text: "䷉ Intro", boidType: Default },
-        { text: "䷑ What I do", boidType: ElegantFlocks },
-        { text: "⁒ Smart Contract PvP Betting", boidType: BlueAngels },
+        { text: "䷑ What I do", boidType: SpeedRacers },
+        { text: "⁒ Smart Contract PvP Betting", boidType: ElegantFlocks },
         { text: "⌥ Editor Theme", boidType: SlowArrows },
         { text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
     ] as const;
@@ -160,12 +160,12 @@
       <!-- Page Header and Navigation -->
       <div class="px-5 pt-5">
         <div class="flex mb-2 justify-between items-center w-full">
-          <div class="font-mono text-xs flex items-center gap-2">
+          <div class=" text-xs flex items-center gap-2">
+            <div>{$numActiveBoids} boids</div>
+            |
             <div>
               {$fps.toPrecision(4)} fps
             </div>
-            |
-            <div>{$numActiveBoids} boids</div>
           </div>
 
           {#if started}
@@ -231,6 +231,8 @@
               pages={[
                 "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain game?",
                 "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to quite the ride",
+                "The right tool for this turned out to be Mud, a smart contract storage + indexing protocol + framework for developing highly interactive onchain apps.",
+                "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
               ]}
               color={tabs[2].boidType.color}
             />

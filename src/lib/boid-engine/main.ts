@@ -2,6 +2,9 @@ import { combinedBoidRules, detract } from "./boid-functions";
 import type { Boid, BoidAttrs, BoidVec, Detractor, Vec2D } from "./types";
 import { findBoidsInSight, limitSpeed, makeMovingAverage } from "./sim-utils";
 import { add, magnitude, mul, norm } from "./vectorMath";
+import { writable } from "svelte/store";
+
+export const numActiveBoids = writable(0);
 
 const boidVec: BoidVec = {
   pos: [0, 0],
@@ -178,10 +181,13 @@ export function createBoidSimulation({
 
   let detractors: Detractor[] = [];
 
+  numActiveBoids.set(numBoids);
+
   return {
     reset: () => {
       boids = [];
       detractors = [];
+      numActiveBoids.set(0);
     },
     update: (
       dt: number,
@@ -193,8 +199,10 @@ export function createBoidSimulation({
     ) => {
       // Add boids from the queue
       for (let addBoid of addBoidQueue) {
+        numActiveBoids.update((x) => x + 1);
         boids = [...boids, addBoid()];
       }
+
       addBoidQueue = [];
 
       // Apply behavoir and attribute updates

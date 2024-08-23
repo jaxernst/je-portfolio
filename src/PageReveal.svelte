@@ -34,7 +34,7 @@
         }}
         on:click={() => revealCount--}
         class="self-center rounded-full p-1 hover:opacity-80 min-w-0"
-        style="background-color: {color};"
+        style="border: 1px solid {color};"
       >
         <ArrowUp className="rotate-180" />
       </button>
@@ -49,7 +49,7 @@
         }}
         on:click={() => revealCount++}
         class="self-center rounded-full p-1 hover:opacity-80 min-w-0"
-        style="background-color: {color};"
+        style="border: 1px solid {color};"
       >
         <ArrowUp />
       </button>

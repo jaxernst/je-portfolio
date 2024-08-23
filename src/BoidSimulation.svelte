@@ -8,14 +8,14 @@
   export let started = false;
   export let initNumBoids = 0;
 
-  boidSim.set(
-    createBoidSimulation({
-      numBoids: initNumBoids,
-      startPos: [() => $width / 2, () => $height / 2],
-      startVel: [() => getRand(5), () => getRand(50)],
-      boardSize: { w: $width, h: $height },
-    })
-  );
+  const sim = createBoidSimulation({
+    numBoids: initNumBoids,
+    startPos: [() => $width / 2, () => $height / 2],
+    startVel: [() => getRand(5), () => getRand(50)],
+    boardSize: { w: $width, h: $height },
+  });
+
+  boidSim.set(sim);
 
   $: drawBoid = MakeBoidDrawer($width > 700 ? 3.5 : 3, 0.6);
 

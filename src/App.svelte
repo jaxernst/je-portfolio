@@ -16,12 +16,7 @@
   } from "svelte/easing";
   import { fade, fly, scale, slide } from "svelte/transition";
 
-  import {
-    addBoids,
-    boidSim,
-    currentBoidType,
-    cursorPos,
-  } from "./boidSimControls.js";
+  import { addBoids, boidSim, cursorPos } from "./boidSimControls.js";
   import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
   import {
     AtomBoid,
@@ -33,9 +28,10 @@
     SpeedRacers,
   } from "./lib/presetBoids.js";
   import Github from "./lib/svelte-components/Github.svelte";
-  import { writable } from "svelte/store";
+  import { get, writable } from "svelte/store";
   import { onDestroy, onMount } from "svelte";
   import PageReveal from "./PageReveal.svelte";
+  import { numActiveBoids } from "./lib/boid-engine/main.js";
 
   let started = false;
   let visible = false;
@@ -159,34 +155,49 @@
     <FPS onFrame={(_fps) => ($fps = _fps)} />
   </Canvas>
 
-  <div class="overlay">
-    <div class="flex flex-col gap-10">
+  <div class="overlay flex">
+    <div class="flex flex-col gap-10 max-w-[500px]">
       <!-- Page Header and Navigation -->
-      <div class="ml-5 pt-5 left">
-        <div class="text-xs">{$fps.toPrecision(4)} fps</div>
+      <div class="px-5 pt-5">
+        <div class="flex mb-2 justify-between items-center w-full">
+          <div class="font-mono text-xs flex items-center gap-2">
+            <div>
+              {$fps.toPrecision(4)} fps
+            </div>
+            |
+            <div>{$numActiveBoids} boids</div>
+          </div>
+
+          {#if started}
+            <button on:click={$boidSim.reset} class="text-xs underline"
+              >Clear Boids</button
+            >
+          {/if}
+        </div>
 
         {#if started}
           <div in:slide={{ easing: cubicInOut, duration: 250 }}>
             <!--Page Header-->
             <div
-              class="p-3 max-w-[400px] bg-transparent border border-gray-400 rounded backdrop-blur-sm mt-3 leading-none"
+              class="p-3 bg-transparent border border-gray-400 rounded backdrop-blur-sm leading-none"
             >
               <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
-
               <div
                 class="flex gap-2 font-extralight text-sm mt-2 text-neutral-300"
               >
-                <div>Full stack engineer working on blockchain tech</div>
+                <div>
+                  Full stack software engineer working on blockchain tech
+                </div>
               </div>
             </div>
 
             <!-- Tab Buttons -->
-            <div class="flex flex-wrap gap-2 mt-3 max-w-[620px]">
+            <div class="flex flex-wrap gap-2 mt-3">
               {#each tabs as tab, tabIdx}
                 {@const selected = tabIdx === $tabIndex}
                 <button
                   on:click={(e) => handleSpawnButtonClick(e, tabIdx)}
-                  class="tab-button py-1 px-2 rounded-lg transition-all tracking-tight duration-200 {selected
+                  class="tab-button basis-2 sm:w-auto py-1 px-2 rounded-lg transition-all tracking-tight duration-200 {selected
                     ? 'selected'
                     : ''}"
                   style={`--boid-color: ${tab.boidType.color}`}
@@ -200,25 +211,45 @@
       </div>
 
       <!-- Sidebar Tab Content -->
-      <div class="max-w-[400px]">
+      <div class="">
         {#if started}
           {#if $tabIndex === 0}
             <PageReveal
               pages={[
-                "My name is Jackson. I'm a self-taught software developer and I like building highly interactive blockchain applications",
-                "I tinker a lot. I love exploring novel concepts and building them to life.",
+                "My name is Jackson (jaxer.eth). I'm a self-taught software developer.",
+                "I tinker a lot. I love exploring novel concepts and building them to life. ",
                 "Originally an aerospace engineer, I developed a passion creating and understanding software systems. I was particularly fascinated in smart contract applications and the properties of blockchain networks.",
                 "After getting the opportunity to work with a founding team prototyping a novel MEV capture protocol, I never looked back.",
                 "I got an opportunity to work with a founding team prototyping a novel MEV capture protocol, and from there I never looked back.",
               ]}
               color={tabs[0].boidType.color}
             />
+
+            <!-- Puzzle Bets Page -->
+          {:else if $tabIndex === 2}
+            <PageReveal
+              pages={[
+                "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain game?",
+                "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to quite the ride",
+              ]}
+              color={tabs[2].boidType.color}
+            />
           {/if}
         {/if}
       </div>
     </div>
 
-    {#if started}
+    <div class="flex items-center justify-center grow h-full p-10">
+      {#if $tabIndex === 2}
+        <img
+          src="img/PuzzleBetsArch.drawio.png"
+          class="rounded-lg opacity-75 max-w-[680px]"
+          alt="Puzzle Bets Architecture"
+        />
+      {/if}
+    </div>
+
+    {#if started && false}
       <div class="absolute top-5 right-5">
         <button
           class="border border-purple-600/80 py-2 rounded font-extrabold text-[10px]"
@@ -360,6 +391,7 @@
   }
 
   .tab-button:hover {
+    backdrop-filter: blur(5px);
     border-color: var(--boid-color);
   }
 </style>

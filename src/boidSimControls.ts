@@ -4,7 +4,7 @@ import {
   defaultAttrs,
   type createBoidSimulation,
 } from "./lib/boid-engine/main";
-import { derived, writable } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 import { height, width } from "./game";
 import { getRand } from "./lib/util";
 import type { Species } from "./lib/presetBoids";

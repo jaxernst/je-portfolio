@@ -158,7 +158,7 @@
   </Canvas>
 
   <div class="overlay flex gap-14">
-    <div class="grow flex flex-col gap-10 max-w-[500px]">
+    <div class="shrink-0 flex flex-col gap-10 w-full sm:w-[500px]">
       <!-- Page Header and Navigation -->
       <div class="px-5 pt-5">
         <div class="flex mb-2 justify-between items-center w-full">

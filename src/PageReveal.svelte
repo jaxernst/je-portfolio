@@ -13,11 +13,11 @@
     <div transition:slide>
       <div
         class={`
-            ml-5 px-4 py-1 backdrop-blur-sm text-sm transition-all duration-300
+             bg-gray-600/20 rounded-sm ml-5 px-4 py-2 backdrop-blur-sm text-sm transition-all duration-300
             ${i === 0 ? "mt-0" : "mt-3"}
-            ${i === revealCount - 1 ? "font-semibold" : "font-light"}
+            ${i === revealCount - 1 ? " bg-gray-600/20 font-semibold" : "bg-gray-600/10 font-light"}
           `}
-        style="border-left: 2px solid {color};"
+        style="border-left: 2.5px solid {color};"
       >
         {page}
       </div>

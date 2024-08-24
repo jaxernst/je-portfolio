@@ -28,10 +28,11 @@
     SpeedRacers,
   } from "./lib/presetBoids.js";
   import Github from "./lib/svelte-components/Github.svelte";
-  import { get, writable } from "svelte/store";
+  import { derived, get, writable } from "svelte/store";
   import { onDestroy, onMount } from "svelte";
   import PageReveal from "./PageReveal.svelte";
   import { numActiveBoids } from "./lib/boid-engine/main.js";
+  import SlideDrawer from "./SlideDrawer.svelte";
 
   let started = false;
   let visible = false;
@@ -47,7 +48,8 @@
 
   type Tab = (typeof tabs)[number];
 
-  let tabIndex = writable<number>(0);
+  const tabIndex = writable<number>(0);
+  const curBoid = derived(tabIndex, (i) => tabs[i]);
 
   $: command = $width > 700 ? "click" : "tap";
 
@@ -155,15 +157,17 @@
     <FPS onFrame={(_fps) => ($fps = _fps)} />
   </Canvas>
 
-  <div class="overlay flex">
-    <div class="flex flex-col gap-10 max-w-[500px]">
+  <div class="overlay flex gap-14">
+    <div class="grow flex flex-col gap-10 max-w-[500px]">
       <!-- Page Header and Navigation -->
       <div class="px-5 pt-5">
         <div class="flex mb-2 justify-between items-center w-full">
           <div class=" text-xs flex items-center gap-2">
-            <div>{$numActiveBoids} boids</div>
-            |
-            <div>
+            {#if started}
+              <div in:slide={{ axis: "x" }}>{$numActiveBoids} boids</div>
+              |
+            {/if}
+            <div class="whitespace-nowrap">
               {$fps.toPrecision(4)} fps
             </div>
           </div>
@@ -181,13 +185,14 @@
             <div
               class="p-3 bg-transparent border border-gray-400 rounded backdrop-blur-sm leading-none"
             >
-              <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
-              <div
-                class="flex gap-2 font-extralight text-sm mt-2 text-neutral-300"
-              >
-                <div>
-                  Full stack software engineer working on blockchain tech
-                </div>
+              <div class="flex gap-3 items-end">
+                <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
+                <h1 class="text-sm leading-relaxed font-medium">
+                  ( jaxer.eth )
+                </h1>
+              </div>
+              <div class="flex gap-2 font-light text-sm mt-1 text-neutral-300">
+                Full stack software engineer working on blockchain tech
               </div>
             </div>
 
@@ -211,16 +216,16 @@
       </div>
 
       <!-- Sidebar Tab Content -->
-      <div class="">
+      <div class="overflow-y-auto">
         {#if started}
           {#if $tabIndex === 0}
             <PageReveal
               pages={[
-                "My name is Jackson (jaxer.eth). I'm a self-taught software developer.",
-                "I tinker a lot. I love exploring novel concepts and building them to life. ",
-                "Originally an aerospace engineer, I developed a passion creating and understanding software systems. I was particularly fascinated in smart contract applications and the properties of blockchain networks.",
-                "After getting the opportunity to work with a founding team prototyping a novel MEV capture protocol, I never looked back.",
-                "I got an opportunity to work with a founding team prototyping a novel MEV capture protocol, and from there I never looked back.",
+                "My name is Jackson. I'm a self-taught software developer.",
+                "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
+                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by smart contracts and blockchain networks; Money Lego programs that are universally accessible with guarenteed availability? I was convinced.",
+                "After studying and applying myself to the defi trade, I got an opportunity to work with a founding defi team prototyping a novel MEV capture protocol.",
+                "From there I never looked back...",
               ]}
               color={tabs[0].boidType.color}
             />
@@ -229,8 +234,8 @@
           {:else if $tabIndex === 2}
             <PageReveal
               pages={[
-                "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain game?",
-                "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to quite the ride",
+                "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain pvp betting game?",
+                "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to a development rollarcoster",
                 "The right tool for this turned out to be Mud, a smart contract storage + indexing protocol + framework for developing highly interactive onchain apps.",
                 "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
               ]}
@@ -241,13 +246,18 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-center grow h-full p-10">
+    <div class="h-full w-full relative overflow-hidden px-10">
       {#if $tabIndex === 2}
-        <img
-          src="img/PuzzleBetsArch.drawio.png"
-          class="rounded-lg opacity-75 max-w-[680px]"
-          alt="Puzzle Bets Architecture"
-        />
+        <SlideDrawer
+          title="Puzzle Bets - Component Architecture"
+          arrowColor={$curBoid.boidType.color}
+        >
+          <img
+            src="img/PuzzleBetsArch.drawio.png"
+            class="rounded-lg opacity-75 max-w-[680px] w-full h-full object-cover"
+            alt="Puzzle Bets Architecture"
+          />
+        </SlideDrawer>
       {/if}
     </div>
 

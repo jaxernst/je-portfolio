@@ -138,6 +138,20 @@ export const AtomBoid = {
   color: "hsl(109.55667502775175, 100%, 50%)",
 };
 
+export const Cell1 = {
+  mass: 0.08,
+  targetV: 18.430047350664253,
+  targetVCorrectionFactor: 0.4671881345547293,
+  sightRadius: 219.9640427583061,
+  sightPeripheralDeg: 280.0816273540343,
+  separationDistance: 53.8068676524656,
+  separationFactor: 1.086031446291552,
+  gravitationFactor: 0.6015766108917963,
+  alignmentFactor: 0.43369545896153483,
+  forceSmoothing: 8.694142930253356,
+  color: "hsl(240.00988689961622, 100%, 50%)",
+};
+
 export const BoidSpecies: Species[] = [
   Juggernauts,
   SlowArrows,

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { renderable, width, height } from "./game.js";
-  import type { Writable } from "svelte/store";
+  import { writable, type Writable } from "svelte/store";
   import Text from "./Text.svelte";
   import { spring } from "svelte/motion";
   export let storeToUpdate: null | Writable<{ x: number; y: number }> = null;
@@ -11,18 +11,12 @@
   export let startX = $width / 2;
   export let startY = $height / 2;
   export let characterPaused: boolean = false;
-  export let stiffness = 0.25;
-  export let damping = 0.65;
+  export let stiffness = 1;
+  export let damping = 1;
 
   let text;
 
-  const position = spring(
-    { x: startX, y: startY },
-    {
-      stiffness,
-      damping,
-    }
-  );
+  const position = writable({ x: startX, y: startY });
 
   let touch = { x: startX, y: startY };
 

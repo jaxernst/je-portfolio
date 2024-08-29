@@ -7,17 +7,10 @@
   import FPS from "./FPS.svelte";
   import BoidSimulation from "./BoidSimulation.svelte";
   import { tweened } from "svelte/motion";
-  import {
-    cubicIn,
-    cubicInOut,
-    cubicOut,
-    sineIn,
-    sineInOut,
-  } from "svelte/easing";
+  import { cubicInOut, cubicOut, sineInOut } from "svelte/easing";
   import { fade, fly, scale, slide } from "svelte/transition";
 
   import { addBoids, boidSim, cursorPos } from "./boidSimControls.js";
-  import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
   import {
     AtomBoid,
     BlueAngels,
@@ -39,17 +32,17 @@
 
   // prettier-ignore
   const tabs = [
-        { text: "䷉ Intro", boidType: Default },
-        { text: "䷑ What I do", boidType: SpeedRacers },
-        { text: "⁒ Smart Contract PvP Betting", boidType: ElegantFlocks },
-        { text: "⌥ Editor Theme", boidType: SlowArrows },
-        { text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
+        { id: "intro", text: "䷉ Intro", boidType: Default },
+        { id: "what-i-do", text: "䷑ What I do", boidType: SpeedRacers },
+        { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: ElegantFlocks },
+        { id: "editor", text: "⌥ Editor Theme", boidType: SlowArrows },
+        { id: "boids", text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
     ] as const;
 
   type Tab = (typeof tabs)[number];
 
   const tabIndex = writable<number>(0);
-  const curBoid = derived(tabIndex, (i) => tabs[i]);
+  const curTab = derived(tabIndex, (i) => tabs[i]);
 
   $: command = $width > 700 ? "click" : "tap";
 
@@ -158,7 +151,7 @@
   </Canvas>
 
   <div class="overlay flex gap-14">
-    <div class="shrink-0 flex flex-col gap-10 w-full sm:w-[500px]">
+    <div class="shrink-0 flex flex-col w-full sm:w-[500px]">
       <!-- Page Header and Navigation -->
       <div class="px-5 pt-5">
         <div class="flex mb-2 justify-between items-center w-full">
@@ -216,41 +209,49 @@
       </div>
 
       <!-- Sidebar Tab Content -->
-      <div class="overflow-y-auto">
-        {#if started}
-          {#if $tabIndex === 0}
-            <PageReveal
-              pages={[
-                "My name is Jackson. I'm a self-taught software developer.",
-                "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
-                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by smart contracts and blockchain networks; Money Lego programs that are universally accessible with guarenteed availability? I was convinced.",
-                "After studying and applying myself to the defi trade, I got an opportunity to work with a founding defi team prototyping a novel MEV capture protocol.",
-                "From there I never looked back...",
-              ]}
-              color={tabs[0].boidType.color}
-            />
+      {#if started}
+        {#if $curTab.id === "intro"}
+          <PageReveal
+            pages={[
+              "My name is Jackson. I'm a self-taught software developer.",
+              "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
+              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by smart contracts and blockchain networks; Money Lego programs that are universally accessible with guarenteed availability? I was convinced.",
+              "After studying and applying myself to the defi trade, I got an opportunity to work with a founding defi team prototyping a novel MEV capture protocol.",
+              "From there I never looked back...",
+            ]}
+            color={tabs[0].boidType.color}
+          />
 
-            <!-- Puzzle Bets Page -->
-          {:else if $tabIndex === 2}
-            <PageReveal
-              pages={[
-                "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain pvp betting game?",
-                "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to a development rollarcoster",
-                "The right tool for this turned out to be Mud, a smart contract storage + indexing protocol + framework for developing highly interactive onchain apps.",
-                "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
-              ]}
-              color={tabs[2].boidType.color}
-            />
-          {/if}
+          <!-- Puzzle Bets Page -->
+        {:else if $curTab.id === "puzzlebets"}
+          <PageReveal
+            pages={[
+              "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain pvp betting game?",
+              "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to a development rollarcoster",
+              "The right tool for this turned out to be Mud, a smart contract storage + indexing protocol + framework for developing highly interactive onchain apps.",
+              "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
+            ]}
+            color={tabs[2].boidType.color}
+          />
+        {:else if $curTab.id === "what-i-do"}
+          <PageReveal
+            pages={[
+              "In short, I build full stack onchain applications. I write smart contracts, I build frontends, and I build backends to serve and support these applications.",
+              "My first dose of professional experience in this space was a dive straight into the deep end as I worked alongside a brilliant engineer co-developing a novel MEV capture protocol.",
+              "In doing so, I got to write core protocol code in solidity, prototype off-chain meta-transaction execution infrastructure, and even integrate our protocol into a fully functional Uniswap fork.",
+              "Today I'm still building in the blockchain rabbit hole, working on an oncahin profile/media discovery tool (eth.co), and also experimenting my own onchain PvP betting platform.",
+            ]}
+            color={tabs[1].boidType.color}
+          />
         {/if}
-      </div>
+      {/if}
     </div>
 
     <div class="h-full w-full relative overflow-hidden px-10">
       {#if $tabIndex === 2}
         <SlideDrawer
           title="Puzzle Bets - Component Architecture"
-          arrowColor={$curBoid.boidType.color}
+          arrowColor={$curTab.boidType.color}
         >
           <img
             src="img/PuzzleBetsArch.drawio.png"
@@ -327,12 +328,6 @@
   :global(body) {
     margin: 0;
     padding: 0;
-  }
-
-  .twitter-link {
-    position: absolute;
-    bottom: 19px;
-    left: 1em;
   }
 
   .centered-button {

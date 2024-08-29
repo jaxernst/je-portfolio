@@ -24,7 +24,7 @@
 </script>
 
 <div use:autoScroll={revealCount} class="pt-10 pr-2 overflow-y-auto">
-  <div bind:this={scrollContainer} class="flex flex-col">
+  <div class="flex flex-col">
     {#each pages.slice(0, revealCount) as page, i}
       <div transition:slide>
         <div

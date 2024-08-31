@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { fade, slide } from "svelte/transition";
+  import { fade, scale, slide } from "svelte/transition";
   import ArrowUp from "./lib/svelte-components/ArrowUp.svelte";
   import { cubicInOut } from "svelte/easing";
 
   export let pages: string[];
   export let color: string = "";
+  export let delayIn: number = 0;
   export let onPageUpdate: (curPage: number) => void = () => {};
 
   let revealCount = 1;
@@ -23,7 +24,11 @@
   }
 </script>
 
-<div use:autoScroll={revealCount} class="pt-10 pr-2 overflow-y-auto">
+<div
+  transition:slide={{ duration: 100, delay: delayIn, axis: "y" }}
+  use:autoScroll={revealCount}
+  class="pt-10 pr-2 overflow-y-auto min-h-0"
+>
   <div class="flex flex-col">
     {#each pages.slice(0, revealCount) as page, i}
       <div transition:slide>

@@ -220,6 +220,7 @@
               "From there I never looked back...",
             ]}
             color={tabs[0].boidType.color}
+            delayIn={400}
           />
 
           <!-- Puzzle Bets Page -->
@@ -232,6 +233,7 @@
               "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
             ]}
             color={tabs[2].boidType.color}
+            delayIn={600}
           />
         {:else if $curTab.id === "what-i-do"}
           <PageReveal
@@ -242,6 +244,7 @@
               "Today I'm still building in the blockchain rabbit hole, working on an oncahin profile/media discovery tool (eth.co), and also experimenting my own onchain PvP betting platform.",
             ]}
             color={tabs[1].boidType.color}
+            delayIn={600}
           />
         {/if}
       {/if}

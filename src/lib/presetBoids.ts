@@ -18,11 +18,11 @@ export const Default = {
 };
 
 export const SpeedRacers = {
-  mass: 0.08,
-  targetV: 48.076052452532856,
-  targetVCorrectionFactor: 0.354245412726251,
-  sightRadius: 185.97509766047145,
-  sightPeripheralDeg: 237.6577635825345,
+  mass: 0.1,
+  targetV: 54,
+  targetVCorrectionFactor: 0.65,
+  sightRadius: 185,
+  sightPeripheralDeg: 237,
   separationDistance: 92.81054202065323,
   separationFactor: 0.5006375284045432,
   gravitationFactor: 1.6364316852729375,

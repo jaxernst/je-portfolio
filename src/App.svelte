@@ -34,7 +34,7 @@
   import { numActiveBoids } from "./lib/boid-engine/main.js";
   import SlideDrawer from "./SlideDrawer.svelte";
 
-  let started = false;
+  let started = true;
   let visible = false;
 
   // prettier-ignore
@@ -134,6 +134,33 @@
   }
 
   let leftBarTextRevealCount = 1;
+
+  function scaleImage(node) {
+    let observer;
+
+    function updateSize() {
+      const parent = node.closest(".slide-drawer-content");
+      if (parent) {
+        const { width, height } = parent.getBoundingClientRect();
+        node.style.width = `${width}px`;
+        node.style.height = `${height * 0.8}px`; // Ensure image height matches drawer height
+      }
+    }
+
+    onMount(() => {
+      observer = new ResizeObserver(updateSize);
+      observer.observe(node.parentElement);
+      updateSize();
+    });
+
+    return {
+      destroy() {
+        if (observer) {
+          observer.disconnect();
+        }
+      },
+    };
+  }
 </script>
 
 <svelte:window on:click={maybeAddDetractor} />
@@ -157,7 +184,7 @@
     <FPS onFrame={(_fps) => ($fps = _fps)} />
   </Canvas>
 
-  <div class="overlay flex gap-14">
+  <div class="overlay flex flex-col lg:flex-row justify-between gap-14">
     <div class="shrink-0 flex flex-col gap-10 w-full sm:w-[500px]">
       <!-- Page Header and Navigation -->
       <div class="px-5 pt-5">
@@ -246,17 +273,24 @@
       </div>
     </div>
 
-    <div class="h-full w-full relative overflow-hidden px-10">
+    <!-- Slide drawer content -->
+    <div
+      class="w-full h-full lg:w-[700px] relative overflow-hidden px-10"
+      style="pointer-events: none;"
+    >
       {#if $tabIndex === 2}
         <SlideDrawer
           title="Puzzle Bets - Component Architecture"
           arrowColor={$curBoid.boidType.color}
         >
-          <img
-            src="img/PuzzleBetsArch.drawio.png"
-            class="rounded-lg opacity-75 max-w-[680px] w-full h-full object-cover"
-            alt="Puzzle Bets Architecture"
-          />
+          <div class="w-full h-full">
+            <img
+              use:scaleImage
+              src="img/PuzzleBetsArch.drawio.png"
+              class="mx-auto rounded-lg opacity-75 object-contain"
+              alt="Puzzle Bets Architecture"
+            />
+          </div>
         </SlideDrawer>
       {/if}
     </div>

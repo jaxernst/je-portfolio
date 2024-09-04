@@ -27,7 +27,7 @@
   import { numActiveBoids } from "./lib/boid-engine/main.js";
   import SlideDrawer from "./SlideDrawer.svelte";
 
-  let started = true;
+  let started = false;
   let visible = false;
 
   // prettier-ignore

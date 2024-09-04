@@ -215,7 +215,7 @@
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
               "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
-              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by smart contracts and blockchain networks; Money Lego programs that are universally accessible with guarenteed availability? I was convinced.",
+              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by blockchain networks and smart contract systems. The idea of permissionless 'money-lego' software systems was hugely compelling, and propelled me into a deep rearsearch mode for several months.",
               "After studying and applying myself to the defi trade, I got an opportunity to work with a founding defi team prototyping a novel MEV capture protocol.",
               "From there I never looked back...",
             ]}

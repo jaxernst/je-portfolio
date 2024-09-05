@@ -184,11 +184,13 @@
         <div class="flex mb-2 justify-between items-center w-full">
           <div class=" text-xs flex items-center gap-2">
             {#if started}
-              <div in:slide={{ axis: "x" }}>{$numActiveBoids} boids</div>
+              <div class="whitespace-nowrap" in:slide={{ axis: "x" }}>
+                {$numActiveBoids} boids
+              </div>
               |
             {/if}
             <div class="whitespace-nowrap">
-              {$fps.toPrecision(4)} fps
+              {$fps.toPrecision(3)} fps
             </div>
           </div>
 
@@ -242,25 +244,24 @@
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
               "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
-              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by blockchain networks and smart contract systems. The idea of permissionless 'money-lego' software systems was hugely compelling, and propelled me into a deep rearsearch mode for several months.",
+              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by blockchain networks, smart contract protocols, and game theory.",
               "After studying and applying myself to the defi trade, I got an opportunity to work with a founding defi team prototyping a novel MEV capture protocol.",
               "From there I never looked back...",
             ]}
             color={tabs[0].boidType.color}
-            delayIn={400}
+            delayIn={500}
           />
 
           <!-- Puzzle Bets Page -->
         {:else if $curTab.id === "puzzlebets"}
           <PageReveal
             pages={[
-              "Two years ago I asked myself: how hard could it be to build and launch a nice-to-use onchain pvp betting game?",
-              "Puzzle Bets, an onchain puzzle competition game, is the result of some deep experimentation, iterating, and learning on top of the EVM (Ethereum Virtual Maching). This use case demands reliability and near-realtime state syncing, which proved to a development rollarcoster",
+              "Puzzle Bets, a casual PvP onchain betting game, is the result of a multi-year solo exploration into real-time consumer crypto.",
               "The right tool for this turned out to be Mud, a smart contract storage + indexing protocol + framework for developing highly interactive onchain apps.",
               "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
             ]}
             color={tabs[2].boidType.color}
-            delayIn={600}
+            delayIn={500}
           />
         {:else if $curTab.id === "what-i-do"}
           <PageReveal
@@ -271,7 +272,7 @@
               "Today I'm still building in the blockchain rabbit hole, working on an oncahin profile/media discovery tool (eth.co), and also experimenting my own onchain PvP betting platform.",
             ]}
             color={tabs[1].boidType.color}
-            delayIn={600}
+            delayIn={500}
           />
         {/if}
       {/if}

@@ -25,7 +25,8 @@
 </script>
 
 <div
-  transition:slide={{ duration: 100, delay: delayIn, axis: "y" }}
+  out:slide
+  in:slide={{ delay: delayIn }}
   use:autoScroll={revealCount}
   class="pt-10 pr-2 overflow-y-auto min-h-0"
 >
@@ -47,10 +48,8 @@
     <div class="flex gap-3 w-full justify-center pt-4 pb-4">
       {#if revealCount > 1}
         <button
-          transition:slide={{
+          in:slide={{
             delay: 200,
-            duration: 200,
-            easing: cubicInOut,
             axis: "x",
           }}
           on:click={() => revealCount--}
@@ -62,10 +61,8 @@
       {/if}
       {#if revealCount < pages.length}
         <button
-          transition:slide={{
+          in:slide={{
             delay: 200,
-            duration: 200,
-            easing: cubicInOut,
             axis: "x",
           }}
           on:click={() => revealCount++}

@@ -31,7 +31,7 @@
   // prettier-ignore
   const tabs = [
         { id: "intro", text: "䷉ Intro", boidType: Default },
-        { id: "what-i-do", text: "䷑ What I do", boidType: BlueTab },
+        { id: "my-stuff", text: "䷑ My Stuff", boidType: BlueTab },
         { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: YellowTab },
         { id: "editor", text: "⌥ Editor Theme", boidType: SlowArrows },
         { id: "boids", text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
@@ -235,9 +235,8 @@
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
               "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
-              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I was particularly fascinated by blockchain networks, smart contract protocols, and game theory.",
-              "After studying and applying myself to the defi trade, I got an opportunity to work with a founding defi team prototyping a novel MEV capture protocol.",
-              "From there I never looked back...",
+              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time working on blockchain tech.",
+              "I've worked professionally on an early defi protocol, an ENS profile explorer, and an onchain PvP betting platform; All while pursuing rabbit hole research projects with the occassional hackathon submission.",
             ]}
             color={tabs[0].boidType.color}
             delayIn={500}
@@ -248,19 +247,20 @@
           <PageReveal
             pages={[
               "Puzzle Bets, a casual PvP onchain betting game, is the result of a multi-year solo exploration into real-time consumer crypto.",
-              "The right tool for this turned out to be Mud, a smart contract storage + indexing protocol + framework for developing highly interactive onchain apps.",
-              "Mud combined with modern full stack development tools such as SvelteKit and Supabase are helping to realize this long-term vision.",
+              "I started iterating on the early concepts before smart wallets or social sign-in embedded wallets even existed. This started as a an alarm clock game where puzzles were solved to wake up.",
+              "After iterating on the concept and devleoping my go-to full-stack toolkit for onchain app development, I built a blockchain app simple enough for my mother to use.",
             ]}
             color={tabs[2].boidType.color}
             delayIn={500}
           />
-        {:else if $curTab.id === "what-i-do"}
+        {:else if $curTab.id === "my-stuff"}
           <PageReveal
             pages={[
-              "In short, I build full stack onchain applications. I write smart contracts, I build frontends, and I build backends to serve and support these applications.",
-              "My first dose of professional experience in this space was a dive straight into the deep end as I worked alongside a brilliant engineer co-developing a novel MEV capture protocol.",
-              "In doing so, I got to write core protocol code in solidity, prototype off-chain meta-transaction execution infrastructure, and even integrate our protocol into a fully functional Uniswap fork.",
-              "Today I'm still building in the blockchain rabbit hole, working on an oncahin profile/media discovery tool (eth.co), and also experimenting my own onchain PvP betting platform.",
+              // "In short, I build full stack onchain applications. I write smart contracts, I build frontends, and I build backends to serve and support these applications.",
+              // "My first dose of professional experience in this space was a dive straight into the deep end as I worked alongside a brilliant engineer co-developing a novel MEV capture protocol.",
+              // "In doing so, I got to write core protocol code in solidity, prototype off-chain meta-transaction execution infrastructure, and even integrate our protocol into a fully functional Uniswap fork.",
+              // "Today I'm still building in the blockchain rabbit hole, working on an oncahin profile/media discovery tool (eth.co), and also experimenting my own onchain PvP betting platform.",
+              "Links and Stuff",
             ]}
             color={tabs[1].boidType.color}
             delayIn={500}

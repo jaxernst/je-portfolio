@@ -24,8 +24,28 @@
   import { numActiveBoids } from "./lib/boid-engine/main.js";
   import SlideDrawer from "./SlideDrawer.svelte";
   import CarouselTabs from "./CarouselTabs.svelte";
+  import { randomizeBoidType } from "./lib/boid-engine/boid-creation";
 
   let started = false;
+  let simulationRunning = true;
+
+  function spawnRandomBoid() {
+    if (!$cursorPos) return;
+    const randomBoidType = randomizeBoidType();
+    $addBoids(randomBoidType, 1, $cursorPos);
+  }
+
+  function handleKeydown(event) {
+    if (event.key === "Enter" && !started && startScreenActive) {
+      started = true;
+      startScreenActive = false;
+    } else if (event.key === "s" || event.key === "S") {
+      spawnRandomBoid();
+    } else if (event.key === "c" || event.key === "C") {
+      $boidSim.reset();
+    }
+  }
+
   let visible = false;
 
   // prettier-ignore
@@ -81,6 +101,10 @@
 
   onMount(() => {
     visible = true;
+    window.addEventListener("keydown", handleKeydown);
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
   });
 
   let fps = writable(60);
@@ -152,6 +176,23 @@
       },
     };
   }
+
+  let startScreenActive = true;
+
+  onMount(() => {
+    window.addEventListener("keydown", handleKeydown);
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  });
+
+  function handleSpawn() {
+    spawnRandomBoid();
+  }
+
+  function handleClear() {
+    $boidSim.reset();
+  }
 </script>
 
 <svelte:window on:click={maybeAddDetractor} />
@@ -162,7 +203,7 @@
       <DotGrid divisions={40} color="hsla(0, 0%, 100%, 0.5)" pointSize={0.8} />
     </Background>
 
-    <BoidSimulation {started} initNumBoids={25} />
+    <BoidSimulation {started} {simulationRunning} initNumBoids={25} />
 
     <Character
       storeToUpdate={cursorPos}
@@ -191,12 +232,6 @@
               {$fps.toPrecision(3)} fps
             </div>
           </div>
-
-          {#if started}
-            <button on:click={$boidSim.reset} class="text-xs underline"
-              >Clear Boids</button
-            >
-          {/if}
         </div>
 
         {#if started}
@@ -211,7 +246,9 @@
                   ( jaxer.eth )
                 </h1>
               </div>
-              <div class="flex gap-2 font-light text-sm mt-0 text-neutral-300">
+              <div
+                class="pl-3 flex gap-2 font-light text-sm mt-0 text-neutral-300"
+              >
                 Full stack software engineer working on blockchain tech
               </div>
             </div>
@@ -302,7 +339,7 @@
   </div>
 
   <!--Landing Page-->
-  {#if !started}
+  {#if !started && startScreenActive}
     <div
       out:slide={{ easing: cubicInOut, duration: 250 }}
       class="centered-button flex flex-col gap-20 items-center pb-[180px]"
@@ -343,12 +380,36 @@
         </div>
         <button
           in:fade={{ duration: 500, delay: 2400 }}
-          on:click={() => (started = true)}
+          on:click={() => {
+            started = true;
+            startScreenActive = false;
+          }}
           class="border backdrop-blur-sm font-bold rounded-lg hover:border-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
         >
           Enter
         </button>
       {/if}
+    </div>
+  {/if}
+
+  {#if started}
+    <div
+      class="absolute top-2 right-2 p-2 rounded text-white text-[10px] flex gap-2"
+    >
+      <button
+        on:click={handleSpawn}
+        class="hidden sm:flex items-center gap-1 border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
+      >
+        <div class="font-medium">S</div>
+        <span class="font-thin">Spawn</span>
+      </button>
+      <button
+        on:click={handleClear}
+        class="flex items-center gap-1 border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
+      >
+        <div class="font-medium sm:inline hidden">C</div>
+        <span class="font-thin">Clear</span>
+      </button>
     </div>
   {/if}
 </div>

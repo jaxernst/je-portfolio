@@ -68,21 +68,3 @@ button {
   color: rgb(229, 229, 229);
   min-width: fit-content;
 }
-
-body,
-button,
-a,
-input,
-textarea {
-  cursor: none;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #ffffff;
-  }
-}

@@ -13,19 +13,17 @@
   import { addBoids, boidSim, cursorPos } from "./boidSimControls.js";
   import {
     AtomBoid,
-    BlueAngels,
+    BlueTab,
     Default,
-    ElegantFlocks,
-    Juggernauts,
     SlowArrows,
-    SpeedRacers,
+    YellowTab,
   } from "./lib/presetBoids.js";
-  import Github from "./lib/svelte-components/Github.svelte";
   import { derived, get, writable } from "svelte/store";
   import { onDestroy, onMount } from "svelte";
   import PageReveal from "./PageReveal.svelte";
   import { numActiveBoids } from "./lib/boid-engine/main.js";
   import SlideDrawer from "./SlideDrawer.svelte";
+  import CarouselTabs from "./CarouselTabs.svelte";
 
   let started = false;
   let visible = false;
@@ -33,8 +31,8 @@
   // prettier-ignore
   const tabs = [
         { id: "intro", text: "䷉ Intro", boidType: Default },
-        { id: "what-i-do", text: "䷑ What I do", boidType: SpeedRacers },
-        { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: ElegantFlocks },
+        { id: "what-i-do", text: "䷑ What I do", boidType: BlueTab },
+        { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: YellowTab },
         { id: "editor", text: "⌥ Editor Theme", boidType: SlowArrows },
         { id: "boids", text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
     ] as const;
@@ -117,13 +115,13 @@
     $tabIndex = clickTabIdx;
     const clickTab = tabs[clickTabIdx];
     const boidType = clickTab.boidType;
-    const rect = event.target.getBoundingClientRect();
-    const buttonScreenPos = {
-      x: 13 + rect.left + rect.width / 2, // Center X of the button
-      y: 22 + rect.top + rect.height / 2, // Center Y of the button
+
+    const centerScreenPos = {
+      x: $width / 2,
+      y: $height / 2,
     };
 
-    $addBoids(boidType, 11, buttonScreenPos);
+    $addBoids(boidType, 11, centerScreenPos);
   }
 
   let leftBarTextRevealCount = 1;
@@ -136,7 +134,7 @@
       if (parent) {
         const { width, height } = parent.getBoundingClientRect();
         node.style.width = `${width}px`;
-        node.style.height = `${height * 0.8}px`; // Ensure image height matches drawer height
+        node.style.height = `${height * 0.8}px`;
       }
     }
 
@@ -205,33 +203,26 @@
           <div in:slide={{ easing: cubicInOut, duration: 250 }}>
             <!--Page Header-->
             <div
-              class="p-3 bg-transparent border border-gray-400 rounded backdrop-blur-sm leading-none"
+              class="p-4 bg-transparent border border-gray-400 rounded backdrop-blur-sm leading-none"
             >
-              <div class="flex gap-3 items-end">
+              <div class="flex gap-2 items-end">
                 <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
                 <h1 class="text-sm leading-relaxed font-medium">
                   ( jaxer.eth )
                 </h1>
               </div>
-              <div class="flex gap-2 font-light text-sm mt-1 text-neutral-300">
+              <div class="flex gap-2 font-light text-sm mt-0 text-neutral-300">
                 Full stack software engineer working on blockchain tech
               </div>
             </div>
 
             <!-- Tab Buttons -->
-            <div class="flex flex-wrap gap-2 mt-3">
-              {#each tabs as tab, tabIdx}
-                {@const selected = tabIdx === $tabIndex}
-                <button
-                  on:click={(e) => handleSpawnButtonClick(e, tabIdx)}
-                  class="tab-button basis-2 sm:w-auto py-1 px-2 rounded-lg transition-all tracking-tight duration-200 {selected
-                    ? 'selected'
-                    : ''}"
-                  style={`--boid-color: ${tab.boidType.color}`}
-                >
-                  {tab.text}
-                </button>
-              {/each}
+            <div class="mt-3">
+              <CarouselTabs
+                {tabs}
+                activeIndex={tabIndex}
+                onTabClick={handleSpawnButtonClick}
+              />
             </div>
           </div>
         {/if}

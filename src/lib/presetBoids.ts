@@ -17,31 +17,31 @@ export const Default = {
   color: "hsl(0, 100%, 50%)",
 };
 
-export const SpeedRacers = {
-  mass: 0.1,
-  targetV: 54,
-  targetVCorrectionFactor: 0.65,
-  sightRadius: 185,
-  sightPeripheralDeg: 237,
-  separationDistance: 92.81054202065323,
-  separationFactor: 0.5006375284045432,
-  gravitationFactor: 1.6364316852729375,
-  alignmentFactor: 0.060421289860968945,
-  forceSmoothing: 0,
+export const BlueTab = {
+  mass: 0.08,
+  targetV: 44.89998364916329,
+  targetVCorrectionFactor: 1.5078598867722195,
+  sightRadius: 193.0398507787129,
+  sightPeripheralDeg: 266.90582728215105,
+  separationDistance: 76.52366499701075,
+  separationFactor: 1.1818081746425757,
+  gravitationFactor: 0.898041277314681,
+  alignmentFactor: 0.05,
+  forceSmoothing: 4.0600318210138475,
   color: "hsl(186, 100%, 50%)",
 };
 
-export const ElegantFlocks = {
-  mass: 0.3,
-  targetV: 122.16674971944327,
-  targetVCorrectionFactor: 1.3231893146657861,
-  sightRadius: 221.96796109967187,
-  sightPeripheralDeg: 170.56625220751917,
-  separationDistance: 116.74091794888534,
-  separationFactor: 0.4018820701665717,
-  gravitationFactor: 0.42611294960275087,
-  alignmentFactor: 0.05,
-  forceSmoothing: 4.275290388791417,
+export const YellowTab = {
+  mass: 0.12,
+  targetV: 231.15880089106227,
+  targetVCorrectionFactor: 0.19689021075000974,
+  sightRadius: 194.2936519463015,
+  sightPeripheralDeg: 230.98374277602662,
+  separationDistance: 114.00033520853967,
+  separationFactor: 0.5,
+  gravitationFactor: 0.1,
+  alignmentFactor: 0.20899640225715527,
+  forceSmoothing: 13.012096064627173,
   color: "hsl(64, 100%, 50%)",
 };
 

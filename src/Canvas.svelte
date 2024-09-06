@@ -109,6 +109,5 @@
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    outline: 1px solid red;
   }
 </style>

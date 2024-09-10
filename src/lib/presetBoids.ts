@@ -18,16 +18,16 @@ export const Default = {
 };
 
 export const BlueTab = {
-  mass: 0.08,
-  targetV: 44.89998364916329,
-  targetVCorrectionFactor: 1.5078598867722195,
-  sightRadius: 193.0398507787129,
-  sightPeripheralDeg: 266.90582728215105,
-  separationDistance: 76.52366499701075,
-  separationFactor: 1.1818081746425757,
-  gravitationFactor: 0.898041277314681,
-  alignmentFactor: 0.05,
-  forceSmoothing: 4.0600318210138475,
+  mass: 0.09,
+  targetV: 44.9,
+  targetVCorrectionFactor: 0.55,
+  sightRadius: 193,
+  sightPeripheralDeg: 226.9,
+  separationDistance: 76.5,
+  separationFactor: 1.18,
+  gravitationFactor: 0.698,
+  alignmentFactor: 0.06,
+  forceSmoothing: 5,
   color: "hsl(186, 100%, 50%)",
 };
 

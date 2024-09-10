@@ -19,7 +19,7 @@ const attributeRanges: AttributeProbabilityDistribution<Partial<BoidAttrs>> = {
   targetVCorrectionFactor: {
     min: 0.06,
     max: 3,
-    mean: 0.8,
+    mean: 1.2,
     stdev: 0.3,
     skew: 0,
   },

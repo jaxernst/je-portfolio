@@ -23,7 +23,7 @@ export const div = (v1: Vec2D, s: number): Vec2D => {
 
 export const norm = (v: Vec2D): Vec2D => {
   const mag = magnitude(v);
-  if (!mag) return [0, 0];
+  if (mag < 1e-10) return [0, 0];
   return [v[0] / mag, v[1] / mag];
 };
 

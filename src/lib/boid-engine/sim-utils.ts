@@ -75,15 +75,14 @@ export function findBoidsInSight(targetBoid: Boid, boids: Boid[]): Boid[] {
   const cosMaxAngle = Math.cos(maxAngle);
 
   const boidsInSight: Boid[] = [];
+  const incVal = Math.floor(boids.length / 100) + 1;
 
-  for (let i = 0; i < boids.length; i++) {
-    const other = boids[i];
+  for (let i = 0; i < boids.length; i += incVal) {
+    if (boids[i] === targetBoid) continue;
 
-    if (other === targetBoid) continue;
-
-    const dx = other.vec.pos[0] - bVec.pos[0];
-    const dy = other.vec.pos[1] - bVec.pos[1];
-    const squaredDist = dx * dx + dy * dy;
+    const dx = boids[i].vec.pos[0] - bVec.pos[0];
+    const dy = boids[i].vec.pos[1] - bVec.pos[1];
+    const squaredDist = squaredDistance(boids[i].vec.pos, bVec.pos);
 
     if (squaredDist > squaredSightRadius) continue;
 
@@ -94,7 +93,7 @@ export function findBoidsInSight(targetBoid: Boid, boids: Boid[]): Boid[] {
       directionNorm[0] * toOtherNorm[0] + directionNorm[1] * toOtherNorm[1];
 
     if (cosAngle > cosMaxAngle) {
-      boidsInSight.push(other);
+      boidsInSight.push(boids[i]);
     }
   }
 

@@ -39,7 +39,7 @@ export const div = (out: Vec2D, v: Vec2D, s: number): Vec2D => {
 
 export const norm = (out: Vec2D, v: Vec2D): Vec2D => {
   const magSq = v[0] * v[0] + v[1] * v[1];
-  if (magSq > 0) {
+  if (magSq > 1e-10) {
     const invMag = 1 / Math.sqrt(magSq);
     out[0] = v[0] * invMag;
     out[1] = v[1] * invMag;
@@ -71,5 +71,3 @@ export const distance = (v1: Vec2D, v2: Vec2D): number => {
 export const dot = (v1: Vec2D, v2: Vec2D): number => {
   return v1[0] * v2[0] + v1[1] * v2[1];
 };
-
-// Optimized combinedBoidRules function

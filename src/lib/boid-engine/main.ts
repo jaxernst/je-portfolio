@@ -7,7 +7,6 @@ import type { Boid, BoidAttrs, BoidVec, Detractor, Vec2D } from "./types";
 import { findBoidsInSight, limitSpeed, makeMovingAverage } from "./sim-utils";
 import { add, magnitude, mul, norm } from "./vectorMath";
 import { writable } from "svelte/store";
-import { QuadTree } from "./quadtree";
 import { SpatialHashGrid } from "./spatial-hashing";
 
 export const numActiveBoids = writable(0);
@@ -25,8 +24,8 @@ export const defaultAttrs: BoidAttrs = {
   targetVCorrectionFactor: 1,
   sightRadius: 200,
   sightPeripheralDeg: 200,
-  separationDistance: 50,
-  separationFactor: 0.81,
+  separationDistance: 100,
+  separationFactor: 1.5,
   gravitationFactor: 1.1,
   alignmentFactor: 0.1,
   forceSmoothing: 7,

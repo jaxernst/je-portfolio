@@ -1,15 +1,10 @@
-import { drawPoint } from "./canvas-drawers";
 import type { Boid, Vec2D } from "./types";
 import {
-  distance,
-  dot,
   mul,
   norm,
   subtract,
   magnitude,
   distanceSquared,
-  add,
-  div,
   addScaled,
 } from "./vector-math-mut";
 

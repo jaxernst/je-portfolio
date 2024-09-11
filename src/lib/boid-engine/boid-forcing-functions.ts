@@ -10,6 +10,7 @@ import {
 
 // Forcing and boid perception functions
 // Align, Separate, and Gravitate forces are applied in 'combinedBoidRules'
+// Force functions use mut vector math functions to avoid extra allocations
 
 export function combinedBoidRules(
   boid: Boid,
@@ -17,46 +18,49 @@ export function combinedBoidRules(
   ctx?: CanvasRenderingContext2D,
   refDist?: number
 ): Vec2D {
-  const pSum: Vec2D = [0, 0];
-  const vSum: Vec2D = [0, 0];
-  let mSum = 0;
   const othersLength = others.length;
-
-  for (let i = 0; i < othersLength; i++) {
-    const other = others[i];
-    mSum += other.mass;
-    pSum[0] += other.vec.pos[0];
-    pSum[1] += other.vec.pos[1];
-    vSum[0] += other.vec.vel[0];
-    vSum[1] += other.vec.vel[1];
-  }
-
   const invOthersLength = 1 / othersLength;
-  const mAvg = mSum * invOthersLength;
-  const pAvg: Vec2D = [pSum[0] * invOthersLength, pSum[1] * invOthersLength];
-  const vAvg: Vec2D = [vSum[0] * invOthersLength, vSum[1] * invOthersLength];
 
-  const sepResult: Vec2D = [0, 0];
-  const gravResult: Vec2D = [0, 0];
-  const alignResult: Vec2D = [0, 0];
-  const temp: Vec2D = [0, 0];
+  // Allocate for vecto averages
+  const avgPosition: Vec2D = [0, 0];
+  const avgVelocity: Vec2D = [0, 0];
+  let avgMass = 0;
 
-  const distSquared = distanceSquared(boid.vec.pos, pAvg);
-  if (distSquared <= boid.separationDistance * boid.separationDistance) {
-    subtract(temp, boid.vec.pos, pAvg);
-    norm(sepResult, temp);
-    mul(sepResult, sepResult, refDist / (Math.sqrt(distSquared) + 0.1));
+  for (const other of others) {
+    avgPosition[0] += other.vec.pos[0];
+    avgPosition[1] += other.vec.pos[1];
+    avgVelocity[0] += other.vec.vel[0];
+    avgVelocity[1] += other.vec.vel[1];
+    avgMass += other.mass;
   }
 
-  subtract(temp, pAvg, boid.vec.pos);
-  mul(gravResult, temp, mAvg / boid.mass);
+  mul(avgPosition, avgPosition, invOthersLength);
+  mul(avgVelocity, avgVelocity, invOthersLength);
+  avgMass *= invOthersLength;
 
-  subtract(alignResult, vAvg, boid.vec.vel);
+  // Calculate separation force
+  const separation: Vec2D = [0, 0];
+  const distSquared = distanceSquared(boid.vec.pos, avgPosition);
+  if (distSquared <= boid.separationDistance ** 2) {
+    subtract(separation, boid.vec.pos, avgPosition);
+    norm(separation, separation);
+    mul(separation, separation, refDist / (distSquared + 0.1));
+  }
 
+  // Calculate gravitation force
+  const gravitation: Vec2D = [0, 0];
+  subtract(gravitation, avgPosition, boid.vec.pos);
+  mul(gravitation, gravitation, avgMass / boid.mass);
+
+  // Calculate alignment force
+  const alignment: Vec2D = [0, 0];
+  subtract(alignment, avgVelocity, boid.vec.vel);
+
+  // Combine forces
   const result: Vec2D = [0, 0];
-  addScaled(result, result, gravResult, boid.gravitationFactor);
-  addScaled(result, result, alignResult, boid.alignmentFactor);
-  addScaled(result, result, sepResult, boid.separationFactor);
+  addScaled(result, result, gravitation, boid.gravitationFactor);
+  addScaled(result, result, alignment, boid.alignmentFactor);
+  addScaled(result, result, separation, boid.separationFactor);
 
   return result;
 }

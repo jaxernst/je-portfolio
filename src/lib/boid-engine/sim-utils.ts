@@ -75,7 +75,7 @@ export function findBoidsInSight(targetBoid: Boid, boids: Boid[]): Boid[] {
   const cosMaxAngle = Math.cos(maxAngle);
 
   const boidsInSight: Boid[] = [];
-  const incVal = Math.floor(boids.length / 100) + 1;
+  const incVal = Math.floor(boids.length / 80) + 1;
 
   for (let i = 0; i < boids.length; i += incVal) {
     if (boids[i] === targetBoid) continue;

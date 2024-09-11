@@ -144,7 +144,7 @@
       y: $height / 2,
     };
 
-    $addBoids(boidType, 50, centerScreenPos);
+    $addBoids(boidType, 9, centerScreenPos);
   }
 
   let leftBarTextRevealCount = 1;

@@ -161,8 +161,6 @@ export function createBoidSimulation({
   })) as Boid[];
 
   boids = boids.map((boid) => {
-    // Currently not using because the generator significantly impacts performance
-    // boid.randomImpulses = [RandomForceGenerator(0.00005, 20000, 1000)];
     boid.forceMovingAverage = makeMovingAverage(
       [0, 0],
       (initialBoidPreset ?? defaultBoid).forceSmoothing
@@ -198,9 +196,9 @@ export function createBoidSimulation({
       frameDetractors?: Detractor[]
     ) => {
       // Add boids from the queue
-      for (let addBoid of addBoidQueue) {
+      for (let spawn of addBoidQueue) {
         numActiveBoids.update((x) => x + 1);
-        boids = [...boids, addBoid()];
+        boids = boids.concat(spawn());
       }
 
       addBoidQueue = [];
@@ -239,7 +237,11 @@ export function createBoidSimulation({
           pos: [startPos.x, startPos.y],
           vel: [startVel.x, startVel.y],
         },
+        forceMovingAverage: boidType?.forceSmoothing
+          ? makeMovingAverage([0, 0], boidType.forceSmoothing)
+          : undefined,
       }));
+
       return i;
     },
     addDetractor: (detractor: Detractor) => {

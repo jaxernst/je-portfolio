@@ -26,10 +26,9 @@ const attributeRanges: AttributeProbabilityDistribution<Partial<BoidAttrs>> = {
   sightRadius: { min: 50, max: 600, mean: 300, stdev: 100, skew: 0 },
   sightPeripheralDeg: { min: 130, max: 300, mean: 180, stdev: 30, skew: 0 },
   separationDistance: { min: 5, max: 200, mean: 100, stdev: 50, skew: 0 },
-  separationFactor: { min: 0.5, max: 3, mean: 1, stdev: 0.2, skew: 0 },
-  gravitationFactor: { min: 0.1, max: 2, mean: 0.8, stdev: 0.5, skew: 0 },
-  alignmentFactor: { min: 0.05, max: 0.5, mean: 0.1, stdev: 0.4, skew: 0 },
-  forceSmoothing: { min: 0, max: 20, mean: 0, stdev: 0.05, skew: 0 },
+  separationFactor: { min: 0.5, max: 5, mean: 3, stdev: 0.2, skew: 0 },
+  gravitationFactor: { min: 0.1, max: 2, mean: 0.4, stdev: 0.5, skew: 0 },
+  alignmentFactor: { min: 0.05, max: 0.5, mean: 0.1, stdev: 0.08, skew: 0 },
 };
 
 export const randomizeBoidType = (deviationFactor: number = 1) => {

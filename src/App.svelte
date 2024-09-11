@@ -27,7 +27,6 @@
   import { randomizeBoidType } from "./lib/boid-engine/boid-creation";
 
   let started = false;
-  let simulationRunning = true;
 
   function spawnRandomBoid() {
     if (!$cursorPos) return;
@@ -145,7 +144,7 @@
       y: $height / 2,
     };
 
-    $addBoids(boidType, 11, centerScreenPos);
+    $addBoids(boidType, 50, centerScreenPos);
   }
 
   let leftBarTextRevealCount = 1;
@@ -203,7 +202,7 @@
       <DotGrid divisions={40} color="hsla(0, 0%, 100%, 0.5)" pointSize={0.8} />
     </Background>
 
-    <BoidSimulation {started} {simulationRunning} initNumBoids={25} />
+    <BoidSimulation {started} initNumBoids={25} />
 
     <Character
       storeToUpdate={cursorPos}
@@ -247,7 +246,7 @@
                 </h1>
               </div>
               <div
-                class="pl-3 flex gap-2 font-light text-sm mt-0 text-neutral-300"
+                class="pl-2 flex gap-2 font-light text-sm mt-0 text-neutral-300"
               >
                 Full stack software engineer working on blockchain tech
               </div>
@@ -401,14 +400,14 @@
         class="hidden sm:flex items-center gap-1 border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
       >
         <div class="font-medium">S</div>
-        <span class="font-thin">Spawn</span>
+        <span class=" font-extralight">Spawn</span>
       </button>
       <button
         on:click={handleClear}
         class="flex items-center gap-1 border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
       >
         <div class="font-medium sm:inline hidden">C</div>
-        <span class="font-thin">Clear</span>
+        <span class="font-extralight">Clear</span>
       </button>
     </div>
   {/if}

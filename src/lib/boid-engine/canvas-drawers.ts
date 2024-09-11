@@ -1,5 +1,3 @@
-import type { AttributeRange } from "./boid-creation";
-
 export function drawPoint(x, y, ctx: CanvasRenderingContext2D, color?: string) {
   let inverseColor = color;
 

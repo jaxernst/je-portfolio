@@ -1,8 +1,14 @@
-import { combinedBoidRules, detract } from "./boid-functions";
+import {
+  combinedBoidRules,
+  detract,
+  targetVelocityAdjustmentForce,
+} from "./boid-forcing-functions";
 import type { Boid, BoidAttrs, BoidVec, Detractor, Vec2D } from "./types";
 import { findBoidsInSight, limitSpeed, makeMovingAverage } from "./sim-utils";
 import { add, magnitude, mul, norm } from "./vectorMath";
 import { writable } from "svelte/store";
+import { QuadTree } from "./quadtree";
+import { SpatialHashGrid } from "./spatial-hashing";
 
 export const numActiveBoids = writable(0);
 
@@ -37,30 +43,7 @@ const maxGlobalSpeed = 1500;
 let defaultDetractorDistance = 100;
 let defaultDetractorStrength = 40000;
 let speedScalar = 1;
-
-function brakingForce(boid: Boid) {
-  const currentV = boid.vec.vel;
-  const targetSpeed = boid.targetV * speedScalar;
-
-  const speed = magnitude(currentV);
-  const angle = Math.atan2(currentV[1], currentV[0]);
-  const targetX = Math.cos(angle) * targetSpeed;
-  const targetY = Math.sin(angle) * targetSpeed;
-
-  const velocityDifference: Vec2D = [
-    targetX - currentV[0],
-    targetY - currentV[1],
-  ];
-
-  const brakingForceMagnitude = magnitude(velocityDifference);
-  const direction = mul(
-    norm([-currentV[0], -currentV[1]]),
-    speed > targetSpeed ? 1 : -1
-  );
-
-  const brakingForce = mul(direction, brakingForceMagnitude);
-  return mul(brakingForce, boid.targetVCorrectionFactor);
-}
+let spatialGrid: SpatialHashGrid;
 
 // Main simulation loop updater
 function updateFrame(
@@ -70,12 +53,29 @@ function updateFrame(
   detractors: Detractor[] = [],
   ctx
 ) {
-  let i = 0;
+  // Initialize or clear the spatial grid
+  if (!spatialGrid) {
+    spatialGrid = new SpatialHashGrid(Math.max(board.w, board.h) / 10); // Adjust cell size as needed
+  } else {
+    spatialGrid.clear();
+  }
+
+  // Insert all boids into the spatial grid
   for (const boid of boids) {
+    spatialGrid.insert(boid);
+  }
+
+  for (let i = 0; i < boids.length; i++) {
+    const boid = boids[i];
     let vec = boid.vec;
-    let others = [...boids];
-    others.splice(i, 1); // Remove current boid index
-    others = findBoidsInSight(boid, others);
+
+    const nearbyBoids = spatialGrid.query(
+      boid.vec.pos[0],
+      boid.vec.pos[1],
+      boid.sightRadius
+    );
+
+    const others = findBoidsInSight(boid, nearbyBoids);
 
     let force = [0, 0] as Vec2D;
     if (others.length > 0) {
@@ -86,7 +86,7 @@ function updateFrame(
       boid.randomImpulses.forEach((impulse) => (force = add(force, impulse())));
     }
 
-    force = add(force, brakingForce(boid));
+    force = add(force, targetVelocityAdjustmentForce(boid, speedScalar));
 
     if (boid.forceSmoothing > 0 && boid.forceMovingAverage) {
       force = boid.forceMovingAverage(force);
@@ -121,7 +121,6 @@ function updateFrame(
     if (vec.pos[1] < 0) vec.pos[1] = board.h;
 
     boid.vec = vec;
-    i++;
   }
 
   return boids;
@@ -132,7 +131,7 @@ export function createBoidSimulation({
   startPos,
   startVel,
   boardSize,
-  boidType,
+  initialBoidPreset,
 }: {
   numBoids: number;
   startPos: [() => number, () => number];
@@ -141,7 +140,7 @@ export function createBoidSimulation({
     h: number;
     w: number;
   };
-  boidType?: Partial<BoidAttrs>;
+  initialBoidPreset?: Partial<BoidAttrs>;
 }) {
   let board = boardSize;
 
@@ -150,9 +149,11 @@ export function createBoidSimulation({
     speedScalar = 0.8;
   }
 
+  // Build initial boid array with the initial boid preset (if provided)
+  // Pos and vel generator are applied for each boid individually
   let boids = [...Array(numBoids)].map(() => ({
     ...defaultBoid,
-    ...boidType,
+    ...initialBoidPreset,
     vec: {
       ...boidVec,
       pos: [startPos[0](), startPos[1]()],
@@ -165,7 +166,7 @@ export function createBoidSimulation({
     // boid.randomImpulses = [RandomForceGenerator(0.00005, 20000, 1000)];
     boid.forceMovingAverage = makeMovingAverage(
       [0, 0],
-      (boidType ?? defaultBoid).forceSmoothing
+      (initialBoidPreset ?? defaultBoid).forceSmoothing
     );
     return boid;
   });

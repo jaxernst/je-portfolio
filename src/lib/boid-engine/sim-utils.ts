@@ -60,19 +60,45 @@ export function limitSpeed(
   return boid.vec.vel;
 }
 
-export function findBoidsInSight(boid: Boid, others: Boid[]) {
-  const bVec = boid.vec;
-  const directionNorm = norm(boid.vec.vel);
+function squaredDistance(pos1, pos2) {
+  const dx = pos1[0] - pos2[0];
+  const dy = pos1[1] - pos2[1];
+  return dx * dx + dy * dy;
+}
 
+export function findBoidsInSight(targetBoid: Boid, boids: Boid[]): Boid[] {
+  const bVec = targetBoid.vec;
+  const directionNorm = norm(bVec.vel);
   const TOO_RAD = Math.PI / 360;
-  return others.filter((other) => {
-    if (distance(bVec.pos, other.vec.pos) > boid.sightRadius) {
-      return false;
+  const squaredSightRadius = targetBoid.sightRadius * targetBoid.sightRadius;
+  const maxAngle = targetBoid.sightPeripheralDeg * TOO_RAD;
+  const cosMaxAngle = Math.cos(maxAngle);
+
+  const boidsInSight: Boid[] = [];
+
+  for (let i = 0; i < boids.length; i++) {
+    const other = boids[i];
+
+    if (other === targetBoid) continue;
+
+    const dx = other.vec.pos[0] - bVec.pos[0];
+    const dy = other.vec.pos[1] - bVec.pos[1];
+    const squaredDist = dx * dx + dy * dy;
+
+    if (squaredDist > squaredSightRadius) continue;
+
+    const invDist = 1 / Math.sqrt(squaredDist);
+    const toOtherNorm = [dx * invDist, dy * invDist];
+
+    const cosAngle =
+      directionNorm[0] * toOtherNorm[0] + directionNorm[1] * toOtherNorm[1];
+
+    if (cosAngle > cosMaxAngle) {
+      boidsInSight.push(other);
     }
-    const toOtherNorm = norm(subtract(other.vec.pos, bVec.pos));
-    const angleRad = Math.acos(dot(directionNorm, toOtherNorm));
-    return angleRad < boid.sightPeripheralDeg * TOO_RAD;
-  });
+  }
+
+  return boidsInSight;
 }
 
 export function randRange(min: number, max: number) {

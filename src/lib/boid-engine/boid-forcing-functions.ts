@@ -60,7 +60,7 @@ export function combinedBoidRules(
   const result: Vec2D = [0, 0];
   addScaled(result, result, gravitation, boid.gravitationFactor);
   addScaled(result, result, alignment, boid.alignmentFactor);
-  addScaled(result, result, separation, boid.separationFactor * 50);
+  addScaled(result, result, separation, boid.separationFactor * 40);
 
   return result;
 }

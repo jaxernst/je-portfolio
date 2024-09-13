@@ -45,6 +45,21 @@ export const YellowTab = {
   color: "hsl(64, 100%, 50%)",
 };
 
+export const OrangeTab = {
+  name: "SlowArrows",
+  mass: 0.7,
+  targetV: 5,
+  targetVCorrectionFactor: 1.4,
+  sightRadius: 80,
+  sightPeripheralDeg: 300,
+  separationDistance: 200,
+  separationFactor: 0.1,
+  gravitationFactor: 1.5,
+  alignmentFactor: 0.6,
+  forceSmoothing: 5,
+  color: "hsl(400, 100%, 50%)",
+};
+
 /**
  * Slow moving, high gravitation boids that carry much intertia
  */
@@ -93,21 +108,6 @@ export const BlueAngels = {
   color: "hsl(208, 100%, 50%)",
 };
 
-export const SlowArrows = {
-  name: "SlowArrows",
-  mass: 0.7154290532845526,
-  targetV: 5,
-  targetVCorrectionFactor: 5,
-  sightRadius: 50,
-  sightPeripheralDeg: 360,
-  separationDistance: 200,
-  separationFactor: 0.1,
-  gravitationFactor: 2,
-  alignmentFactor: 0.5,
-  forceSmoothing: 20,
-  color: "hsl(400, 100%, 50%)",
-};
-
 export const Juggernauts = {
   name: "Juggernauts",
   mass: 0.8336308612212452,
@@ -154,7 +154,6 @@ export const Cell1 = {
 
 export const BoidSpecies: Species[] = [
   Juggernauts,
-  SlowArrows,
   BlueAngels,
   LilBuggers,
   GrouperSpecies1,

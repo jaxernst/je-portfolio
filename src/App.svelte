@@ -15,7 +15,7 @@
     AtomBoid,
     BlueTab,
     Default,
-    SlowArrows,
+    OrangeTab,
     YellowTab,
   } from "./lib/presetBoids.js";
   import { derived, get, writable } from "svelte/store";
@@ -51,8 +51,8 @@
   const tabs = [
         { id: "intro", text: "䷉ Intro", boidType: Default },
         { id: "my-stuff", text: "䷑ My Stuff", boidType: BlueTab },
-        { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: YellowTab },
-        { id: "editor", text: "⌥ Editor Theme", boidType: SlowArrows },
+        { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: OrangeTab },
+        { id: "editor", text: "⌥ Editor Theme", boidType: YellowTab },
         { id: "boids", text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
     ] as const;
 

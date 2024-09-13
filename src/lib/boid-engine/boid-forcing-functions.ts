@@ -60,7 +60,7 @@ export function combinedBoidRules(
   const result: Vec2D = [0, 0];
   addScaled(result, result, gravitation, boid.gravitationFactor);
   addScaled(result, result, alignment, boid.alignmentFactor);
-  addScaled(result, result, separation, boid.separationFactor);
+  addScaled(result, result, separation, boid.separationFactor * 50);
 
   return result;
 }
@@ -88,7 +88,7 @@ export function detract(
     strength * Math.exp(minDistance / (dist - minDistance));
 
   // Normalize the difference vector and scale it by the force magnitude
-  const invMag = 1 / dist;
+  const invMag = 1 / (dist + 1);
   result[0] *= invMag * forceMagnitude;
   result[1] *= invMag * forceMagnitude;
 

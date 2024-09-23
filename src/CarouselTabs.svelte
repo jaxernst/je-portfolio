@@ -10,20 +10,26 @@
   let containerWidth;
   let tabsRef;
   let offset = 0;
+  let firstButtonWidth = 0;
 
   $: visibleTabs = getVisibleTabs($activeIndex, tabs);
+
+  let clickedIndex = -1;
 
   function getVisibleTabs(activeIndex, allTabs) {
     const rotatedTabs = [
       ...allTabs.slice(activeIndex),
       ...allTabs.slice(0, activeIndex),
     ];
-    return rotatedTabs.slice(0, 5);
+
+    return [rotatedTabs[rotatedTabs.length - 1], ...rotatedTabs.slice(0, -1)];
   }
 
-  function handleTabClick(e, clickedIndex) {
-    const newIndex = (clickedIndex + $activeIndex) % tabs.length;
+  async function handleTabClick(e, index) {
+    clickedIndex = index;
+    const newIndex = (index + $activeIndex) % tabs.length;
     onTabClick(e, newIndex);
+    clickedIndex = -1;
   }
 </script>
 
@@ -32,18 +38,26 @@
   bind:clientWidth={containerWidth}
   bind:this={tabsRef}
 >
-  <div class="tabs-wrapper" style="transform: translateX({-1 * offset}px)">
+  <div class="tabs-wrapper">
     {#each visibleTabs as tab, index (tab.id)}
       <button
-        animate:flip={{ duration: 320, easing: cubicInOut }}
-        on:click={(e) => handleTabClick(e, index)}
-        class="tab-button basis-2 sm:w-auto py-1 px-2 rounded-lg transition-all tracking-tight duration-200 {index ===
-        0
-          ? 'selected'
+        class="p-0 relative min-w-0 flex-shrink-0 {index === 0
+          ? 'w-10 max-w-10'
           : ''}"
-        style="--boid-color: {tab.boidType.color}"
+        animate:flip={{ duration: 120, easing: cubicInOut }}
+        on:click={(e) =>
+          handleTabClick(e, (index - 1 + tabs.length) % tabs.length)}
       >
-        {tab.text}
+        <div
+          class="whitespace-nowrap float-right tab-button py-1 px-2 rounded-lg tracking-tight
+          {index === 1 ? 'selected' : ''}
+          {clickedIndex === (index - 1 + tabs.length) % tabs.length
+            ? 'clicked'
+            : ''}"
+          style="--boid-color: {tab.boidType.color};"
+        >
+          {tab.text}
+        </div>
       </button>
     {/each}
   </div>
@@ -58,11 +72,9 @@
   .tabs-wrapper {
     display: flex;
     gap: 10px;
-    transition: transform 0.3s ease;
   }
 
   .tab-button {
-    flex-shrink: 0;
     background-color: transparent;
     border: 1px solid transparent;
     font-weight: 400;
@@ -72,6 +84,13 @@
   }
 
   .tab-button.selected {
+    border-color: var(--boid-color);
+    font-weight: 700;
+    opacity: 1;
+    backdrop-filter: blur(5px);
+  }
+
+  .tab-button.clicked {
     border-color: var(--boid-color);
     font-weight: 700;
     opacity: 1;

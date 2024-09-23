@@ -32,7 +32,7 @@
   import Warpcast from "./lib/svelte-components/Warpcast.svelte";
   import Email from "./lib/svelte-components/Email.svelte";
 
-  let started = true;
+  let started = false;
 
   function spawnRandomBoid() {
     if (!$cursorPos) return;
@@ -64,7 +64,7 @@
 
   type Tab = (typeof tabs)[number];
 
-  const tabIndex = writable<number>(1);
+  const tabIndex = writable<number>(0);
   const curTab = derived(tabIndex, (i) => tabs[i]);
 
   $: command = $width > 700 ? "click" : "tap";

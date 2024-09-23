@@ -42,7 +42,7 @@ export const YellowTab = {
   gravitationFactor: 0.1,
   alignmentFactor: 0.20899640225715527,
   forceSmoothing: 13.012096064627173,
-  color: "hsl(64, 100%, 50%)",
+  color: "hsl(290, 100%, 50%)",
 };
 
 export const OrangeTab = {

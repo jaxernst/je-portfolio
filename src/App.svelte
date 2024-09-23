@@ -32,7 +32,7 @@
   import Email from "./lib/svelte-components/Email.svelte";
   import LinkCard from "./LinkCard.svelte";
 
-  let started = true;
+  let started = false;
 
   function spawnRandomBoid() {
     if (!$cursorPos) return;

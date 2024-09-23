@@ -25,14 +25,14 @@
   import SlideDrawer from "./SlideDrawer.svelte";
   import CarouselTabs from "./CarouselTabs.svelte";
   import { randomizeBoidType } from "./lib/boid-engine/boid-creation";
-  import ColorLink from "./ColorLink.svelte";
   import Github from "./lib/svelte-components/Github.svelte";
   import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
   import LinkedIn from "./lib/svelte-components/LinkedIn.svelte";
   import Warpcast from "./lib/svelte-components/Warpcast.svelte";
   import Email from "./lib/svelte-components/Email.svelte";
+  import LinkCard from "./LinkCard.svelte";
 
-  let started = false;
+  let started = true;
 
   function spawnRandomBoid() {
     if (!$cursorPos) return;
@@ -276,9 +276,9 @@
           <PageReveal
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
-              "I'm a natural tinkerer, and I'm often drawn to new technologies/unexplored concepts. (Easily nerd-sniped)",
+              "I'm a natural tinkerer, and I'm often drawn to new technologies and unexplored concepts. (Easily nerd-sniped)",
               "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
-              "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and LLM based chat apps.",
+              "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and an LLM based persona creation app.",
             ]}
             color={tabs[0].boidType.color}
             delayIn={500}
@@ -330,10 +330,44 @@
             </a>
           </div>
 
-          <!---
-          - Tech stack (tech I like)
-          - Github, Farcaster, Twitter 
-          -->
+          <div class="flex flex-col gap-3 px-4">
+            <LinkCard
+              link="https://puzzle-bets-v2.vercel.app/"
+              label="Puzzle Bets V2 (preview)"
+              img="https://puzzle-bets-v2.vercel.app/character-logo.png"
+              description="Revamped onchain competitive puzzle arenas"
+              color={$curTab.boidType.color}
+            />
+            <LinkCard
+              img="https://beta.puzzlebets.xyz/favicon.png"
+              link="https://beta.puzzlebets.xyz/welcome"
+              label="Puzzle Bets"
+              description="Play puzzles, bets with friends: realtime onchain gaming"
+              color={$curTab.boidType.color}
+            />
+            <LinkCard
+              img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
+              link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
+              label="Night Shade"
+              description="My custom vs code theme"
+              color={$curTab.boidType.color}
+            />
+            <LinkCard
+              img="https://alarmbets.tech/favicon.ico"
+              link="https://alarmbets.tech/"
+              label="Social Alarm Clock (Alarm Bets)"
+              description="Create alarm clock contracts and stake money to wake up on time"
+              color={$curTab.boidType.color}
+            />
+            <LinkCard
+              img="https://avatars.githubusercontent.com/u/35270686?s=200&v=4"
+              link="https://ethglobal.com/showcase/pledger-board-vc1x2"
+              label="Pledger Board"
+              description="EthGlobal hackathon winning submission"
+              color={$curTab.boidType.color}
+              imgSize="w-6 h-6 rounded-md"
+            />
+          </div>
         {/if}
       {/if}
     </div>

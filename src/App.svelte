@@ -25,8 +25,14 @@
   import SlideDrawer from "./SlideDrawer.svelte";
   import CarouselTabs from "./CarouselTabs.svelte";
   import { randomizeBoidType } from "./lib/boid-engine/boid-creation";
+  import ColorLink from "./ColorLink.svelte";
+  import Github from "./lib/svelte-components/Github.svelte";
+  import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
+  import LinkedIn from "./lib/svelte-components/LinkedIn.svelte";
+  import Warpcast from "./lib/svelte-components/Warpcast.svelte";
+  import Email from "./lib/svelte-components/Email.svelte";
 
-  let started = false;
+  let started = true;
 
   function spawnRandomBoid() {
     if (!$cursorPos) return;
@@ -58,7 +64,7 @@
 
   type Tab = (typeof tabs)[number];
 
-  const tabIndex = writable<number>(0);
+  const tabIndex = writable<number>(1);
   const curTab = derived(tabIndex, (i) => tabs[i]);
 
   $: command = $width > 700 ? "click" : "tap";
@@ -246,9 +252,9 @@
                 </h1>
               </div>
               <div
-                class="pl-2 flex gap-2 font-light text-sm mt-0 text-neutral-300"
+                class="flex gap-2 font-light text-sm mt-0.5 text-neutral-300"
               >
-                Full stack software engineer working on blockchain tech
+                Full stack engineer building blockchain applications
               </div>
             </div>
 
@@ -270,9 +276,9 @@
           <PageReveal
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
-              "I like tinkering with novel and unexplored concepts. Ocassionality I'll take these explorations into full fledged applications.",
-              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time working on blockchain tech.",
-              "I've worked professionally on an early defi protocol, an ENS profile explorer, and an onchain PvP betting platform; All while pursuing rabbit hole research projects with the occassional hackathon submission.",
+              "I'm a natural tinkerer, and I'm often drawn to new technologies/unexplored concepts. (Easily nerd-sniped)",
+              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
+              "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and LLM based chat apps.",
             ]}
             color={tabs[0].boidType.color}
             delayIn={500}
@@ -290,17 +296,44 @@
             delayIn={500}
           />
         {:else if $curTab.id === "my-stuff"}
-          <PageReveal
-            pages={[
-              // "In short, I build full stack onchain applications. I write smart contracts, I build frontends, and I build backends to serve and support these applications.",
-              // "My first dose of professional experience in this space was a dive straight into the deep end as I worked alongside a brilliant engineer co-developing a novel MEV capture protocol.",
-              // "In doing so, I got to write core protocol code in solidity, prototype off-chain meta-transaction execution infrastructure, and even integrate our protocol into a fully functional Uniswap fork.",
-              // "Today I'm still building in the blockchain rabbit hole, working on an oncahin profile/media discovery tool (eth.co), and also experimenting my own onchain PvP betting platform.",
-              "Links and Stuff",
-            ]}
-            color={tabs[1].boidType.color}
-            delayIn={500}
-          />
+          <div class="flex justify-center items-center gap-5 p-4">
+            <a
+              href="https://github.com/jaxernst"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github />
+            </a>
+            <a
+              href="https://x.com/yachtyyachty"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <TwitterLogo />
+            </a>
+            <a
+              href="https://warpcast.com/jaxer.eth"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Warpcast />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/jackson-ernst-9ab68014a/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LinkedIn />
+            </a>
+            <a href="mailto:jaxernst@gmail.com">
+              <Email />
+            </a>
+          </div>
+
+          <!---
+          - Tech stack (tech I like)
+          - Github, Farcaster, Twitter 
+          -->
         {/if}
       {/if}
     </div>

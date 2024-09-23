@@ -57,12 +57,33 @@
   const tabs = [
         { id: "intro", text: "䷉ Intro", boidType: Default },
         { id: "my-stuff", text: "䷑ My Stuff", boidType: BlueTab },
+        { id: "my-tech", text: "⌥ My Tech", boidType: YellowTab },
         { id: "puzzlebets", text: "⁒ Smart Contract PvP Betting", boidType: OrangeTab },
-        { id: "editor", text: "⌥ Editor Theme", boidType: YellowTab },
-        { id: "boids", text: "⌔ Boids (↓ those guys)", boidType: AtomBoid },
+        { id: "boids", text: "⌔ Boids", boidType: AtomBoid },
     ] as const;
 
-  type Tab = (typeof tabs)[number];
+  const technologies = [
+    { name: "Svelte", rating: 1 },
+    { name: "SvelteKit", rating: 0.9 },
+    { name: "Elixir", rating: 0.8 },
+    { name: "Phoenix", rating: 0.7 },
+    { name: "Solidity", rating: 0.7 },
+    { name: "Typescript", rating: 0.9 },
+    { name: "React", rating: 0.6 },
+    { name: "Rust", rating: 0.3 },
+    { name: "Gleam", rating: 0.2 },
+    { name: "Tailwind", rating: 0.8 },
+    { name: "PostgreSQL", rating: 0.4 },
+    { name: "Supabase", rating: 0.6 },
+    { name: "EVM Development", rating: 0.9 },
+    { name: "Smart Contract Design", rating: 0.8 },
+    { name: "Blockchain Architecture", rating: 0.7 },
+    { name: "Blockchain Indexing", rating: 0.4 },
+    { name: "Full Stack Web Development", rating: 1 },
+    { name: "Functional Programming", rating: 0.9 },
+    { name: "Assertive Programming", rating: 0.6 },
+    { name: "System Design", rating: 0.6 },
+  ];
 
   const tabIndex = writable<number>(0);
   const curTab = derived(tabIndex, (i) => tabs[i]);
@@ -198,6 +219,12 @@
   function handleClear() {
     $boidSim.reset();
   }
+
+  function borderColorStrength(rating: number, baseColor: string) {
+    const [h, s, l] = baseColor.match(/\d+/g).map(Number);
+    const adjustedL = Math.round(l * (0.1 + rating)); // Adjust lightness based on rating
+    return `hsla(${h}, ${s}%, ${adjustedL}%, ${0.2 + 0.8 * rating})`;
+  }
 </script>
 
 <svelte:window on:click={maybeAddDetractor} />
@@ -292,7 +319,7 @@
               "I started iterating on the early concepts before smart wallets or social sign-in embedded wallets even existed. This started as a an alarm clock game where puzzles were solved to wake up.",
               "After iterating on the concept and devleoping my go-to full-stack toolkit for onchain app development, I built a blockchain app simple enough for my mother to use.",
             ]}
-            color={tabs[2].boidType.color}
+            color={$curTab.boidType.color}
             delayIn={500}
           />
         {:else if $curTab.id === "my-stuff"}
@@ -368,6 +395,20 @@
               imgSize="w-6 h-6 rounded-md"
             />
           </div>
+        {:else if $curTab.id === "my-tech"}
+          <div class="flex flex-wrap gap-3 px-4 pt-6">
+            {#each technologies as tech}
+              <div
+                class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
+                style="border: 1px solid {borderColorStrength(
+                  tech.rating,
+                  $curTab.boidType.color
+                )};"
+              >
+                {tech.name}
+              </div>
+            {/each}
+          </div>
         {/if}
       {/if}
     </div>
@@ -377,7 +418,7 @@
       class="w-full h-full lg:w-[700px] relative overflow-hidden px-10"
       style="pointer-events: none;"
     >
-      {#if $tabIndex === 2}
+      {#if $curTab.id === "puzzlebets"}
         <SlideDrawer
           title="Puzzle Bets - Component Architecture"
           arrowColor={$curTab.boidType.color}

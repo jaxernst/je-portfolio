@@ -319,6 +319,27 @@
 
           <!-- Puzzle Bets Page -->
         {:else if $curTab.id === "puzzlebets"}
+          <a
+            in:slide={{ duration: 200, delay: 300 }}
+            out:slide={{ duration: 200 }}
+            class="flex gap-3 items-center px-5 pt-6 pb-4"
+            href="https://puzzle-bets-v2.vercel.app/"
+            target="_blank"
+          >
+            <img
+              src="https://puzzle-bets-v2.vercel.app/character-logo.png"
+              class="w-6 h-6 rounded-md"
+            />
+
+            <div class="p-1">
+              <h3
+                class="text-base font-semibold leading-tight underline underline-offset-2"
+              >
+                Puzzle Bets V2 Preview
+              </h3>
+            </div>
+          </a>
+
           <PageReveal
             pages={[
               "Puzzle Bets, a PvP onchain betting game, is the result of a multi-year solo exploration into a real-time consumer crypto application stack.",
@@ -329,6 +350,7 @@
             ]}
             color={$curTab.boidType.color}
             delayIn={500}
+            padding="pr-2"
           />
         {:else if $curTab.id === "my-stuff"}
           <div transition:slide={{ duration: 200 }} class="overflow-y-auto">

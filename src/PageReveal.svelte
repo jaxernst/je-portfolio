@@ -6,6 +6,7 @@
   export let pages: string[];
   export let color: string = "";
   export let delayIn: number = 0;
+  export let padding: string = "pt-10 pr-2";
   export let onPageUpdate: (curPage: number) => void = () => {};
 
   let revealCount = 1;
@@ -28,7 +29,7 @@
   out:slide
   in:slide={{ delay: delayIn }}
   use:autoScroll={revealCount}
-  class="pt-10 pr-2 overflow-y-auto min-h-0"
+  class="{padding} overflow-y-auto min-h-0"
 >
   <div class="flex flex-col">
     {#each pages.slice(0, revealCount) as page, i}

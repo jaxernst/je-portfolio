@@ -324,80 +324,85 @@
             delayIn={500}
           />
         {:else if $curTab.id === "my-stuff"}
-          <div class="flex justify-center items-center gap-5 p-4">
-            <a
-              href="https://github.com/jaxernst"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github />
-            </a>
-            <a
-              href="https://x.com/yachtyyachty"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <TwitterLogo />
-            </a>
-            <a
-              href="https://warpcast.com/jaxer.eth"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Warpcast />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/jackson-ernst-9ab68014a/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <LinkedIn />
-            </a>
-            <a href="mailto:jaxernst@gmail.com">
-              <Email />
-            </a>
-          </div>
+          <div transition:slide={{ duration: 200 }}>
+            <div class="flex justify-center items-center gap-5 p-4">
+              <a
+                href="https://github.com/jaxernst"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github />
+              </a>
+              <a
+                href="https://x.com/yachtyyachty"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <TwitterLogo />
+              </a>
+              <a
+                href="https://warpcast.com/jaxer.eth"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Warpcast />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/jackson-ernst-9ab68014a/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkedIn />
+              </a>
+              <a href="mailto:jaxernst@gmail.com">
+                <Email />
+              </a>
+            </div>
 
-          <div class="flex flex-col gap-3 px-4">
-            <LinkCard
-              link="https://puzzle-bets-v2.vercel.app/"
-              label="Puzzle Bets V2 (preview)"
-              img="https://puzzle-bets-v2.vercel.app/character-logo.png"
-              description="Revamped onchain competitive puzzle arenas"
-              color={$curTab.boidType.color}
-            />
-            <LinkCard
-              img="https://beta.puzzlebets.xyz/favicon.png"
-              link="https://beta.puzzlebets.xyz/welcome"
-              label="Puzzle Bets"
-              description="Play puzzles, bets with friends: realtime onchain gaming"
-              color={$curTab.boidType.color}
-            />
-            <LinkCard
-              img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
-              link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
-              label="Night Shade"
-              description="My custom vs code theme"
-              color={$curTab.boidType.color}
-            />
-            <LinkCard
-              img="https://alarmbets.tech/favicon.ico"
-              link="https://alarmbets.tech/"
-              label="Social Alarm Clock (Alarm Bets)"
-              description="Create alarm clock contracts and stake money to wake up on time"
-              color={$curTab.boidType.color}
-            />
-            <LinkCard
-              img="https://avatars.githubusercontent.com/u/35270686?s=200&v=4"
-              link="https://ethglobal.com/showcase/pledger-board-vc1x2"
-              label="Pledger Board"
-              description="EthGlobal hackathon winning submission"
-              color={$curTab.boidType.color}
-              imgSize="w-6 h-6 rounded-md"
-            />
+            <div class="flex flex-col gap-3 px-4">
+              <LinkCard
+                link="https://puzzle-bets-v2.vercel.app/"
+                label="Puzzle Bets V2 (preview)"
+                img="https://puzzle-bets-v2.vercel.app/character-logo.png"
+                description="Revamped onchain competitive puzzle arenas"
+                color={$curTab.boidType.color}
+              />
+              <LinkCard
+                img="https://beta.puzzlebets.xyz/favicon.png"
+                link="https://beta.puzzlebets.xyz/welcome"
+                label="Puzzle Bets"
+                description="Play puzzles, bets with friends: realtime onchain gaming"
+                color={$curTab.boidType.color}
+              />
+              <LinkCard
+                img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
+                link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
+                label="Night Shade"
+                description="My custom vs code theme"
+                color={$curTab.boidType.color}
+              />
+              <LinkCard
+                img="https://alarmbets.tech/favicon.ico"
+                link="https://alarmbets.tech/"
+                label="Social Alarm Clock (Alarm Bets)"
+                description="Create alarm clock contracts and stake money to wake up on time"
+                color={$curTab.boidType.color}
+              />
+              <LinkCard
+                img="https://avatars.githubusercontent.com/u/35270686?s=200&v=4"
+                link="https://ethglobal.com/showcase/pledger-board-vc1x2"
+                label="Pledger Board"
+                description="EthGlobal hackathon winning submission"
+                color={$curTab.boidType.color}
+                imgSize="w-6 h-6 rounded-md"
+              />
+            </div>
           </div>
         {:else if $curTab.id === "my-tech"}
-          <div class="flex flex-wrap gap-3 px-4 pt-6">
+          <div
+            transition:slide={{ duration: 200 }}
+            class="flex flex-wrap gap-3 px-4 pt-6"
+          >
             {#each technologies as tech}
               <div
                 class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
@@ -524,10 +529,13 @@
       </button>
       <button
         on:click={handleClear}
-        class="flex items-center gap-1 border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
+        class="flex items-center gap-1 sm:border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
       >
         <div class="font-medium sm:inline hidden">C</div>
-        <span class="font-extralight">Clear</span>
+        <span
+          class="font-light sm:font-extralight underline sm:no-underline underline-offset-1
+          ">Clear</span
+        >
       </button>
     </div>
   {/if}

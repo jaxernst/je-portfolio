@@ -250,7 +250,7 @@
   </Canvas>
 
   <div class="overlay flex flex-col lg:flex-row justify-between gap-14">
-    <div class="shrink-0 flex flex-col w-full sm:w-[500px]">
+    <div class="shrink-0 flex flex-col w-full h-full sm:w-[500px]">
       <!-- Page Header and Navigation -->
       <div class="px-5 pt-5">
         <div class="flex mb-2 justify-between items-center w-full">
@@ -326,7 +326,7 @@
             delayIn={500}
           />
         {:else if $curTab.id === "my-stuff"}
-          <div transition:slide={{ duration: 200 }}>
+          <div transition:slide={{ duration: 200 }} class="overflow-y-auto">
             <div class="flex justify-center items-center gap-5 p-4">
               <a
                 href="https://github.com/jaxernst"
@@ -403,7 +403,7 @@
         {:else if $curTab.id === "my-tech"}
           <div
             transition:slide={{ duration: 200 }}
-            class="flex flex-wrap gap-3 px-4 pt-6"
+            class="flex flex-wrap gap-3 px-4 pt-6 overflow-y-auto"
           >
             {#each technologies as tech}
               <div

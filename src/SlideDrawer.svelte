@@ -43,13 +43,13 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
   use:handleResize
-  class="absolute bottom-0 left-0 right-0 rounded-t-lg bg-gray-600/10 backdrop-blur-lg md:backdrop-blur-sm"
+  class="absolute bottom-0 left-0 right-0 rounded-t-lg cursor-pointer bg-gray-600/10 backdrop-blur-lg md:backdrop-blur-sm"
   style="height: {$height}px; pointer-events: auto;"
+  on:click={toggleDrawer}
 >
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
-    class="group p-3 pb-1 pt-3 h-8 cursor-pointer flex justify-between items-center rounded-tl-lg gap-3"
-    on:click={toggleDrawer}
+    class="group p-3 pb-1 pt-3 h-8 flex justify-between items-center rounded-tl-lg gap-3"
   >
     <div class="font-semibold">{title}</div>
     <div

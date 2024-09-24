@@ -434,7 +434,7 @@
 
     <!-- Slide drawer content -->
     <div
-      class="w-full h-full lg:w-[700px] relative overflow-hidden px-10"
+      class="w-full h-full lg:w-[700px] xl:w-[800px] relative overflow-hidden px-10"
       style="pointer-events: none;"
     >
       {#if $curTab.id === "puzzlebets"}

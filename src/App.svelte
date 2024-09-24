@@ -304,7 +304,7 @@
           <PageReveal
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
-              "I'm a natural tinkerer, and I'm often drawn to new technologies and unexplored concepts. (Easily nerd-sniped)",
+              "I'm a natural tinkerer, and I'm often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
               "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
               "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and an LLM based persona creation app.",
             ]}
@@ -420,9 +420,9 @@
         {:else if $curTab.id === "boids"}
           <PageReveal
             pages={[
-              "Boid's algorithm is a simple yet elegant alogrithm that emulates flocking behavior. The core algorithm contains three rules for the each Boid to follow: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
-              "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behaviors.",
-              "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species create new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
+              "Boid's algorithm is a simple yet elegant algorithm that emulates flocking behavior. The core algorithm contains three rules for the each Boid to follow: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
+              "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behavior.",
+              "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species creates new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
               "See how many Boids you can get on screen!",
             ]}
             color={$curTab.boidType.color}

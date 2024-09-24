@@ -316,9 +316,10 @@
         {:else if $curTab.id === "puzzlebets"}
           <PageReveal
             pages={[
-              "Puzzle Bets, a casual PvP onchain betting game, is the result of a multi-year solo exploration into real-time consumer crypto.",
-              "I started iterating on the early concepts before smart wallets or social sign-in embedded wallets even existed. This started as a an alarm clock game where puzzles were solved to wake up.",
-              "After iterating on the concept and devleoping my go-to full-stack toolkit for onchain app development, I built a blockchain app simple enough for my mother to use.",
+              "Puzzle Bets, a PvP onchain betting game, is the result of a multi-year solo exploration into a real-time consumer crypto application stack.",
+              "My goal was to produce an onchain with UX rivaling existing web-based social games.",
+              "I started iterating on the early concepts before smart wallets or social sign-in embedded wallets even existed. Connecting external wallets and enabling real-time blockchain state updates was no easy feat, but as I've learned the tools, the tools themselves have greatly improved.",
+              "With smart wallets, Puzzle Bets allows a user to play games without incurring gas fees, and even implements session keys so users can create blockchain transactions without cumbersome popups. MUD (a full stack Solidity dev framework) provides indexing and optimistic state updates. The result of this is a web app with a blockchain backend that feels like traditional backend.",
             ]}
             color={$curTab.boidType.color}
             delayIn={500}

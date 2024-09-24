@@ -71,6 +71,7 @@
     { name: "Typescript", rating: 0.9 },
     { name: "React", rating: 0.6 },
     { name: "Rust", rating: 0.3 },
+    { name: "Python", rating: 0.5 },
     { name: "Gleam", rating: 0.2 },
     { name: "Tailwind", rating: 0.8 },
     { name: "PostgreSQL", rating: 0.4 },
@@ -409,6 +410,17 @@
               </div>
             {/each}
           </div>
+        {:else if $curTab.id === "boids"}
+          <PageReveal
+            pages={[
+              "Boid's algorithm is a simple yet elegant alogrithm that emulates flocking behavior. The core algorithm contains three rules for the each Boid to follow: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
+              "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behaviors.",
+              "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species create new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
+              "See how many Boids you can get on screen!",
+            ]}
+            color={$curTab.boidType.color}
+            delayIn={500}
+          />
         {/if}
       {/if}
     </div>

@@ -57,7 +57,7 @@ export const OrangeTab = {
   gravitationFactor: 1.5,
   alignmentFactor: 0.6,
   forceSmoothing: 5,
-  color: "hsl(400, 100%, 50%)",
+  color: "hsl(64, 100%, 50%)",
 };
 
 /**
@@ -132,7 +132,7 @@ export const AtomBoid = {
   sightPeripheralDeg: 218.38755725985425,
   separationDistance: 67.8248306069898,
   separationFactor: 1.442214435613763,
-  gravitationFactor: 0.8146509495119941,
+  gravitationFactor: 0.79,
   alignmentFactor: 0.5,
   forceSmoothing: 0,
   color: "hsl(109.55667502775175, 100%, 50%)",

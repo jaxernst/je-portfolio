@@ -67,7 +67,7 @@
     { name: "SvelteKit", rating: 0.9 },
     { name: "Elixir", rating: 0.8 },
     { name: "Phoenix", rating: 0.7 },
-    { name: "Solidity", rating: 0.7 },
+    { name: "Solidity", rating: 0.8 },
     { name: "Typescript", rating: 0.9 },
     { name: "React", rating: 0.6 },
     { name: "Rust", rating: 0.3 },
@@ -75,7 +75,7 @@
     { name: "Gleam", rating: 0.2 },
     { name: "Tailwind", rating: 0.8 },
     { name: "PostgreSQL", rating: 0.4 },
-    { name: "Supabase", rating: 0.6 },
+    { name: "Supabase", rating: 0.8 },
     { name: "EVM Development", rating: 0.9 },
     { name: "Smart Contract Design", rating: 0.8 },
     { name: "Blockchain Architecture", rating: 0.7 },
@@ -83,7 +83,7 @@
     { name: "Full Stack Web Development", rating: 1 },
     { name: "Functional Programming", rating: 0.9 },
     { name: "Assertive Programming", rating: 0.6 },
-    { name: "System Design", rating: 0.6 },
+    { name: "Distributed System Design", rating: 0.6 },
   ];
 
   const tabIndex = writable<number>(0);
@@ -317,9 +317,10 @@
           <PageReveal
             pages={[
               "Puzzle Bets, a PvP onchain betting game, is the result of a multi-year solo exploration into a real-time consumer crypto application stack.",
-              "My goal was to produce an onchain with UX rivaling existing web-based social games.",
-              "I started iterating on the early concepts before smart wallets or social sign-in embedded wallets even existed. Connecting external wallets and enabling real-time blockchain state updates was no easy feat, but as I've learned the tools, the tools themselves have greatly improved.",
-              "With smart wallets, Puzzle Bets allows a user to play games without incurring gas fees, and even implements session keys so users can create blockchain transactions without cumbersome popups. MUD (a full stack Solidity dev framework) provides indexing and optimistic state updates. The result of this is a web app with a blockchain backend that feels like traditional backend.",
+              "My goal was to produce an onchain game with UX rivaling existing web-based social games.",
+              "I started iterating on early concepts before smart wallets or social sign-in embedded wallets even existed. Connecting external wallets and enabling real-time blockchain state updates was no easy feat, but as I've learned the tools, the tools themselves have greatly improved.",
+              "As account abstraction tooling has matured, I've switched Puzzle Bets to a smart wallet integration. This was a huge unlock that allows users to play games without incurring gas fees or cumbersome transaction popups.",
+              "This smart wallet integration comined with MUD (a full stack Smart Contract development framework) and fast Ethereum L2 block times results in a fun, fast, and easy-to-use onchain application.",
             ]}
             color={$curTab.boidType.color}
             delayIn={500}
@@ -569,27 +570,6 @@
     height: 100%;
   }
 
-  .content-container {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .right-bar {
-    grid-column: 2;
-    grid-row: 1/-1;
-  }
-
-  @media (max-width: 700px) {
-    .right-bar {
-      font-size: 0.65em;
-      gap: 0.5em;
-    }
-  }
-
-  .purple-bg {
-    background-color: #a55bd7;
-  }
-
   @keyframes wave {
     0% {
       transform: translateY(10);
@@ -597,26 +577,5 @@
     100% {
       transform: translateY(-10);
     }
-  }
-
-  .tab-button {
-    background-color: transparent;
-    border: 1px solid transparent;
-    font-weight: 400;
-    opacity: 0.7;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(0);
-  }
-
-  .tab-button.selected {
-    border-color: var(--boid-color);
-    font-weight: 700;
-    opacity: 1;
-    backdrop-filter: blur(5px);
-  }
-
-  .tab-button:hover {
-    backdrop-filter: blur(5px);
-    border-color: var(--boid-color);
   }
 </style>

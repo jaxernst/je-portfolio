@@ -10,7 +10,7 @@
 <a
   href={link}
   target="_blank"
-  class="border-l-2 pl-2"
+  class="border-l-2 pl-2 hover:bg-gray-600/20 hover:backdrop-blur hover:rounded transition-all duration-150 ease-in-out"
   style="border-color: {color};"
 >
   <div class="overflow-hidden rounded-md flex items-center gap-2">

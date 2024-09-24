@@ -69,20 +69,25 @@
     { name: "Phoenix", rating: 0.7 },
     { name: "Solidity", rating: 0.8 },
     { name: "Typescript", rating: 0.9 },
-    { name: "React", rating: 0.6 },
     { name: "Rust", rating: 0.3 },
+    { name: "React", rating: 0.6 },
+    { name: "Foundry", rating: 0.75 },
+    { name: "Ethers", rating: 0.5 },
+    { name: "Viem", rating: 0.9 },
     { name: "Python", rating: 0.5 },
-    { name: "Gleam", rating: 0.2 },
     { name: "Tailwind", rating: 0.8 },
-    { name: "PostgreSQL", rating: 0.4 },
+    { name: "PostgreSQL", rating: 0.5 },
     { name: "Supabase", rating: 0.8 },
+    { name: "UI/UX Design", rating: 0.65 },
+    { name: "AWS Services", rating: 0.3 },
+    { name: "Docker", rating: 0.6 },
+    { name: "Playwright", rating: 0.85 },
+    { name: "Full Stack Web Development", rating: 1 },
     { name: "EVM Development", rating: 0.9 },
     { name: "Smart Contract Design", rating: 0.8 },
-    { name: "Blockchain Architecture", rating: 0.7 },
     { name: "Blockchain Indexing", rating: 0.4 },
-    { name: "Full Stack Web Development", rating: 1 },
     { name: "Functional Programming", rating: 0.9 },
-    { name: "Assertive Programming", rating: 0.6 },
+    { name: "Assertive Programming", rating: 0.7 },
     { name: "Distributed System Design", rating: 0.6 },
   ];
 
@@ -223,7 +228,7 @@
 
   function borderColorStrength(rating: number, baseColor: string) {
     const [h, s, l] = baseColor.match(/\d+/g).map(Number);
-    const adjustedL = Math.round(l * (0.1 + rating)); // Adjust lightness based on rating
+    const adjustedL = Math.round(l * (0.25 + rating)); // Adjust lightness based on rating
     return `hsla(${h}, ${s}%, ${adjustedL}%, ${0.2 + 0.8 * rating})`;
   }
 </script>
@@ -304,7 +309,7 @@
           <PageReveal
             pages={[
               "My name is Jackson. I'm a self-taught software developer.",
-              "I'm a natural tinkerer, and I'm often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
+              "I'm a natural tinkerer often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
               "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
               "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and an LLM based persona creation app.",
             ]}
@@ -380,7 +385,7 @@
                 img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
                 link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
                 label="Night Shade"
-                description="My custom vs code theme"
+                description="My custom VS Code theme"
                 color={$curTab.boidType.color}
               />
               <LinkCard
@@ -403,7 +408,7 @@
         {:else if $curTab.id === "my-tech"}
           <div
             transition:slide={{ duration: 200 }}
-            class="flex flex-wrap gap-3 px-4 pt-6 overflow-y-auto"
+            class="flex flex-wrap gap-3 px-4 pt-8 overflow-y-auto"
           >
             {#each technologies as tech}
               <div

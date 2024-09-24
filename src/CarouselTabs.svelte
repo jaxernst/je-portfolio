@@ -1,7 +1,6 @@
 <script lang="ts">
   import { flip } from "svelte/animate";
-  import { cubicInOut } from "svelte/easing";
-  import { writable } from "svelte/store";
+  import { cubicOut } from "svelte/easing";
 
   export let tabs;
   export let activeIndex;
@@ -44,7 +43,7 @@
         class="p-0 relative min-w-0 flex-shrink-0 {index === 0
           ? 'w-10 max-w-10'
           : ''}"
-        animate:flip={{ duration: 120, easing: cubicInOut }}
+        animate:flip={{ duration: 225, easing: cubicOut }}
         on:click={(e) =>
           handleTabClick(e, (index - 1 + tabs.length) % tabs.length)}
       >

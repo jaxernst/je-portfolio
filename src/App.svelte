@@ -546,7 +546,7 @@
   {#if started}
     <div
       class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
-      style={$width > 640 ? "top: .5rem;" : "bottom: .5rem;"}
+      style={$width > 768 ? "top: .5rem;" : "bottom: .5rem;"}
     >
       <button
         on:click={handleSpawn}
@@ -576,7 +576,7 @@
 
     {#if !uiVisible}
       <div
-        class="absolute top-5 left-2 flex mb-2 justify-between items-center w-full"
+        class="absolute top-2 md:top-5 left-2 flex mb-2 justify-between items-center w-full"
       >
         <div
           class="text-xs flex items-center gap-2"
@@ -596,7 +596,7 @@
       </div>
 
       <div
-        class="absolute top-14 left-2 flex flex-col gap-2 items-start"
+        class="absolute top-10 md:top-14 left-2 flex flex-col gap-2 items-start"
         in:send={{ key: "ui-toggle" }}
         out:receive={{ key: "ui-toggle" }}
       >

@@ -9,6 +9,7 @@
   import { tweened } from "svelte/motion";
   import { cubicInOut, cubicOut, sineInOut } from "svelte/easing";
   import { fade, fly, scale, slide } from "svelte/transition";
+  import { crossfade } from "svelte/transition";
 
   import { addBoids, boidSim, cursorPos } from "./boidSimControls.js";
   import {
@@ -48,6 +49,8 @@
       spawnRandomBoid();
     } else if (event.key === "c" || event.key === "C") {
       $boidSim.reset();
+    } else if (event.key === "t" || event.key === "T") {
+      handleHideUI();
     }
   }
 
@@ -94,8 +97,6 @@
   const tabIndex = writable<number>(0);
   const curTab = derived(tabIndex, (i) => tabs[i]);
 
-  $: command = $width > 700 ? "click" : "tap";
-
   let addingDetractor = false;
   let waitingForClick = false;
   function maybeAddDetractor(event) {
@@ -108,29 +109,6 @@
     $boidSim.addDetractor({ x: clientX, y: clientY });
   }
 
-  let characterPaused = false;
-  function characterPause(node) {
-    const onPress = () => (characterPaused = true);
-    const onRelease = () => (characterPaused = false);
-    node.addEventListener("mousedown", onPress);
-    node.addEventListener("mouseup", onRelease);
-    node.addEventListener("touchstart", onPress);
-    node.addEventListener("touchend", onRelease);
-    return {
-      destroy() {
-        node.removeEventListener("mousedown", onPress);
-        node.removeEventListener("mouseup", onRelease);
-        node.removeEventListener("touchstart", onPress);
-        node.removeEventListener("touchend", onRelease);
-      },
-    };
-  }
-
-  function toggleDetractorPen() {
-    addingDetractor = !addingDetractor;
-    waitingForClick = false;
-  }
-
   onMount(() => {
     visible = true;
     window.addEventListener("keydown", handleKeydown);
@@ -138,6 +116,8 @@
       window.removeEventListener("keydown", handleKeydown);
     };
   });
+
+  const [send, receive] = crossfade({ duration: 380, easing: cubicInOut });
 
   let fps = writable(60);
 
@@ -231,6 +211,12 @@
     const adjustedL = Math.round(l * (0.25 + rating)); // Adjust lightness based on rating
     return `hsla(${h}, ${s}%, ${adjustedL}%, ${0.2 + 0.8 * rating})`;
   }
+
+  let uiVisible = true;
+
+  function handleHideUI() {
+    uiVisible = !uiVisible;
+  }
 </script>
 
 <svelte:window on:click={maybeAddDetractor} />
@@ -248,248 +234,260 @@
       size={$width > 700 ? 10 : 7}
       startX={$width / 2}
       startY={$height / 1.1}
-      {characterPaused}
     />
 
     <FPS onFrame={(_fps) => ($fps = _fps)} />
   </Canvas>
 
-  <div class="overlay flex flex-col lg:flex-row justify-between gap-14">
-    <div class="shrink-0 flex flex-col w-full h-full sm:w-[500px]">
-      <!-- Page Header and Navigation -->
-      <div class="px-5 pt-5">
-        <div class="flex mb-2 justify-between items-center w-full">
-          <div class=" text-xs flex items-center gap-2">
-            {#if started}
-              <div class="whitespace-nowrap" in:slide={{ axis: "x" }}>
-                {$numActiveBoids} boids
+  {#if uiVisible}
+    <div
+      transition:slide={{ axis: "x", duration: 180, easing: cubicInOut }}
+      class="overlay flex flex-col lg:flex-row justify-between gap-14"
+    >
+      <div class="shrink-0 flex flex-col w-full h-full sm:w-[500px]">
+        <!-- Page Header and Navigation -->
+        <div class="px-5 pt-5">
+          <div class="flex mb-2 justify-between items-center w-full">
+            <div
+              class=" text-xs flex items-center gap-2"
+              in:send={{ key: "fps-toggle" }}
+              out:receive={{ key: "fps-toggle" }}
+            >
+              {#if started}
+                <div class="whitespace-nowrap" in:slide={{ axis: "x" }}>
+                  {$numActiveBoids} boids
+                </div>
+                |
+              {/if}
+              <div class="whitespace-nowrap">
+                {$fps.toPrecision(3)} fps
               </div>
-              |
-            {/if}
-            <div class="whitespace-nowrap">
-              {$fps.toPrecision(3)} fps
             </div>
           </div>
+
+          {#if started}
+            <div in:slide={{ easing: cubicInOut, duration: 250 }}>
+              <!--Page Header-->
+              <div
+                class="p-4 bg-transparent border border-gray-400 rounded backdrop-blur-sm leading-none"
+              >
+                <div class="flex gap-2 items-end">
+                  <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
+                  <h1 class="text-sm leading-relaxed font-medium">
+                    ( jaxer.eth )
+                  </h1>
+                </div>
+                <div
+                  class="flex gap-2 font-light text-sm mt-0.5 text-neutral-300"
+                >
+                  Full stack engineer building blockchain applications
+                </div>
+              </div>
+
+              <!-- Tab Buttons -->
+              <div
+                class="mt-3"
+                in:send={{ key: "ui-toggle" }}
+                out:receive={{ key: "ui-toggle" }}
+              >
+                <CarouselTabs
+                  {tabs}
+                  activeIndex={tabIndex}
+                  onTabClick={handleSpawnButtonClick}
+                />
+              </div>
+            </div>
+          {/if}
         </div>
 
+        <!-- Sidebar Tab Content -->
         {#if started}
-          <div in:slide={{ easing: cubicInOut, duration: 250 }}>
-            <!--Page Header-->
-            <div
-              class="p-4 bg-transparent border border-gray-400 rounded backdrop-blur-sm leading-none"
+          {#if $curTab.id === "intro"}
+            <PageReveal
+              pages={[
+                "My name is Jackson. I'm a self-taught software developer.",
+                "I'm a natural tinkerer often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
+                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
+                "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and an LLM based persona creation app.",
+              ]}
+              color={tabs[0].boidType.color}
+              delayIn={500}
+            />
+
+            <!-- Puzzle Bets Page -->
+          {:else if $curTab.id === "puzzlebets"}
+            <a
+              in:slide={{ duration: 200, delay: 300 }}
+              out:slide={{ duration: 200 }}
+              class="flex gap-3 items-center px-5 pt-6 pb-4"
+              href="https://puzzle-bets-v2.vercel.app/"
+              target="_blank"
             >
-              <div class="flex gap-2 items-end">
-                <h1 class="text-[33px] md:text-[35px]">Jackson Ernst</h1>
-                <h1 class="text-sm leading-relaxed font-medium">
-                  ( jaxer.eth )
-                </h1>
-              </div>
-              <div
-                class="flex gap-2 font-light text-sm mt-0.5 text-neutral-300"
-              >
-                Full stack engineer building blockchain applications
-              </div>
-            </div>
-
-            <!-- Tab Buttons -->
-            <div class="mt-3">
-              <CarouselTabs
-                {tabs}
-                activeIndex={tabIndex}
-                onTabClick={handleSpawnButtonClick}
+              <img
+                src="https://puzzle-bets-v2.vercel.app/character-logo.png"
+                class="w-6 h-6 rounded-md"
               />
+
+              <div class="p-1">
+                <h3
+                  class="text-base font-semibold leading-tight underline underline-offset-2"
+                >
+                  Puzzle Bets V2 Preview
+                </h3>
+              </div>
+            </a>
+
+            <PageReveal
+              pages={[
+                "Puzzle Bets, a PvP onchain betting game, is the result of a multi-year solo exploration into a real-time consumer crypto application stack.",
+                "My goal was to produce an onchain game with UX rivaling existing web-based social games.",
+                "I started iterating on early concepts before smart wallets or social sign-in embedded wallets even existed. Connecting external wallets and enabling real-time blockchain state updates was no easy feat, but as I've learned the tools, the tools themselves have greatly improved.",
+                "As account abstraction tooling has matured, I've switched Puzzle Bets to a smart wallet integration. This was a huge unlock that allows users to play games without incurring gas fees or cumbersome transaction popups.",
+                "This smart wallet integration comined with MUD (a full stack Smart Contract development framework) and fast Ethereum L2 block times results in a fun, fast, and easy-to-use onchain application.",
+              ]}
+              color={$curTab.boidType.color}
+              delayIn={500}
+              padding="pr-2"
+            />
+          {:else if $curTab.id === "my-stuff"}
+            <div transition:slide={{ duration: 200 }} class="overflow-y-auto">
+              <div class="flex justify-center items-center gap-5 p-4">
+                <a
+                  href="https://github.com/jaxernst"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Github />
+                </a>
+                <a
+                  href="https://x.com/yachtyyachty"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TwitterLogo />
+                </a>
+                <a
+                  href="https://warpcast.com/jaxer.eth"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Warpcast />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/jackson-ernst-9ab68014a/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkedIn />
+                </a>
+                <a href="mailto:jaxernst@gmail.com">
+                  <Email />
+                </a>
+              </div>
+
+              <div class="flex flex-col gap-3 px-4">
+                <LinkCard
+                  link="https://puzzle-bets-v2.vercel.app/"
+                  label="Puzzle Bets V2 (preview)"
+                  img="https://puzzle-bets-v2.vercel.app/character-logo.png"
+                  description="Revamped onchain competitive puzzle arenas"
+                  color={$curTab.boidType.color}
+                />
+                <LinkCard
+                  img="https://beta.puzzlebets.xyz/favicon.png"
+                  link="https://beta.puzzlebets.xyz/welcome"
+                  label="Puzzle Bets"
+                  description="Play puzzles, bets with friends: realtime onchain gaming"
+                  color={$curTab.boidType.color}
+                />
+                <LinkCard
+                  img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
+                  link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
+                  label="Night Shade"
+                  description="My custom VS Code theme"
+                  color={$curTab.boidType.color}
+                />
+                <LinkCard
+                  img="https://alarmbets.tech/favicon.ico"
+                  link="https://alarmbets.tech/"
+                  label="Social Alarm Clock (Alarm Bets)"
+                  description="Create alarm clock contracts and stake money to wake up on time"
+                  color={$curTab.boidType.color}
+                />
+                <LinkCard
+                  img="https://avatars.githubusercontent.com/u/35270686?s=200&v=4"
+                  link="https://ethglobal.com/showcase/pledger-board-vc1x2"
+                  label="Pledger Board"
+                  description="EthGlobal hackathon winning submission"
+                  color={$curTab.boidType.color}
+                  imgSize="w-6 h-6 rounded-md"
+                />
+              </div>
             </div>
-          </div>
+          {:else if $curTab.id === "my-tech"}
+            <div
+              transition:slide={{ duration: 200 }}
+              class="flex flex-wrap gap-3 px-4 pt-8 overflow-y-auto"
+            >
+              {#each technologies as tech}
+                <div
+                  class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
+                  style="border: 1px solid {borderColorStrength(
+                    tech.rating,
+                    $curTab.boidType.color
+                  )};"
+                >
+                  {tech.name}
+                </div>
+              {/each}
+            </div>
+          {:else if $curTab.id === "boids"}
+            <PageReveal
+              pages={[
+                "Boid's algorithm is a simple yet elegant algorithm that emulates flocking behavior. The core algorithm contains three rules for the each Boid to follow: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
+                "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behavior.",
+                "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species creates new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
+                "See how many Boids you can get on screen!",
+              ]}
+              color={$curTab.boidType.color}
+              delayIn={500}
+            />
+          {/if}
         {/if}
       </div>
 
-      <!-- Sidebar Tab Content -->
-      {#if started}
-        {#if $curTab.id === "intro"}
-          <PageReveal
-            pages={[
-              "My name is Jackson. I'm a self-taught software developer.",
-              "I'm a natural tinkerer often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
-              "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
-              "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, and an LLM based persona creation app.",
-            ]}
-            color={tabs[0].boidType.color}
-            delayIn={500}
-          />
-
-          <!-- Puzzle Bets Page -->
-        {:else if $curTab.id === "puzzlebets"}
-          <a
-            in:slide={{ duration: 200, delay: 300 }}
-            out:slide={{ duration: 200 }}
-            class="flex gap-3 items-center px-5 pt-6 pb-4"
-            href="https://puzzle-bets-v2.vercel.app/"
-            target="_blank"
+      <!-- Slide drawer content -->
+      <div
+        class="w-full h-full lg:w-[700px] xl:w-[800px] relative overflow-hidden px-10"
+        style="pointer-events: none;"
+      >
+        {#if $curTab.id === "puzzlebets"}
+          <SlideDrawer
+            title="Puzzle Bets - Component Architecture"
+            arrowColor={$curTab.boidType.color}
           >
-            <img
-              src="https://puzzle-bets-v2.vercel.app/character-logo.png"
-              class="w-6 h-6 rounded-md"
-            />
-
-            <div class="p-1">
-              <h3
-                class="text-base font-semibold leading-tight underline underline-offset-2"
-              >
-                Puzzle Bets V2 Preview
-              </h3>
-            </div>
-          </a>
-
-          <PageReveal
-            pages={[
-              "Puzzle Bets, a PvP onchain betting game, is the result of a multi-year solo exploration into a real-time consumer crypto application stack.",
-              "My goal was to produce an onchain game with UX rivaling existing web-based social games.",
-              "I started iterating on early concepts before smart wallets or social sign-in embedded wallets even existed. Connecting external wallets and enabling real-time blockchain state updates was no easy feat, but as I've learned the tools, the tools themselves have greatly improved.",
-              "As account abstraction tooling has matured, I've switched Puzzle Bets to a smart wallet integration. This was a huge unlock that allows users to play games without incurring gas fees or cumbersome transaction popups.",
-              "This smart wallet integration comined with MUD (a full stack Smart Contract development framework) and fast Ethereum L2 block times results in a fun, fast, and easy-to-use onchain application.",
-            ]}
-            color={$curTab.boidType.color}
-            delayIn={500}
-            padding="pr-2"
-          />
-        {:else if $curTab.id === "my-stuff"}
-          <div transition:slide={{ duration: 200 }} class="overflow-y-auto">
-            <div class="flex justify-center items-center gap-5 p-4">
-              <a
-                href="https://github.com/jaxernst"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Github />
-              </a>
-              <a
-                href="https://x.com/yachtyyachty"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <TwitterLogo />
-              </a>
-              <a
-                href="https://warpcast.com/jaxer.eth"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Warpcast />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/jackson-ernst-9ab68014a/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <LinkedIn />
-              </a>
-              <a href="mailto:jaxernst@gmail.com">
-                <Email />
-              </a>
-            </div>
-
-            <div class="flex flex-col gap-3 px-4">
-              <LinkCard
-                link="https://puzzle-bets-v2.vercel.app/"
-                label="Puzzle Bets V2 (preview)"
-                img="https://puzzle-bets-v2.vercel.app/character-logo.png"
-                description="Revamped onchain competitive puzzle arenas"
-                color={$curTab.boidType.color}
-              />
-              <LinkCard
-                img="https://beta.puzzlebets.xyz/favicon.png"
-                link="https://beta.puzzlebets.xyz/welcome"
-                label="Puzzle Bets"
-                description="Play puzzles, bets with friends: realtime onchain gaming"
-                color={$curTab.boidType.color}
-              />
-              <LinkCard
-                img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
-                link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
-                label="Night Shade"
-                description="My custom VS Code theme"
-                color={$curTab.boidType.color}
-              />
-              <LinkCard
-                img="https://alarmbets.tech/favicon.ico"
-                link="https://alarmbets.tech/"
-                label="Social Alarm Clock (Alarm Bets)"
-                description="Create alarm clock contracts and stake money to wake up on time"
-                color={$curTab.boidType.color}
-              />
-              <LinkCard
-                img="https://avatars.githubusercontent.com/u/35270686?s=200&v=4"
-                link="https://ethglobal.com/showcase/pledger-board-vc1x2"
-                label="Pledger Board"
-                description="EthGlobal hackathon winning submission"
-                color={$curTab.boidType.color}
-                imgSize="w-6 h-6 rounded-md"
+            <div class="w-full h-full">
+              <img
+                use:scaleImage
+                src="img/PuzzleBetsArch.drawio.png"
+                class="mx-auto rounded-lg opacity-75 object-contain"
+                alt="Puzzle Bets Architecture"
               />
             </div>
-          </div>
-        {:else if $curTab.id === "my-tech"}
-          <div
-            transition:slide={{ duration: 200 }}
-            class="flex flex-wrap gap-3 px-4 pt-8 overflow-y-auto"
-          >
-            {#each technologies as tech}
-              <div
-                class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
-                style="border: 1px solid {borderColorStrength(
-                  tech.rating,
-                  $curTab.boidType.color
-                )};"
-              >
-                {tech.name}
-              </div>
-            {/each}
-          </div>
-        {:else if $curTab.id === "boids"}
-          <PageReveal
-            pages={[
-              "Boid's algorithm is a simple yet elegant algorithm that emulates flocking behavior. The core algorithm contains three rules for the each Boid to follow: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
-              "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behavior.",
-              "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species creates new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
-              "See how many Boids you can get on screen!",
-            ]}
-            color={$curTab.boidType.color}
-            delayIn={500}
-          />
+          </SlideDrawer>
         {/if}
-      {/if}
-    </div>
-
-    <!-- Slide drawer content -->
-    <div
-      class="w-full h-full lg:w-[700px] xl:w-[800px] relative overflow-hidden px-10"
-      style="pointer-events: none;"
-    >
-      {#if $curTab.id === "puzzlebets"}
-        <SlideDrawer
-          title="Puzzle Bets - Component Architecture"
-          arrowColor={$curTab.boidType.color}
-        >
-          <div class="w-full h-full">
-            <img
-              use:scaleImage
-              src="img/PuzzleBetsArch.drawio.png"
-              class="mx-auto rounded-lg opacity-75 object-contain"
-              alt="Puzzle Bets Architecture"
-            />
-          </div>
-        </SlideDrawer>
-      {/if}
-    </div>
-
-    {#if started && false}
-      <div class="absolute top-5 right-5">
-        <button
-          class="border border-purple-600/80 py-2 rounded font-extrabold text-[10px]"
-          >Mint a Boid</button
-        >
       </div>
-    {/if}
-  </div>
+
+      {#if started && false}
+        <div class="absolute top-5 right-5">
+          <button
+            class="border border-purple-600/80 py-2 rounded font-extrabold text-[10px]"
+            >Mint a Boid</button
+          >
+        </div>
+      {/if}
+    </div>
+  {/if}
 
   <!--Landing Page-->
   {#if !started && startScreenActive}
@@ -547,26 +545,72 @@
 
   {#if started}
     <div
-      class="absolute top-2 right-2 p-2 rounded text-white text-[10px] flex gap-2"
+      class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
+      style={$width > 640 ? "top: .5rem;" : "bottom: .5rem;"}
     >
       <button
         on:click={handleSpawn}
-        class="hidden sm:flex items-center gap-1 border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1 hover:bg-white/10 transition-colors rounded"
       >
-        <div class="font-medium">S</div>
+        <div class="font-medium sm:inline hidden">S</div>
         <span class=" font-extralight">Spawn</span>
       </button>
       <button
         on:click={handleClear}
-        class="flex items-center gap-1 sm:border border-white/20 px-2 py-1 rounded hover:bg-white/10 transition-colors"
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
       >
         <div class="font-medium sm:inline hidden">C</div>
         <span
-          class="font-light sm:font-extralight underline sm:no-underline underline-offset-1
+          class="font-light sm:font-extralight
           ">Clear</span
         >
       </button>
+      <button
+        on:click={handleHideUI}
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
+      >
+        <div class="font-medium sm:inline hidden">T</div>
+        <span class="font-extralight">Toggle UI</span>
+      </button>
     </div>
+
+    {#if !uiVisible}
+      <div
+        class="absolute top-5 left-2 flex mb-2 justify-between items-center w-full"
+      >
+        <div
+          class="text-xs flex items-center gap-2"
+          in:send={{ key: "fps-toggle" }}
+          out:receive={{ key: "fps-toggle" }}
+        >
+          {#if started}
+            <div class="whitespace-nowrap" in:slide={{ axis: "x" }}>
+              {$numActiveBoids} boids
+            </div>
+            |
+          {/if}
+          <div class="whitespace-nowrap">
+            {$fps.toPrecision(3)} fps
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="absolute top-14 left-2 flex flex-col gap-2 items-start"
+        in:send={{ key: "ui-toggle" }}
+        out:receive={{ key: "ui-toggle" }}
+      >
+        {#each tabs as tab, index}
+          <button
+            on:click={() => handleSpawnButtonClick(null, index)}
+            class="flex items-center gap-1 border border-white/20 px-2 py-1 hover:bg-white/10 transition-colors rounded"
+            style="color: {tab.boidType.color};"
+          >
+            {tab.text.split(" ")[0]}
+          </button>
+        {/each}
+      </div>
+    {/if}
   {/if}
 </div>
 

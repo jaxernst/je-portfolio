@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade, scale, slide } from "svelte/transition";
   import ArrowUp from "./lib/svelte-components/ArrowUp.svelte";
-  import { cubicInOut } from "svelte/easing";
+  import Typewriter from "./Typewriter.svelte";
 
   export let pages: string[];
   export let color: string = "";
@@ -10,10 +10,10 @@
   export let onPageUpdate: (curPage: number) => void = () => {};
 
   let revealCount = 1;
+  let typingSpeed = 10; // Adjust this value to change typing speed
 
   function autoScroll(node: HTMLElement, _: number) {
     const scroll = () => {
-      console.log("scrolling");
       node.scroll({
         top: node.scrollHeight,
         behavior: "smooth",
@@ -42,7 +42,7 @@
           `}
           style="border-left: 2.5px solid {color};"
         >
-          {page}
+          <Typewriter delayIn={220} text={page} speed={typingSpeed} />
         </div>
       </div>
     {/each}

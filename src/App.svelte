@@ -7,7 +7,7 @@
   import FPS from "./FPS.svelte";
   import BoidSimulation from "./BoidSimulation.svelte";
   import { tweened } from "svelte/motion";
-  import { cubicInOut, cubicOut, sineInOut } from "svelte/easing";
+  import { cubicInOut, cubicOut } from "svelte/easing";
   import { fade, slide } from "svelte/transition";
   import { crossfade } from "svelte/transition";
 
@@ -19,8 +19,8 @@
     OrangeTab,
     YellowTab,
   } from "./lib/presetBoids.js";
-  import { derived, get, writable } from "svelte/store";
-  import { onDestroy, onMount } from "svelte";
+  import { derived, writable } from "svelte/store";
+  import { onMount } from "svelte";
   import PageReveal from "./PageReveal.svelte";
   import { numActiveBoids } from "./lib/boid-engine/main.js";
   import SlideDrawer from "./SlideDrawer.svelte";

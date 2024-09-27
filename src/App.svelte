@@ -8,7 +8,7 @@
   import BoidSimulation from "./BoidSimulation.svelte";
   import { tweened } from "svelte/motion";
   import { cubicInOut, cubicOut, sineInOut } from "svelte/easing";
-  import { fade, fly, scale, slide } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import { crossfade } from "svelte/transition";
 
   import { addBoids, boidSim, cursorPos } from "./boidSimControls.js";

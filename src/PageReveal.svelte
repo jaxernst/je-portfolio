@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade, scale, slide } from "svelte/transition";
+  import { slide } from "svelte/transition";
   import ArrowUp from "./lib/svelte-components/ArrowUp.svelte";
   import Typewriter from "./Typewriter.svelte";
 

@@ -10,7 +10,7 @@
   export let onPageUpdate: (curPage: number) => void = () => {};
 
   let revealCount = 1;
-  let typingSpeed = 10; // Adjust this value to change typing speed
+  let typingSpeed = 10;
 
   function autoScroll(node: HTMLElement, _: number) {
     const scroll = () => {

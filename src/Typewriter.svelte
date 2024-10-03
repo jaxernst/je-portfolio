@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   export let text: string;
-  export let speed: number = 100;
+  export let speed: number = 60;
   export let delayIn: number = 0;
 
   let displayText = "";

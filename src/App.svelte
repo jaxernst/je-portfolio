@@ -332,7 +332,7 @@
                 <h3
                   class="text-base font-semibold leading-tight underline underline-offset-2"
                 >
-                  Puzzle Bets V2 Preview
+                  Puzzle Bets V2 (testnet beta)
                 </h3>
               </div>
             </a>
@@ -388,9 +388,9 @@
               <div class="flex flex-col gap-3 px-4">
                 <LinkCard
                   link="https://puzzle-bets-v2.vercel.app/"
-                  label="Puzzle Bets V2 (preview)"
+                  label="Puzzle Bets V2 (testnet beta)"
                   img="https://puzzle-bets-v2.vercel.app/character-logo.png"
-                  description="Revamped onchain competitive puzzle arenas"
+                  description="Onchain competitive puzzle arenas with revamped UX"
                   color={$curTab.boidType.color}
                 />
                 <LinkCard

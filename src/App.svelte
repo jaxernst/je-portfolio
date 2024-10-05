@@ -444,7 +444,8 @@
           {:else if $curTab.id === "boids"}
             <PageReveal
               pages={[
-                "Boid's algorithm is a simple yet elegant algorithm that emulates flocking behavior. The core algorithm contains three rules for the each Boid to follow: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
+                "The little colored triangles exploring around your screen are called Boids. These Boid's operate by a simple yet elegant algorithm that emulates flocking behavior.",
+                "The core algorithm contains three rules that each Boid follows: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
                 "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behavior.",
                 "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species creates new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
                 "See how many Boids you can get on screen!",

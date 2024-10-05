@@ -280,7 +280,7 @@
                 <div
                   class="flex gap-2 font-light text-sm mt-0.5 text-neutral-300"
                 >
-                  Full stack engineer building blockchain applications
+                  Full stack engineer building onchain applications
                 </div>
               </div>
 

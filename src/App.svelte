@@ -66,32 +66,34 @@
     ] as const;
 
   const technologies = [
-    { name: "Svelte", rating: 1 },
-    { name: "SvelteKit", rating: 0.9 },
-    { name: "Elixir", rating: 0.8 },
-    { name: "Phoenix", rating: 0.7 },
-    { name: "Solidity", rating: 0.8 },
-    { name: "Typescript", rating: 0.9 },
-    { name: "Rust", rating: 0.3 },
-    { name: "React", rating: 0.6 },
-    { name: "Foundry", rating: 0.75 },
-    { name: "Ethers", rating: 0.5 },
-    { name: "Viem", rating: 0.9 },
-    { name: "Python", rating: 0.5 },
-    { name: "Tailwind", rating: 0.8 },
-    { name: "PostgreSQL", rating: 0.5 },
-    { name: "Supabase", rating: 0.8 },
-    { name: "UI/UX Design", rating: 0.65 },
-    { name: "AWS Services", rating: 0.3 },
-    { name: "Docker", rating: 0.6 },
-    { name: "Playwright", rating: 0.85 },
-    { name: "Full Stack Web Development", rating: 1 },
-    { name: "EVM Development", rating: 0.9 },
-    { name: "Smart Contract Design", rating: 0.8 },
-    { name: "Blockchain Indexing", rating: 0.4 },
-    { name: "Functional Programming", rating: 0.9 },
-    { name: "Assertive Programming", rating: 0.7 },
-    { name: "Distributed System Design", rating: 0.6 },
+    { name: "Svelte", rating: 1, type: "stack" },
+    { name: "SvelteKit", rating: 0.9, type: "stack" },
+    { name: "Elixir", rating: 0.8, type: "stack" },
+    { name: "Phoenix", rating: 0.7, type: "stack" },
+    { name: "Solidity", rating: 0.8, type: "stack" },
+    { name: "Typescript", rating: 0.9, type: "stack" },
+    { name: "Rust", rating: 0.3, type: "stack" },
+    { name: "React", rating: 0.6, type: "stack" },
+    { name: "Foundry", rating: 0.75, type: "stack" },
+    { name: "Ethers", rating: 0.7, type: "stack" },
+    { name: "Viem", rating: 0.9, type: "stack" },
+    { name: "MUD", rating: 0.8, type: "stack" },
+    { name: "Tailwind", rating: 0.8, type: "stack" },
+    { name: "PostgreSQL", rating: 0.5, type: "stack" },
+    { name: "Docker", rating: 0.6, type: "stack" },
+    { name: "Supabase", rating: 0.8, type: "stack" },
+    { name: "Playwright", rating: 0.85, type: "stack" },
+    { name: "Python", rating: 0.65, type: "stack" },
+    { name: "Full Stack Web Development", rating: 0.9, type: "skill" },
+    { name: "EVM Development", rating: 0.9, type: "skill" },
+    { name: "Smart Contract Design", rating: 0.8, type: "skill" },
+    { name: "Smart Contract Standards", rating: 0.8, type: "skill" },
+    { name: "UI/UX Design", rating: 0.65, type: "skill" },
+    { name: "Blockchain Indexing", rating: 0.58, type: "skill" },
+    { name: "AWS Services", rating: 0.3, type: "skill" },
+    { name: "Functional Programming", rating: 0.9, type: "skill" },
+    { name: "Assertive Programming", rating: 0.7, type: "skill" },
+    { name: "Distributed System Design", rating: 0.6, type: "skill" },
   ];
 
   const tabIndex = writable<number>(0);
@@ -427,19 +429,41 @@
           {:else if $curTab.id === "my-tech"}
             <div
               transition:slide={{ duration: 200 }}
-              class="flex flex-wrap gap-3 px-4 pt-8 overflow-y-auto"
+              class="flex flex-col gap-6 px-4 pt-8 overflow-y-auto"
             >
-              {#each technologies as tech}
-                <div
-                  class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
-                  style="border: 1px solid {borderColorStrength(
-                    tech.rating,
-                    $curTab.boidType.color
-                  )};"
-                >
-                  {tech.name}
+              <div>
+                <h3 class="text-lg fontsemibold mb-2">Stack</h3>
+                <div class="flex flex-wrap gap-3">
+                  {#each technologies.filter((tech) => tech.type === "stack") as tech}
+                    <div
+                      class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
+                      style="border: 1px solid {borderColorStrength(
+                        tech.rating,
+                        $curTab.boidType.color
+                      )};"
+                    >
+                      {tech.name}
+                    </div>
+                  {/each}
                 </div>
-              {/each}
+              </div>
+
+              <div>
+                <h3 class="text-lg font-semibold mb-2">Skills</h3>
+                <div class="flex flex-wrap gap-3">
+                  {#each technologies.filter((tech) => tech.type === "skill") as tech}
+                    <div
+                      class="px-2 py-1 rounded hover:bg-white/10 transition-colors"
+                      style="border: 1px solid {borderColorStrength(
+                        tech.rating,
+                        $curTab.boidType.color
+                      )};"
+                    >
+                      {tech.name}
+                    </div>
+                  {/each}
+                </div>
+              </div>
             </div>
           {:else if $curTab.id === "boids"}
             <PageReveal

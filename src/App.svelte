@@ -52,7 +52,7 @@
     { name: "Solidity", rating: 0.8, type: "stack" },
     { name: "Typescript", rating: 0.9, type: "stack" },
     { name: "Rust", rating: 0.3, type: "stack" },
-    { name: "React", rating: 0.6, type: "stack" },
+    { name: "React", rating: 0.8, type: "stack" },
     { name: "Foundry", rating: 0.75, type: "stack" },
     { name: "Ethers", rating: 0.7, type: "stack" },
     { name: "Viem", rating: 0.9, type: "stack" },

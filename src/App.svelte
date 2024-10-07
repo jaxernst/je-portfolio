@@ -86,6 +86,7 @@
 
   const tabIndex = writable<number>(0);
   const curTab = derived(tabIndex, (i) => tabs[i]);
+
   let fps = writable(60);
 
   // Animation
@@ -395,6 +396,7 @@
                   description="Onchain competitive puzzle arenas with revamped UX"
                   color={$curTab.boidType.color}
                 />
+
                 <LinkCard
                   img="https://beta.puzzlebets.xyz/favicon.png"
                   link="https://beta.puzzlebets.xyz/welcome"
@@ -402,13 +404,7 @@
                   description="Play puzzles, bets with friends: realtime onchain gaming"
                   color={$curTab.boidType.color}
                 />
-                <LinkCard
-                  img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
-                  link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
-                  label="Night Shade"
-                  description="My custom VS Code theme"
-                  color={$curTab.boidType.color}
-                />
+
                 <LinkCard
                   img="https://alarmbets.tech/favicon.ico"
                   link="https://alarmbets.tech/"
@@ -416,6 +412,7 @@
                   description="Create alarm clock contracts and stake money to wake up on time"
                   color={$curTab.boidType.color}
                 />
+
                 <LinkCard
                   img="https://avatars.githubusercontent.com/u/35270686?s=200&v=4"
                   link="https://ethglobal.com/showcase/pledger-board-vc1x2"
@@ -423,6 +420,23 @@
                   description="EthGlobal hackathon winning submission"
                   color={$curTab.boidType.color}
                   imgSize="w-6 h-6 rounded-md"
+                />
+
+                <LinkCard
+                  img="https://avatars.githubusercontent.com/u/109633172?s=200&v=4"
+                  link="https://github.com/wevm/viem/pull/954"
+                  label="Viem (contributor)"
+                  color={$curTab.boidType.color}
+                  imgSize="w-6 h-6 rounded-md"
+                  description="Merged PR addressing an event filter polling issue resulting from inconsistent execution client interfaces"
+                />
+
+                <LinkCard
+                  img="https://jaxernst.gallerycdn.vsassets.io/extensions/jaxernst/night-shade/0.0.12/1724793766996/Microsoft.VisualStudio.Services.Icons.Default"
+                  link="https://marketplace.visualstudio.com/items?itemName=jaxernst.night-shade"
+                  label="Night Shade"
+                  description="My custom VS Code theme"
+                  color={$curTab.boidType.color}
                 />
               </div>
             </div>

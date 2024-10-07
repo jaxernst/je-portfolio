@@ -431,7 +431,7 @@
               class="flex flex-col gap-6 px-4 pt-8 overflow-y-auto"
             >
               <div>
-                <h3 class="text-lg fontsemibold mb-2">Stack</h3>
+                <h3 class="text-lg font-semibold mb-2">Stack</h3>
                 <div class="flex flex-wrap gap-3">
                   {#each technologies.filter((tech) => tech.type === "stack") as tech}
                     <div

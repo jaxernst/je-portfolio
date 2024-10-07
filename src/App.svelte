@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { width, height, renderable } from "./game.js";
+  import { width, height } from "./game.js";
   import Canvas from "./Canvas.svelte";
   import Background from "./Background.svelte";
   import DotGrid from "./DotGrid.svelte";
@@ -10,7 +10,6 @@
   import { cubicInOut, cubicOut } from "svelte/easing";
   import { fade, slide } from "svelte/transition";
   import { crossfade } from "svelte/transition";
-
   import { addBoids, boidSim, cursorPos } from "./boidSimControls.js";
   import {
     AtomBoid,
@@ -20,7 +19,7 @@
     YellowTab,
   } from "./lib/presetBoids.js";
   import { derived, writable } from "svelte/store";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import PageReveal from "./PageReveal.svelte";
   import { numActiveBoids } from "./lib/boid-engine/main.js";
   import SlideDrawer from "./SlideDrawer.svelte";
@@ -33,28 +32,8 @@
   import Email from "./lib/svelte-components/Email.svelte";
   import LinkCard from "./LinkCard.svelte";
 
-  let started = false;
-
-  function spawnRandomBoid() {
-    if (!$cursorPos) return;
-    const randomBoidType = randomizeBoidType();
-    $addBoids(randomBoidType, 1, $cursorPos);
-  }
-
-  function handleKeydown(event) {
-    if (event.key === "Enter" && !started && startScreenActive) {
-      started = true;
-      startScreenActive = false;
-    } else if (event.key === "s" || event.key === "S") {
-      spawnRandomBoid();
-    } else if (event.key === "c" || event.key === "C") {
-      $boidSim.reset();
-    } else if (event.key === "t" || event.key === "T") {
-      handleHideUI();
-    }
-  }
-
-  let visible = false;
+  // Constants
+  const warningText = "Warning: Contains interactive motion";
 
   // prettier-ignore
   const tabs = [
@@ -96,39 +75,20 @@
     { name: "Distributed System Design", rating: 0.6, type: "skill" },
   ];
 
-  const tabIndex = writable<number>(0);
-  const curTab = derived(tabIndex, (i) => tabs[i]);
-
+  // State
+  let started = false;
   let addingDetractor = false;
   let waitingForClick = false;
-  function maybeAddDetractor(event) {
-    if (!addingDetractor) return;
-    if (!waitingForClick) {
-      waitingForClick = true;
-      return;
-    }
-    const { clientX, clientY } = event;
-    $boidSim.addDetractor({ x: clientX, y: clientY });
-  }
+  let startScreenPlaying = false;
+  let startScreenActive = true;
+  let uiVisible = true;
 
-  onMount(() => {
-    visible = true;
-    window.addEventListener("keydown", handleKeydown);
-    return () => {
-      window.removeEventListener("keydown", handleKeydown);
-    };
-  });
-
-  const [send, receive] = crossfade({ duration: 380, easing: cubicInOut });
-
+  const tabIndex = writable<number>(0);
+  const curTab = derived(tabIndex, (i) => tabs[i]);
   let fps = writable(60);
 
-  const warningText = "Warning: Contains interactive motion";
-
-  function waveIndexValue(i, length, t) {
-    const frac = (0.08 * (i * Math.PI)) / length;
-    return 0.07 * Math.sin((frac * 180) / Math.PI + t);
-  }
+  // Animation
+  const [send, receive] = crossfade({ duration: 380, easing: cubicInOut });
 
   const time = tweened(0, {
     duration: 2000,
@@ -140,13 +100,41 @@
     y: waveIndexValue(i, warningText.length, $time * Math.PI * 2),
   }));
 
+  let interval;
+  $: if (startScreenPlaying) {
+    animateWave();
+    interval = setInterval(animateWave, 2000);
+  }
+
   function animateWave() {
     time.set($time + 1);
   }
 
-  $: if (visible) {
-    animateWave();
-    const interval = setInterval(animateWave, 2000);
+  // Lifecycle
+  onMount(() => {
+    startScreenPlaying = true;
+    window.addEventListener("keydown", handleKeydown);
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  });
+
+  onDestroy(() => {
+    interval && clearInterval(interval);
+  });
+
+  // Event handlers
+  function handleKeydown(event) {
+    if (event.key === "Enter" && !started && startScreenActive) {
+      started = true;
+      startScreenActive = false;
+    } else if (event.key === "s" || event.key === "S") {
+      spawnRandomBoid();
+    } else if (event.key === "c" || event.key === "C") {
+      $boidSim.reset();
+    } else if (event.key === "t" || event.key === "T") {
+      handleHideUI();
+    }
   }
 
   function handleSpawnButtonClick(event, clickTabIdx: number) {
@@ -162,7 +150,46 @@
     $addBoids(boidType, 9, centerScreenPos);
   }
 
-  let leftBarTextRevealCount = 1;
+  function handleSpawn() {
+    spawnRandomBoid();
+  }
+
+  function handleClear() {
+    $boidSim.reset();
+  }
+
+  function handleHideUI() {
+    uiVisible = !uiVisible;
+  }
+
+  // Boid helpers
+  function spawnRandomBoid() {
+    if (!$cursorPos) return;
+    const randomBoidType = randomizeBoidType();
+    $addBoids(randomBoidType, 1, $cursorPos);
+  }
+
+  function maybeAddDetractor(event) {
+    if (!addingDetractor) return;
+    if (!waitingForClick) {
+      waitingForClick = true;
+      return;
+    }
+    const { clientX, clientY } = event;
+    $boidSim.addDetractor({ x: clientX, y: clientY });
+  }
+
+  // Misc helpers
+  function waveIndexValue(i, length, t) {
+    const frac = (0.08 * (i * Math.PI)) / length;
+    return 0.07 * Math.sin((frac * 180) / Math.PI + t);
+  }
+
+  function borderColorStrength(rating: number, baseColor: string) {
+    const [h, s, l] = baseColor.match(/\d+/g).map(Number);
+    const adjustedL = Math.round(l * (0.25 + rating));
+    return `hsla(${h}, ${s}%, ${adjustedL}%, ${0.2 + 0.8 * rating})`;
+  }
 
   function scaleImage(node) {
     let observer;
@@ -189,35 +216,6 @@
         }
       },
     };
-  }
-
-  let startScreenActive = true;
-
-  onMount(() => {
-    window.addEventListener("keydown", handleKeydown);
-    return () => {
-      window.removeEventListener("keydown", handleKeydown);
-    };
-  });
-
-  function handleSpawn() {
-    spawnRandomBoid();
-  }
-
-  function handleClear() {
-    $boidSim.reset();
-  }
-
-  function borderColorStrength(rating: number, baseColor: string) {
-    const [h, s, l] = baseColor.match(/\d+/g).map(Number);
-    const adjustedL = Math.round(l * (0.25 + rating)); // Adjust lightness based on rating
-    return `hsla(${h}, ${s}%, ${adjustedL}%, ${0.2 + 0.8 * rating})`;
-  }
-
-  let uiVisible = true;
-
-  function handleHideUI() {
-    uiVisible = !uiVisible;
   }
 </script>
 
@@ -328,6 +326,7 @@
               <img
                 src="https://puzzle-bets-v2.vercel.app/character-logo.png"
                 class="w-6 h-6 rounded-md"
+                alt="Puzzle Logo"
               />
 
               <div class="p-1">
@@ -520,7 +519,7 @@
       out:slide={{ easing: cubicInOut, duration: 250 }}
       class="centered-button flex flex-col gap-20 items-center pb-[180px]"
     >
-      {#if visible}
+      {#if startScreenPlaying}
         <div>
           <div
             class="sm:text-3xl text-xl font-extralight min-w-fit whitespace-nowrap"

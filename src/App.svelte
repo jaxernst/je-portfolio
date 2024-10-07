@@ -70,6 +70,7 @@
     { name: "UI/UX Design", rating: 0.65, type: "skill" },
     { name: "Blockchain Indexing", rating: 0.58, type: "skill" },
     { name: "AWS Services", rating: 0.3, type: "skill" },
+    { name: "E2E Testing", rating: 0.8, type: "skill" },
     { name: "Functional Programming", rating: 0.9, type: "skill" },
     { name: "Assertive Programming", rating: 0.7, type: "skill" },
     { name: "Distributed System Design", rating: 0.6, type: "skill" },

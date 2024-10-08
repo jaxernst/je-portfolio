@@ -399,7 +399,7 @@
 
                 <LinkCard
                   img="https://beta.puzzlebets.xyz/favicon.png"
-                  link="https://beta.puzzlebets.xyz/welcome"
+                  link="https://puzzle-bets.vercel.app/"
                   label="Puzzle Bets"
                   description="Play puzzles, bets with friends: realtime onchain gaming"
                   color={$curTab.boidType.color}

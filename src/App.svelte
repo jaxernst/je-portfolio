@@ -390,15 +390,15 @@
 
               <div class="flex flex-col gap-3 px-4">
                 <LinkCard
-                  link="https://puzzle-bets-v2.vercel.app/"
-                  label="Puzzle Bets V2 (testnet beta)"
-                  img="https://puzzle-bets-v2.vercel.app/character-logo.png"
+                  link="https://beta.puzzlebets.xyz/"
+                  label="Puzzle Bets V2 - Testnet Beta"
+                  img="https://beta.puzzlebets.xyz/character-logo.png"
                   description="Onchain competitive puzzle arenas with revamped UX"
                   color={$curTab.boidType.color}
                 />
 
                 <LinkCard
-                  img="https://beta.puzzlebets.xyz/favicon.png"
+                  img="https://puzzle-bets.vercel.app/favicon.png"
                   link="https://puzzle-bets.vercel.app/"
                   label="Puzzle Bets"
                   description="Play puzzles, bets with friends: realtime onchain gaming"

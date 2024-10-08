@@ -309,7 +309,7 @@
               pages={[
                 "My name is Jackson. I'm a self-taught software developer.",
                 "I'm a natural tinkerer often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
-                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications, with a strong focus around blockchain-supported tech stacks.",
+                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications with a strong focus around blockchain-supported tech stacks.",
                 "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, an LLM based persona creation app, and more...",
               ]}
               color={tabs[0].boidType.color}
@@ -428,7 +428,7 @@
                   label="Viem (contributor)"
                   color={$curTab.boidType.color}
                   imgSize="w-6 h-6 rounded-md"
-                  description="Merged PR addressing an event filter polling issue resulting from inconsistent execution client interfaces"
+                  description="PR addressing an event filter polling issue resulting from inconsistent execution client interfaces"
                 />
 
                 <LinkCard

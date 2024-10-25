@@ -482,11 +482,11 @@
           {:else if $curTab.id === "boids"}
             <PageReveal
               pages={[
-                "The little colored triangles exploring around your screen are called Boids. These Boid's operate by a simple yet elegant algorithm that emulates flocking behavior.",
-                "The core algorithm contains three rules that each Boid follows: Align with neighbors, gravitate towards neighbors, and separate from neighbors that are too close.",
-                "These rules alone create interesting non-deterministic behavior, but the algorithm can be expanded upon to create even cooler emergent behavior.",
-                "My implemenation encodes additional 'behaviors' into a set of attributes which I call a 'species'. While the boids behave roughly the same within their own species, setting them free with other species creates new emergent behaviors that aren't typically observed with the original Boid's alogrithm.",
-                "See how many Boids you can get on screen!",
+                "The curious triangles exploring your screen are called Boids. They all have different colors and species which makes them flock and explore with unique behaviors.",
+                "Their core behavior comes from 'Boid's Algorithm' which describes three simple rules for the boids to follow: Align with neighbors, gravitate towards neighbors, and separate to avoid collisions.",
+                "We can apply these rules to a 2d force-mass simulation with different species having unique properties such as mass, speed, sight peripheral, alignment behavior, and many more.",
+                "The large set of potential behaviors creates interesting and emergent behaviors when placed among many other species. Some emergent patterns can even pseudo resemble fluid flow and biological patterns.",
+                "Enter boid mode (T or press Toggle UI) to spawn and observe unique flocks of boids. (See how many you can get on screen)",
               ]}
               color={$curTab.boidType.color}
               delayIn={500}

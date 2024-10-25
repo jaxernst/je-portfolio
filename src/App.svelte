@@ -318,10 +318,10 @@
           {#if $curTab.id === "intro"}
             <PageReveal
               pages={[
-                "My name is Jackson. I'm a self-taught software developer.",
-                "I'm a natural tinkerer often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
-                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications with a strong focus around blockchain-supported tech stacks.",
-                "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, an LLM based persona creation app, and more...",
+                "My name is Jackson. I'm a self-taught software developer and lifelong tinkerer.",
+                "I enjoy building full-stack web applications and am often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
+                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications on top of blockchain-supported tech stacks.",
+                "I've worked professionally on military flight control systems, automated crypto trading systems, an MEV-capturing DeFi protocol, a decentralized social platform, onchain gaming, an LLM persona builder app, and more...",
               ]}
               color={tabs[0].boidType.color}
               delayIn={500}

@@ -167,8 +167,12 @@
   // Boid helpers
   function spawnRandomBoid() {
     if (!$cursorPos) return;
-    const randomBoidType = randomizeBoidType();
-    $addBoids(randomBoidType, 1, $cursorPos);
+    const randomBoidType = randomizeBoidType(1.2);
+
+    $addBoids(randomBoidType, 9, {
+      x: $width / 2,
+      y: $height / 2,
+    });
   }
 
   function maybeAddDetractor(event) {

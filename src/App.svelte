@@ -97,6 +97,7 @@
     easing: cubicInOut,
   });
 
+  // Animated sine wave text
   $: waveLetters = warningText.split("").map((char, i) => ({
     char,
     y: waveIndexValue(i, warningText.length, $time * Math.PI * 2),

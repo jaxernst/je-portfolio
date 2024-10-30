@@ -167,14 +167,21 @@
   }
 
   // Boid helpers
+  let spawnCount = 0;
+  let randomBoidType = randomizeBoidType();
   function spawnRandomBoid() {
     if (!$cursorPos) return;
-    const randomBoidType = randomizeBoidType(1.2);
 
-    $addBoids(randomBoidType, 9, {
+    if (spawnCount % 15 === 0) {
+      randomBoidType = randomizeBoidType();
+    }
+
+    $addBoids(randomBoidType, 5, {
       x: $width / 2,
       y: $height / 2,
     });
+
+    spawnCount++;
   }
 
   function maybeAddDetractor(event) {
@@ -313,10 +320,10 @@
           {#if $curTab.id === "intro"}
             <PageReveal
               pages={[
-                "My name is Jackson. I'm a self-taught software developer.",
-                "I'm a natural tinkerer often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
-                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications with a strong focus around blockchain-supported tech stacks.",
-                "I've worked professionally on flight control systems, automated trading systems, an early defi protocol, decentralized social platforms, onchain gaming, an LLM based persona creation app, and more...",
+                "My name is Jackson. I'm a self-taught software developer and lifelong tinkerer.",
+                "I enjoy building full-stack web applications and am often drawn to new technologies and unexplored concepts. (easily nerd-sniped)",
+                "Originally an aerospace engineer, I developed a knack for creating and thinking about software systems. I now spend my time building full-stack web applications on top of blockchain-supported tech stacks.",
+                "I've worked professionally on military flight control systems, automated crypto trading systems, an MEV-capturing DeFi protocol, a decentralized social platform, onchain gaming, an LLM persona builder app, and more...",
               ]}
               color={tabs[0].boidType.color}
               delayIn={500}
@@ -488,10 +495,10 @@
           {:else if $curTab.id === "boids"}
             <PageReveal
               pages={[
-                "The curious triangles exploring your screen are called Boids. They all have different colors and species which makes them flock and explore with unique behaviors.",
-                "Their core behavior comes from 'Boid's Algorithm' which describes three simple rules for the boids to follow: Align with neighbors, gravitate towards neighbors, and separate to avoid collisions.",
-                "We can apply these rules to a 2d force-mass simulation with different species having unique properties such as mass, speed, sight peripheral, alignment behavior, and many more.",
-                "The large set of potential behaviors creates interesting and emergent behaviors when placed among many other species. Some emergent patterns can even pseudo resemble fluid flow and biological patterns.",
+                "The curious triangles exploring your screen are called Boids. They come in many different colors and species, and they all flock and explore independently.",
+                "Their core behavior comes from 'Boid's Algorithm' which describes three simple rules for the Boids to follow: Align with neighbors, gravitate towards neighbors, and separate to avoid collisions.",
+                "We can apply these rules to a 2d Euler force-mass simulation and assign unique properties to each Boid species to alter their behavior. These properties include mass, speed, sight peripheral, sight radius, alignment behavior, and more.",
+                "The large set of possible parameter combinations results in interesting and emergent behaviors when many Boids of varying species are present. Some emergent patterns can even pseudo resemble fluid flow and biological patterns.",
                 "Enter boid mode (T or press Toggle UI) to spawn and observe unique flocks of boids. (See how many you can get on screen)",
               ]}
               color={$curTab.boidType.color}

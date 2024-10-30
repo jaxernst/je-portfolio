@@ -105,11 +105,12 @@
 
   let interval;
   $: if (startScreenPlaying) {
-    animateWave();
-    interval = setInterval(animateWave, 2000);
+    advanceTime();
+    interval = setInterval(advanceTime, 2000);
   }
 
-  function animateWave() {
+  // Advance time to drive animations
+  function advanceTime() {
     time.set($time + 1);
   }
 

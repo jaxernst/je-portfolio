@@ -46,7 +46,7 @@
           from var(--bg-angle) in oklch longer hue,
           oklch(1 0 0 / 0.2) 0%,
           oklch(1 0 0 / 0.2) 40%,
-          oklch(0.8 0.1 25 / 0.65) 65%,
+          oklch(0.8 0.1 25 / 0.45) 65%,
           oklch(1 0 0 / 0.2) 90%,
           oklch(1 0 0 / 0.2) 100%
         )

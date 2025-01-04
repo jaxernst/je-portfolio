@@ -541,60 +541,7 @@
     </div>
   {/if}
 
-  <!--Landing Page-->
-  {#if !started && startScreenActive}
-    <div
-      out:slide={{ easing: cubicInOut, duration: 250 }}
-      class="centered-button flex flex-col gap-20 items-center pb-[180px]"
-    >
-      {#if startScreenPlaying}
-        <div>
-          <div
-            class="sm:text-3xl text-xl font-extralight min-w-fit whitespace-nowrap"
-            in:fade={{
-              duration: 1200,
-              delay: 100,
-              easing: cubicOut,
-            }}
-          >
-            Hello 👋, welcome to my website.
-          </div>
-
-          <div
-            class="warning-container"
-            in:slide={{
-              duration: 800,
-              delay: 1400,
-              easing: cubicOut,
-            }}
-          >
-            <i class="text-gray-200 text-xs sm:text-sm font-thin">
-              {#each waveLetters as { char, y }, i (i)}
-                <span
-                  class={i < 8 ? "text-neutral-400 font-semibold" : ""}
-                  style="display: inline-block; transform: translateY({y *
-                    10}px);"
-                >
-                  {char === " " ? "\u00A0" : char}
-                </span>
-              {/each}
-            </i>
-          </div>
-        </div>
-        <button
-          in:fade={{ duration: 500, delay: 2400 }}
-          on:click={() => {
-            started = true;
-            startScreenActive = false;
-          }}
-          class="border backdrop-blur-sm font-bold rounded-lg hover:border-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
-        >
-          Enter
-        </button>
-      {/if}
-    </div>
-  {/if}
-
+  <!--Boid control buttons -->
   {#if started}
     <div
       class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
@@ -663,6 +610,71 @@
         {/each}
       </div>
     {/if}
+  {/if}
+
+  <!-- Github Link-->
+  <a
+    href="https://github.com/jaxernst/je-portfolio"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-[10px] text-neutral-400 flex items-center gap-1 absolute bottom-2 left-2"
+  >
+    <Github class="w-4 h-4 fill-neutral-400" />
+    View source code
+  </a>
+
+  <!--Landing Page-->
+  {#if !started && startScreenActive}
+    <div
+      out:slide={{ easing: cubicInOut, duration: 250 }}
+      class="centered-button flex flex-col gap-20 items-center pb-[180px]"
+    >
+      {#if startScreenPlaying}
+        <div>
+          <div
+            class="sm:text-3xl text-xl font-extralight min-w-fit whitespace-nowrap"
+            in:fade={{
+              duration: 1200,
+              delay: 100,
+              easing: cubicOut,
+            }}
+          >
+            Hello 👋, welcome to my website.
+          </div>
+
+          <div
+            class="warning-container"
+            in:slide={{
+              duration: 800,
+              delay: 1400,
+              easing: cubicOut,
+            }}
+          >
+            <i class="text-gray-200 text-xs sm:text-sm font-thin">
+              {#each waveLetters as { char, y }, i (i)}
+                <span
+                  class={i < 8 ? "text-neutral-400 font-semibold" : ""}
+                  style="display: inline-block; transform: translateY({y *
+                    10}px);"
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              {/each}
+            </i>
+          </div>
+        </div>
+        <button
+          in:fade={{ duration: 500, delay: 2400 }}
+          on:click={() => {
+            started = true;
+            startScreenActive = false;
+          }}
+          class="border backdrop-blur-sm font-bold rounded-lg hover:border-red hover:scale-110 hover:rotate-1 duration-150 transition-transform active:scale-100"
+        >
+          Enter
+        </button>
+      {/if}
+    </div>
   {/if}
 </div>
 

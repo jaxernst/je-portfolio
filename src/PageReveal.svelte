@@ -1,6 +1,6 @@
 <script lang="ts">
   import { slide } from "svelte/transition";
-  import ArrowUp from "./lib/svelte-components/ArrowUp.svelte";
+  import ArrowUp from "./lib/components/ArrowUp.svelte";
   import Typewriter from "./Typewriter.svelte";
 
   export let pages: string[];

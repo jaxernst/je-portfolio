@@ -25,12 +25,13 @@
   import SlideDrawer from "./SlideDrawer.svelte";
   import CarouselTabs from "./CarouselTabs.svelte";
   import { randomizeBoidType } from "./lib/boid-engine/boid-creation";
-  import Github from "./lib/svelte-components/Github.svelte";
-  import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
-  import LinkedIn from "./lib/svelte-components/LinkedIn.svelte";
-  import Warpcast from "./lib/svelte-components/Warpcast.svelte";
-  import Email from "./lib/svelte-components/Email.svelte";
+  import Github from "./lib/components/Github.svelte";
+  import TwitterLogo from "./lib/components/TwitterLogo.svelte";
+  import LinkedIn from "./lib/components/LinkedIn.svelte";
+  import Warpcast from "./lib/components/Warpcast.svelte";
+  import Email from "./lib/components/Email.svelte";
   import LinkCard from "./LinkCard.svelte";
+  import AnimatedBorderButton from "./lib/svelte-components/AnimatedBorderButton.svelte";
 
   // Constants
   const warningText = "Warning: Contains interactive motion";
@@ -543,36 +544,6 @@
 
   <!--Boid control buttons -->
   {#if started}
-    <div
-      class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
-      style={$width > 768 ? "top: .5rem;" : "bottom: .5rem;"}
-    >
-      <button
-        on:click={handleSpawn}
-        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1 hover:bg-white/10 transition-colors rounded"
-      >
-        <div class="font-medium sm:inline hidden">S</div>
-        <span class=" font-extralight">Spawn</span>
-      </button>
-      <button
-        on:click={handleClear}
-        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
-      >
-        <div class="font-medium sm:inline hidden">C</div>
-        <span
-          class="font-light sm:font-extralight
-          ">Clear</span
-        >
-      </button>
-      <button
-        on:click={handleHideUI}
-        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
-      >
-        <div class="font-medium sm:inline hidden">T</div>
-        <span class="font-extralight">Toggle UI</span>
-      </button>
-    </div>
-
     {#if !uiVisible}
       <div
         class="absolute top-2 md:top-5 left-2 flex mb-2 justify-between items-center w-full"
@@ -610,6 +581,30 @@
         {/each}
       </div>
     {/if}
+
+    <div
+      class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
+      style={$width > 768 ? "top: .5rem;" : "bottom: .5rem;"}
+    >
+      <button
+        on:click={handleSpawn}
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1 hover:bg-white/10 transition-colors rounded"
+      >
+        <div class="font-medium sm:inline hidden pointer-events-none">S</div>
+        <span class="font-extralight pointer-events-none">Spawn</span>
+      </button>
+      <button
+        on:click={handleClear}
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
+      >
+        <div class="font-medium sm:inline hidden pointer-events-none">C</div>
+        <span class="font-light sm:font-extralight pointer-events-none"
+          >Clear</span
+        >
+      </button>
+
+      <AnimatedBorderButton onClick={handleHideUI} />
+    </div>
   {/if}
 
   <!-- Github Link-->

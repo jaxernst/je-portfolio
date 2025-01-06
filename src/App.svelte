@@ -359,7 +359,7 @@
                 "Puzzle Bets, a player-vs-player (PvP) onchain betting game, is the result of a multi-year solo exploration into a real-time consumer-crypto application stack.",
                 "What started as a simple Solidity-based PvP betting protocol with a minimal frontend evolved into a complex distributed system as I uncovered the challenges of building a production-ready crypto app that can scale.",
                 "As I got deeper, the unknown unknowns became apparent and the technical scope creeped, but I was determined.",
-                "Ultimately, I built and hosted indexers to track state history, deployed APIs to hydrate clients with queryable state, wrote client-side code to maintain synchronization, developed backend services to attest to puzzle outcomes, created custom wallet-connect libraries for Svelte, and iterated on UI implementations for a reliable and intuitive experience.",
+                "Ultimately, I had produced much more than just some smart contracts and a frontend; I built indexers to track state, I deployed APIs to hydrate clients with queryable state, I wrote client-side code to maintain synchronization, I developed backend services to sign puzzle attestations, I created custom wallet-connect libraries for Svelte, and I iterated on UI implementations for a reliable and intuitive experience.",
                 "After years of experimentation, development, and testing, the result is a product that effectively abstracts away these complexities to deliver a fun and casual onchain gaming experience.",
               ]}
               color={$curTab.boidType.color}

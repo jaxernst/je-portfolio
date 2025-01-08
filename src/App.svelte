@@ -89,7 +89,8 @@
 
   let fps = writable(60);
 
-  // Animation
+  // Animation //
+
   const [send, receive] = crossfade({ duration: 380, easing: cubicInOut });
 
   const time = tweened(0, {
@@ -112,7 +113,8 @@
     time.set($time + 1);
   }
 
-  // Lifecycle
+  // Lifecycle //
+
   onMount(() => {
     startScreenPlaying = true;
     window.addEventListener("keydown", handleKeydown);
@@ -125,7 +127,8 @@
     interval && clearInterval(interval);
   });
 
-  // Event handlers
+  // Event handlers //
+
   function handleKeydown(event) {
     if (event.key === "Enter" && !started && startScreenActive) {
       started = true;
@@ -134,7 +137,7 @@
       spawnRandomBoid();
     } else if (event.key === "c" || event.key === "C") {
       $boidSim.reset();
-    } else if (event.key === "t" || event.key === "T") {
+    } else if (event.key === "b" || event.key === "B") {
       handleHideUI();
     }
   }
@@ -164,7 +167,8 @@
     uiVisible = !uiVisible;
   }
 
-  // Boid helpers
+  // Boid helpers //
+
   let spawnCount = 0;
   let randomBoidType = randomizeBoidType();
   function spawnRandomBoid() {
@@ -192,7 +196,8 @@
     $boidSim.addDetractor({ x: clientX, y: clientY });
   }
 
-  // Misc helpers
+  // Misc helpers //
+
   function waveIndexValue(i, length, t) {
     const frac = (0.08 * (i * Math.PI)) / length;
     return 0.07 * Math.sin((frac * 180) / Math.PI + t);
@@ -497,7 +502,7 @@
                 "Their core behavior comes from 'Boid's Algorithm' which describes three simple rules for the Boids to follow: Align with neighbors, gravitate towards neighbors, and separate to avoid collisions.",
                 "We can apply these rules to a 2d Euler force-mass simulation and assign unique properties to each Boid species to alter their behavior. These properties include mass, speed, sight peripheral, sight radius, alignment behavior, and more.",
                 "The large set of possible parameter combinations results in interesting and emergent behaviors when many Boids of varying species are present. Some emergent patterns can even pseudo resemble fluid flow and biological patterns.",
-                "Enter boid mode (T or press Toggle UI) to spawn and observe unique flocks of boids. (See how many you can get on screen)",
+                "Enter boid mode (B or press 'Boid Mode') to spawn and observe unique flocks of boids. (See how many you can get on screen)",
               ]}
               color={$curTab.boidType.color}
               delayIn={500}
@@ -619,8 +624,8 @@
         on:click={handleHideUI}
         class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
       >
-        <div class="font-medium sm:inline hidden">T</div>
-        <span class="font-extralight">Toggle UI</span>
+        <div class="font-medium sm:inline hidden">B</div>
+        <span class="font-extralight">Boid Mode</span>
       </button>
     </div>
 

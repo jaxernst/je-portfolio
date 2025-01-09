@@ -10,7 +10,7 @@
 
   const sim = createBoidSimulation({
     numBoids: initNumBoids,
-    startPos: [() => $width / 2, () => $height / 2],
+    startPos: [() => $width / 2 + getRand(50), () => $height / 2 + getRand(50)],
     startVel: [() => getRand(5), () => getRand(50)],
     boardSize: { w: $width, h: $height },
   });

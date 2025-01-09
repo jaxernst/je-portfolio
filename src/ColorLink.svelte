@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade, scale, slide } from "svelte/transition";
-  import ArrowUp from "./lib/svelte-components/ArrowUp.svelte";
+  import ArrowUp from "./lib/components/ArrowUp.svelte";
   import { cubicInOut } from "svelte/easing";
 
   export let label: string;

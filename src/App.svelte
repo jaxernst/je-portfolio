@@ -25,12 +25,13 @@
   import SlideDrawer from "./SlideDrawer.svelte";
   import CarouselTabs from "./CarouselTabs.svelte";
   import { randomizeBoidType } from "./lib/boid-engine/boid-creation";
-  import Github from "./lib/svelte-components/Github.svelte";
-  import TwitterLogo from "./lib/svelte-components/TwitterLogo.svelte";
-  import LinkedIn from "./lib/svelte-components/LinkedIn.svelte";
-  import Warpcast from "./lib/svelte-components/Warpcast.svelte";
-  import Email from "./lib/svelte-components/Email.svelte";
+  import Github from "./lib/components/Github.svelte";
+  import TwitterLogo from "./lib/components/TwitterLogo.svelte";
+  import LinkedIn from "./lib/components/LinkedIn.svelte";
+  import Warpcast from "./lib/components/Warpcast.svelte";
+  import Email from "./lib/components/Email.svelte";
   import LinkCard from "./LinkCard.svelte";
+  import AnimatedBorderButton from "./lib/svelte-components/AnimatedBorderButton.svelte";
 
   // Constants
   const warningText = "Warning: Contains interactive motion";
@@ -98,6 +99,7 @@
     easing: cubicInOut,
   });
 
+  // Animated sine wave text
   $: waveLetters = warningText.split("").map((char, i) => ({
     char,
     y: waveIndexValue(i, warningText.length, $time * Math.PI * 2),
@@ -105,11 +107,12 @@
 
   let interval;
   $: if (startScreenPlaying) {
-    animateWave();
-    interval = setInterval(animateWave, 2000);
+    advanceTime();
+    interval = setInterval(advanceTime, 2000);
   }
 
-  function animateWave() {
+  // Advance time to drive animations
+  function advanceTime() {
     time.set($time + 1);
   }
 
@@ -358,11 +361,11 @@
 
             <PageReveal
               pages={[
-                "Puzzle Bets, a PvP onchain betting game, is the result of a multi-year solo exploration into a real-time consumer crypto application stack.",
-                "My goal was to produce an onchain game with UX rivaling existing web-based social games.",
-                "I started iterating on early concepts before smart wallets or social sign-in embedded wallets even existed. Connecting external wallets and enabling real-time blockchain state updates was no easy feat, but as I've learned the tools, the tools themselves have greatly improved.",
-                "As account abstraction tooling has matured, I've switched Puzzle Bets to a smart wallet integration. This was a huge unlock that allows users to play games without incurring gas fees or cumbersome transaction popups.",
-                "This smart wallet integration combined with MUD (a full stack Smart Contract development framework) and fast Ethereum L2 block times results in a fun, fast, and easy-to-use onchain application.",
+                "Puzzle Bets, a player-vs-player (PvP) onchain betting game, is the result of a multi-year solo exploration into a real-time consumer-crypto application stack.",
+                "What started as a simple Solidity-based PvP betting protocol with a minimal frontend evolved into a complex distributed system as I uncovered the challenges of building a production-ready crypto app that can scale.",
+                "As I got deeper, the unknown unknowns became apparent and the technical scope creeped, but I was determined.",
+                "Ultimately, I had produced much more than just some smart contracts and a frontend; I built indexers to track state, I deployed APIs to hydrate clients with queryable state, I wrote client-side code to maintain synchronization, I developed backend services to sign puzzle attestations, I created custom wallet-connect libraries for Svelte, and I iterated on UI implementations for a reliable and intuitive experience.",
+                "After years of experimentation, development, and testing, the result is a product that effectively abstracts away these complexities to deliver a fun and casual onchain gaming experience.",
               ]}
               color={$curTab.boidType.color}
               delayIn={500}
@@ -544,6 +547,82 @@
     </div>
   {/if}
 
+  <!--Boid control buttons -->
+  {#if started}
+    {#if !uiVisible}
+      <div
+        class="absolute top-2 md:top-5 left-2 flex mb-2 justify-between items-center w-full"
+      >
+        <div
+          class="text-xs flex items-center gap-2"
+          in:send={{ key: "fps-toggle" }}
+          out:receive={{ key: "fps-toggle" }}
+        >
+          {#if started}
+            <div class="whitespace-nowrap" in:slide={{ axis: "x" }}>
+              {$numActiveBoids} boids
+            </div>
+            |
+          {/if}
+          <div class="whitespace-nowrap">
+            {$fps.toPrecision(3)} fps
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="absolute top-10 md:top-14 left-2 flex flex-col gap-2 items-start"
+        in:send={{ key: "ui-toggle" }}
+        out:receive={{ key: "ui-toggle" }}
+      >
+        {#each tabs as tab, index}
+          <button
+            on:click={() => handleSpawnButtonClick(null, index)}
+            class="flex items-center gap-1 border border-white/20 px-2 py-1 hover:bg-white/10 transition-colors rounded"
+            style="color: {tab.boidType.color};"
+          >
+            {tab.text.split(" ")[0]}
+          </button>
+        {/each}
+      </div>
+    {/if}
+
+    <div
+      class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
+      style={$width > 768 ? "top: .5rem;" : "bottom: .5rem;"}
+    >
+      <button
+        on:click={handleSpawn}
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1 hover:bg-white/10 transition-colors rounded"
+      >
+        <div class="font-medium sm:inline hidden pointer-events-none">S</div>
+        <span class="font-extralight pointer-events-none">Spawn</span>
+      </button>
+      <button
+        on:click={handleClear}
+        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
+      >
+        <div class="font-medium sm:inline hidden pointer-events-none">C</div>
+        <span class="font-light sm:font-extralight pointer-events-none"
+          >Clear</span
+        >
+      </button>
+
+      <AnimatedBorderButton onClick={handleHideUI} />
+    </div>
+  {/if}
+
+  <!-- Github Link-->
+  <a
+    href="https://github.com/jaxernst/je-portfolio"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-[10px] text-neutral-400 flex items-center gap-1 absolute bottom-2 left-2"
+  >
+    <Github class="w-4 h-4 fill-neutral-400" />
+    View source code
+  </a>
+
   <!--Landing Page-->
   {#if !started && startScreenActive}
     <div
@@ -596,76 +675,6 @@
         </button>
       {/if}
     </div>
-  {/if}
-
-  {#if started}
-    <div
-      class="absolute leading-snug right-2 p-2 rounded text-white text-[10px] flex gap-2"
-      style={$width > 768 ? "top: .5rem;" : "bottom: .5rem;"}
-    >
-      <button
-        on:click={handleSpawn}
-        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1 hover:bg-white/10 transition-colors rounded"
-      >
-        <div class="font-medium sm:inline hidden">S</div>
-        <span class=" font-extralight">Spawn</span>
-      </button>
-      <button
-        on:click={handleClear}
-        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
-      >
-        <div class="font-medium sm:inline hidden">C</div>
-        <span
-          class="font-light sm:font-extralight
-          ">Clear</span
-        >
-      </button>
-      <button
-        on:click={handleHideUI}
-        class="flex items-center gap-1 border border-white/20 sm:px-2 px-1 sm:py-1rounded hover:bg-white/10 transition-colors rounded"
-      >
-        <div class="font-medium sm:inline hidden">B</div>
-        <span class="font-extralight">Boid Mode</span>
-      </button>
-    </div>
-
-    {#if !uiVisible}
-      <div
-        class="absolute top-2 md:top-5 left-2 flex mb-2 justify-between items-center w-full"
-      >
-        <div
-          class="text-xs flex items-center gap-2"
-          in:send={{ key: "fps-toggle" }}
-          out:receive={{ key: "fps-toggle" }}
-        >
-          {#if started}
-            <div class="whitespace-nowrap" in:slide={{ axis: "x" }}>
-              {$numActiveBoids} boids
-            </div>
-            |
-          {/if}
-          <div class="whitespace-nowrap">
-            {$fps.toPrecision(3)} fps
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="absolute top-10 md:top-14 left-2 flex flex-col gap-2 items-start"
-        in:send={{ key: "ui-toggle" }}
-        out:receive={{ key: "ui-toggle" }}
-      >
-        {#each tabs as tab, index}
-          <button
-            on:click={() => handleSpawnButtonClick(null, index)}
-            class="flex items-center gap-1 border border-white/20 px-2 py-1 hover:bg-white/10 transition-colors rounded"
-            style="color: {tab.boidType.color};"
-          >
-            {tab.text.split(" ")[0]}
-          </button>
-        {/each}
-      </div>
-    {/if}
   {/if}
 </div>
 

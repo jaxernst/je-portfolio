@@ -6,10 +6,7 @@
   on:click={onClick}
   class="flex items-center gap-1 sm:px-2 px-1 sm:py-1 hover:bg-white/10 active:bg-white/20 transition-colors"
 >
-  <div class="relative z-10">
-    <div class="font-medium sm:inline hidden pointer-events-none">B</div>
-    <span class="font-extralight pointer-events-none">Boid Mode</span>
-  </div>
+  <slot />
 </button>
 
 <style>
@@ -44,9 +41,9 @@
       linear-gradient(to bottom, hsl(0, 0%, 10%), hsl(0, 0%, 10%)) padding-box,
       conic-gradient(
           from var(--bg-angle) in oklch longer hue,
-          oklch(1 0 0 / 0.2) 0%,
+          oklch(0 0 1 / 0.5) 0%,
           oklch(0.8 0.1 25 / 0.8) 65%,
-          oklch(1 0 0 / 0.2) 100%
+          oklch(1 0 1 / 0.2) 100%
         )
         border-box;
     border: 1px solid transparent;

@@ -608,7 +608,12 @@
         >
       </button>
 
-      <AnimatedBorderButton onClick={handleHideUI} />
+      <AnimatedBorderButton onClick={handleHideUI}>
+        <div class="relative z-10">
+          <div class="font-medium sm:inline hidden pointer-events-none">B</div>
+          <span class="font-extralight pointer-events-none">Boid Mode</span>
+        </div>
+      </AnimatedBorderButton>
     </div>
   {/if}
 

@@ -41,9 +41,9 @@
       linear-gradient(to bottom, hsl(0, 0%, 10%), hsl(0, 0%, 10%)) padding-box,
       conic-gradient(
           from var(--bg-angle) in oklch longer hue,
-          oklch(0 0 1 / 0.5) 0%,
-          oklch(0.8 0.1 25 / 0.8) 65%,
-          oklch(1 0 1 / 0.2) 100%
+          oklch(1 0 0.5 / 0.25) 0%,
+          oklch(0.8 0.15 25 / 0.5) 75%,
+          oklch(1 0 0.5 / 0.25) 100%
         )
         border-box;
     border: 1px solid transparent;
